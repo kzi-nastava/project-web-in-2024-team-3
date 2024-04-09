@@ -13,3 +13,5 @@ INSERT INTO PROJECT (name, deadline) VALUES ('Podizanje sistema', '2019-05-1');
 INSERT INTO WORKING (project_id, employee_id) VALUES (1, 1);
 INSERT INTO WORKING (project_id, employee_id) VALUES (1, 2);
 INSERT INTO WORKING (project_id, employee_id) VALUES (2, 3);
+
+INSERT INTO KORISNIK (blokiran, datum_Rodjenja, id, broj_Telefona, email, ime, korisnicko_Ime, lozinka, opis, prezime, profilna_Slika, uloga) VALUES (FALSE, '2003-12-31', 4232, '123456', 'kolak@gmail.com', 'Luka', 'kolut', 'password', 'opis', 'Kolak', 'slika', 'KUPAC')
