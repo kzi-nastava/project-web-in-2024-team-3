@@ -12,8 +12,11 @@ public class Ponuda implements Serializable {
 
     @Column
     private double cena;
-    //@ManyToOne
-   // private Kupac kupac;
+
+
+
+    @Column
+    private Kupac kupac;
 
 
 

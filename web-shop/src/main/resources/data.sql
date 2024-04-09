@@ -14,4 +14,8 @@ INSERT INTO WORKING (project_id, employee_id) VALUES (1, 1);
 INSERT INTO WORKING (project_id, employee_id) VALUES (1, 2);
 INSERT INTO WORKING (project_id, employee_id) VALUES (2, 3);
 
-INSERT INTO Prijava (status, datum_prijave,id,razlog_za_prijavu) VALUES ('PRIHVACENA','2022-01-01',1,'abc');
+
+INSERT INTO KORISNIK (blokiran, datum_Rodjenja, id, broj_Telefona, email, ime, korisnicko_Ime, lozinka, opis, prezime, profilna_Slika, uloga) VALUES (FALSE, '2003-12-31', 4232, '123456', 'kolak@gmail.com', 'Luka', 'kolut', 'password', 'opis', 'Kolak', 'slika', 'KUPAC');
+
+INSERT INTO PRIJAVA (status, datum_prijave,id,razlog_za_prijavu) VALUES ('PRIHVACENA','2022-01-01',1,'abc');
+
