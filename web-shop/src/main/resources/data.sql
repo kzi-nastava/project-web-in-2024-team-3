@@ -13,3 +13,5 @@ INSERT INTO PROJECT (name, deadline) VALUES ('Podizanje sistema', '2019-05-1');
 INSERT INTO WORKING (project_id, employee_id) VALUES (1, 1);
 INSERT INTO WORKING (project_id, employee_id) VALUES (1, 2);
 INSERT INTO WORKING (project_id, employee_id) VALUES (2, 3);
+
+INSERT INTO Prijava (status, datum_prijave,id,razlog_za_prijavu) VALUES ('PRIHVACENA','2022-01-01',1,'abc');
