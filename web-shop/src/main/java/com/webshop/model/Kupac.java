@@ -2,43 +2,42 @@ package com.webshop.model;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "user_role",discriminatorType = DiscriminatorType.STRING)
+
+
+@DiscriminatorValue(value = "KUPAC")
 public class Kupac extends Korisnik{
 
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @Column
-    private List<Proizvod> kupljeniProizvodi;
+
+    @OneToMany
+    @JoinTable(name = "kupljeniProizvodi",
+            joinColumns = @JoinColumn(name = "kupac_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "proizvod_id", referencedColumnName = "id"))
+    private Set<Proizvod> kupljeniProizvodi = new HashSet<>();
+
 
 
     @Column
     private double prosecnaOcena;
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Column
-    private List<Recenzija> recenzije = new ArrayList<>();
+    private Set<Recenzija> kupacRecenzije = new HashSet<>();
 
 
-
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Ponuda ponuda;
-
-    public List<Proizvod> getKupljeniProizvodi() {
+    public Set<Proizvod> getKupljeniProizvodi() {
         return kupljeniProizvodi;
     }
 
-    public void setKupljeniProizvodi(List<Proizvod> kupljeniProizvodi) {
+    public void setKupljeniProizvodi(Set<Proizvod> kupljeniProizvodi) {
         this.kupljeniProizvodi = kupljeniProizvodi;
-    }
-
-    public List<Recenzija> getRecenzije() {
-        return recenzije;
-    }
-
-    public void setRecenzije(List<Recenzija> recenzije) {
-        this.recenzije = recenzije;
     }
 
     public double getProsecnaOcena() {
@@ -49,11 +48,5 @@ public class Kupac extends Korisnik{
         this.prosecnaOcena = prosecnaOcena;
     }
 
-    public Ponuda getPonuda() {
-        return ponuda;
-    }
 
-    public void setPonuda(Ponuda ponuda) {
-        this.ponuda = ponuda;
-    }
 }

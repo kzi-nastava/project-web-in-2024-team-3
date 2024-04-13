@@ -1,20 +1,14 @@
 package com.webshop.model;
 
 import jakarta.persistence.*;
-import org.intellij.lang.annotations.Pattern;
 
 
 import java.io.Serializable;
 import java.util.Date;
 
 
-enum Uloga {
-    KUPAC,
-    PRODAVAC,
-    ADMINISTRATOR
-}
-
 @Entity
+@DiscriminatorColumn(name = "user_role",discriminatorType = DiscriminatorType.STRING)
 public class Korisnik implements Serializable {
 
     @Id
@@ -38,6 +32,20 @@ public class Korisnik implements Serializable {
 
     @Column
     private String lozinka;
+
+    @Column
+    private Date datumRodjenja;
+
+    @Column
+    private String profilnaSlika;
+
+    @Column
+    private String opis;
+
+    @Column
+    private boolean blokiran;
+
+
 
     public Long getId() {
         return id;
@@ -127,29 +135,7 @@ public class Korisnik implements Serializable {
         this.blokiran = blokiran;
     }
 
-    public Uloga getUloga() {
-        return uloga;
-    }
 
-    public void setUloga(Uloga uloga) {
-        this.uloga = uloga;
-    }
-
-    @Column
-    private Date datumRodjenja;
-
-    @Column
-    private String profilnaSlika;
-
-    @Column
-    private String opis;
-
-    @Column
-    private boolean blokiran;
-
-    @Column
-    @Enumerated(EnumType.STRING)
-    private  Uloga uloga;
 
 
 }
