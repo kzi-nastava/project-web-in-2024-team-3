@@ -15,9 +15,31 @@ public class Ponuda implements Serializable {
 
 
 
-    @Column
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn
     private Kupac kupac;
 
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 
+    public double getCena() {
+        return cena;
+    }
+
+    public void setCena(double cena) {
+        this.cena = cena;
+    }
+
+    public Kupac getKupac() {
+        return kupac;
+    }
+
+    public void setKupac(Kupac kupac) {
+        this.kupac = kupac;
+    }
 }

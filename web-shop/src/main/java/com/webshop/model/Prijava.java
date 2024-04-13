@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
-enum STATUS {PODENTA,ODBIJENA,PRIHVACENA}
+enum STATUS {PODNETA,ODBIJENA,PRIHVACENA}
 @Entity
 public class Prijava implements Serializable {
     @Id

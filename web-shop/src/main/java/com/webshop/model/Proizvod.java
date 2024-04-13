@@ -2,7 +2,7 @@ package com.webshop.model;
 
 import jakarta.persistence.*;
 
-import java.util.List;
+import java.util.*;
 
 enum TIP {
 
@@ -10,7 +10,7 @@ enum TIP {
 
     AUKCIJA
 }
-
+@Entity
 public class Proizvod {
 
     @Id
@@ -27,7 +27,7 @@ public class Proizvod {
     private String slika;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @Column
+    @JoinColumn
     private Kategorija kategorija;
 
     @Column
@@ -38,14 +38,16 @@ public class Proizvod {
     private TIP tipProdaje;
 
     @Column
-    private String datumObjavljivanja;
+    private Date datumObjavljivanja;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @Column
-    private List<Ponuda> ponude;
+    @OneToMany
+    @JoinTable(name = "ponudeZaProizvod",
+            joinColumns = @JoinColumn(name = "ponude_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "proizvod_id", referencedColumnName = "id"))
+    private Set<Ponuda> ponudeZaProizvod = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @Column
+    @JoinColumn
     private Korisnik prodavac;
 
     @Column
@@ -113,51 +115,13 @@ public class Proizvod {
         this.tipProdaje = tipProdaje;
     }
 
-    public String getDatumObjavljivanja() {
+    public Date getDatumObjavljivanja() {
         return datumObjavljivanja;
     }
 
-    public void setDatumObjavljivanja(String datumObjavljivanja) {
+    public void setDatumObjavljivanja(Date datumObjavljivanja) {
         this.datumObjavljivanja = datumObjavljivanja;
     }
 
-    public List<Ponuda> getPonude() {
-        return ponude;
-    }
 
-    public void setPonude(List<Ponuda> ponude) {
-        this.ponude = ponude;
-    }
-
-    public Korisnik getProdavac() {
-        return prodavac;
-    }
-
-    public void setProdavac(Korisnik prodavac) {
-        this.prodavac = prodavac;
-    }
-
-    public boolean isRecenzijaOdKupca() {
-        return recenzijaOdKupca;
-    }
-
-    public void setRecenzijaOdKupca(boolean recenzijaOdKupca) {
-        this.recenzijaOdKupca = recenzijaOdKupca;
-    }
-
-    public boolean isRecenzijaOdProdavca() {
-        return recenzijaOdProdavca;
-    }
-
-    public void setRecenzijaOdProdavca(boolean recenzijaOdProdavca) {
-        this.recenzijaOdProdavca = recenzijaOdProdavca;
-    }
-
-    public boolean isProdat() {
-        return prodat;
-    }
-
-    public void setProdat(boolean prodat) {
-        this.prodat = prodat;
-    }
 }
