@@ -31,7 +31,7 @@ public class Proizvod {
     private Kategorija kategorija;
 
     @Column
-    private String cena;
+    private double cena;
 
     @Column
     @Enumerated(EnumType.STRING)
@@ -41,9 +41,7 @@ public class Proizvod {
     private Date datumObjavljivanja;
 
     @OneToMany
-    @JoinTable(name = "ponudeZaProizvod",
-            joinColumns = @JoinColumn(name = "ponude_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "proizvod_id", referencedColumnName = "id"))
+    @JoinColumn
     private Set<Ponuda> ponudeZaProizvod = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -99,11 +97,11 @@ public class Proizvod {
         this.kategorija = kategorija;
     }
 
-    public String getCena() {
+    public double getCena() {
         return cena;
     }
 
-    public void setCena(String cena) {
+    public void setCena(double cena) {
         this.cena = cena;
     }
 

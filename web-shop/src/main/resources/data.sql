@@ -15,10 +15,6 @@ INSERT INTO PONUDA (cena, kupac_id) VALUES (30000, 1);
 INSERT INTO PONUDA (cena, kupac_id) VALUES (15000, 2);
 INSERT INTO PONUDA (cena, kupac_id) VALUES (10000, 3);
 
-INSERT INTO PONUDE_ZA_PROIZVOD (ponude_id, proizvod_id) VALUES (1, 1);
-INSERT INTO PONUDE_ZA_PROIZVOD (ponude_id, proizvod_id) VALUES (2, 2);
-INSERT INTO PONUDE_ZA_PROIZVOD (ponude_id, proizvod_id) VALUES (3, 3);
-
 INSERT INTO PRIJAVA (razlog_za_prijavu, datum_prijave, podneo_prijavu_id, odnosi_prijava_id, status) VALUES ('Spam', '2024-05-06', 1, 2, 'PODNETA');
 INSERT INTO PRIJAVA (razlog_za_prijavu, datum_prijave, podneo_prijavu_id, odnosi_prijava_id, status) VALUES ('Nasilje', '2024-11-16', 2, 3, 'PRIHVACENA');
 INSERT INTO PRIJAVA (razlog_za_prijavu, datum_prijave, podneo_prijavu_id, odnosi_prijava_id, status) VALUES ('Spam', '2023-01-06', 1, 3, 'ODBIJENA');
@@ -26,23 +22,4 @@ INSERT INTO PRIJAVA (razlog_za_prijavu, datum_prijave, podneo_prijavu_id, odnosi
 INSERT INTO RECENZIJA (ocena,komentar,datum,korisnik_id) VALUES (8.2,'test1','2023-06-07',1);
 INSERT INTO RECENZIJA (ocena,komentar,datum,korisnik_id) VALUES (7.6,'test2','2023-05-01',2);
 INSERT INTO RECENZIJA (ocena,komentar,datum,korisnik_id) VALUES (7.1,'test3','2023-04-02',3);
-
-INSERT INTO KUPLJENI_PROIZVODI (kupac_id, proizvod_id) VALUES (1, 3);
-INSERT INTO KUPLJENI_PROIZVODI (kupac_id, proizvod_id) VALUES (1, 2);
-INSERT INTO KUPLJENI_PROIZVODI (kupac_id, proizvod_id) VALUES (2, 1);
-
-INSERT INTO PROIZVODI_NA_PRODAJU (prodavac_id, proizvod_id) VALUES (2, 1);
-INSERT INTO PROIZVODI_NA_PRODAJU (prodavac_id, proizvod_id) VALUES (1, 2);
-INSERT INTO PROIZVODI_NA_PRODAJU (prodavac_id, proizvod_id) VALUES (1, 3);
-
-INSERT INTO KORISNIK_KUPAC_RECENZIJE (kupac_id, kupac_recenzije_id) VALUES (1, 1);
-INSERT INTO KORISNIK_KUPAC_RECENZIJE (kupac_id, kupac_recenzije_id) VALUES (2, 2);
-INSERT INTO KORISNIK_KUPAC_RECENZIJE (kupac_id, kupac_recenzije_id) VALUES (3, 3);
-
-INSERT INTO KORISNIK_PRODAVAC_RECENZIJE  (prodavac_id, prodavac_recenzije_id) VALUES (1, 1);
-INSERT INTO KORISNIK_PRODAVAC_RECENZIJE  (prodavac_id, prodavac_recenzije_id) VALUES (2, 2);
-INSERT INTO KORISNIK_PRODAVAC_RECENZIJE  (prodavac_id, prodavac_recenzije_id) VALUES (3, 3);
-
-
-
 
