@@ -13,14 +13,14 @@ public class Prijava implements Serializable {
     private Long id;
 
     @Column
-    private String razlog_za_prijavu;
+    private String razlogZaPrijavu;
     @Column
-    private Date datum_prijave;
+    private Date datumPrijave;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Korisnik podneo_prijavu;
+    private Korisnik podneoPrijavu;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Korisnik odnosi_prijava;
+    private Korisnik odnosiPrijava;
     @Column
     @Enumerated(EnumType.STRING)
     private STATUS status;
@@ -33,36 +33,36 @@ public class Prijava implements Serializable {
         this.id = id;
     }
 
-    public String getRazlog_za_prijavu() {
-        return razlog_za_prijavu;
+    public String getRazlogZaPrijavu() {
+        return razlogZaPrijavu;
     }
 
-    public void setRazlog_za_prijavu(String razlog_za_prijavu) {
-        this.razlog_za_prijavu = razlog_za_prijavu;
+    public void setRazlogZaPrijavu(String razlogZaPrijavu) {
+        this.razlogZaPrijavu = razlogZaPrijavu;
     }
 
-    public Date getDatum_prijave() {
-        return datum_prijave;
+    public Date getDatumPrijave() {
+        return datumPrijave;
     }
 
-    public void setDatum_prijave(Date datum_prijave) {
-        this.datum_prijave = datum_prijave;
+    public void setDatumPrijave(Date datumPrijave) {
+        this.datumPrijave = datumPrijave;
     }
 
-    public Korisnik getPodneo_prijavu() {
-        return podneo_prijavu;
+    public Korisnik getPodneoPrijavu() {
+        return podneoPrijavu;
     }
 
-    public void setPodneo_prijavu(Korisnik podneo_prijavu) {
-        this.podneo_prijavu = podneo_prijavu;
+    public void setPodneoPrijavu(Korisnik podneoPrijavu) {
+        this.podneoPrijavu = podneoPrijavu;
     }
 
-    public Korisnik getOdnosi_prijava() {
-        return odnosi_prijava;
+    public Korisnik getOdnosiPrijava() {
+        return odnosiPrijava;
     }
 
-    public void setOdnosi_prijava(Korisnik odnosi_prijava) {
-        this.odnosi_prijava = odnosi_prijava;
+    public void setOdnosiPrijava(Korisnik odnosiPrijava) {
+        this.odnosiPrijava = odnosiPrijava;
     }
 
     public STATUS getStatus() {

@@ -17,9 +17,7 @@ public class Kupac extends Korisnik{
 
 
     @OneToMany
-    @JoinTable(name = "kupljeniProizvodi",
-            joinColumns = @JoinColumn(name = "kupac_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "proizvod_id", referencedColumnName = "id"))
+    @JoinColumn
     private Set<Proizvod> kupljeniProizvodi = new HashSet<>();
 
 
@@ -28,7 +26,7 @@ public class Kupac extends Korisnik{
     private double prosecnaOcena;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @Column
+    @JoinColumn
     private Set<Recenzija> kupacRecenzije = new HashSet<>();
 
 

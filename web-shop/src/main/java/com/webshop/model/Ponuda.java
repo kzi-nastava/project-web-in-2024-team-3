@@ -13,8 +13,6 @@ public class Ponuda implements Serializable {
     @Column
     private double cena;
 
-
-
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn
     private Kupac kupac;

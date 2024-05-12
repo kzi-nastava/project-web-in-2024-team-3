@@ -15,13 +15,11 @@ import java.util.Set;
 public class Prodavac extends Korisnik{
 
     @OneToMany
-    @JoinTable(name = "proizvodiNaProdaju",
-            joinColumns = @JoinColumn(name = "prodavac_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "proizvod_id", referencedColumnName = "id"))
+    @JoinColumn
     private Set<Proizvod> proizvodiNaProdaju = new HashSet<>();
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @Column
+    @JoinColumn
     private Set<Recenzija> prodavacRecenzije = new HashSet<>(0);
 
     @Column
