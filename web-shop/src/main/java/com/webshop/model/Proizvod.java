@@ -4,12 +4,6 @@ import jakarta.persistence.*;
 
 import java.util.*;
 
-enum TIP {
-
-    FIKSNACENA,
-
-    AUKCIJA
-}
 @Entity
 public class Proizvod {
 
