@@ -3,13 +3,20 @@ package com.webshop.controller;
 import com.webshop.dtos.KorisnikDto;
 import com.webshop.dtos.LoginDto;
 import com.webshop.dtos.RegisterDto;
+import com.webshop.dtos.UpdateDto;
 import com.webshop.model.Korisnik;
+import com.webshop.repository.KorisnikRepository;
 import com.webshop.service.KorisnikService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Objects;
+import java.util.Optional;
+
+
 
 @RestController
 public class KorisnikRestController {
@@ -45,6 +52,7 @@ public class KorisnikRestController {
         return new ResponseEntity("Uspesna registracija", HttpStatus.OK);
     }
 
+    @PostMapping("api/login")
     public ResponseEntity<String> login (@RequestBody LoginDto loginDto,HttpSession session) {
         if(loginDto.getKorisnickoIme().isEmpty() || loginDto.getLozinka().isEmpty()) {
             return new ResponseEntity("Pogresno uneti podaci.",HttpStatus.BAD_REQUEST);
@@ -59,4 +67,65 @@ public class KorisnikRestController {
         session.setAttribute("lozinka",ulogovan.getLozinka());
         return ResponseEntity.ok("Uspesno ulogovan!");
     }
+
+
+
+    @PutMapping("/api/azuriraj")
+    public ResponseEntity<UpdateDto> azuriraj (@RequestBody UpdateDto updateDto, HttpSession session ) {
+
+
+        Korisnik ulogovan = (Korisnik) session.getAttribute("korisnik");
+        if(ulogovan == null) {
+            return new ResponseEntity("Korisnik nije pronadjen!", HttpStatus.NOT_FOUND);
+        } else {
+
+            if(!updateDto.getIme().isEmpty()) {
+                ulogovan.setIme(updateDto.getIme());
+            }
+
+            if(!updateDto.getPrezime().isEmpty()) {
+                ulogovan.setPrezime(updateDto.getPrezime());
+            }
+
+            if(!updateDto.getBrojTelefona().isEmpty()) {
+                ulogovan.setBrojTelefona(updateDto.getBrojTelefona());
+            }
+
+            if(!updateDto.getDatumRodjenja().toString().isEmpty()) {
+                ulogovan.setDatumRodjenja(updateDto.getDatumRodjenja());
+            }
+
+            if(!updateDto.getProfilnaSlika().isEmpty()) {
+                ulogovan.setProfilnaSlika(updateDto.getProfilnaSlika());
+            }
+
+            if(!updateDto.getOpis().isEmpty()) {
+                ulogovan.setOpis(updateDto.getOpis());
+            }
+
+            if(Objects.equals(updateDto.getStaraLozinka(), ulogovan.getLozinka())) {
+
+                if(!updateDto.getNovaLozinka().isEmpty()) {
+                    ulogovan.setLozinka(updateDto.getNovaLozinka());
+                }
+
+                if(!updateDto.getKorisnickoIme().isEmpty()) {
+                    ulogovan.setKorisnickoIme(updateDto.getKorisnickoIme());
+                }
+
+                if(!updateDto.getEmail().isEmpty()) {
+                    ulogovan.setEmail(updateDto.getEmail());
+                }
+
+            } else {
+                return new ResponseEntity("Pogresna lozinka", HttpStatus.BAD_REQUEST);
+            }
+
+
+        }
+
+        return new ResponseEntity("Uspesno azuriranje", HttpStatus.OK);
+    }
+
+
 }
