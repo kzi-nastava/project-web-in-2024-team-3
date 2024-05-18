@@ -1,18 +1,21 @@
 package com.webshop.controller;
 
-import com.webshop.dtos.KorisnikDto;
-import com.webshop.dtos.LoginDto;
-import com.webshop.dtos.RegisterDto;
-import com.webshop.dtos.UpdateDto;
+import com.webshop.dtos.*;
 import com.webshop.model.Korisnik;
+import com.webshop.model.Kupac;
+import com.webshop.model.Prodavac;
+import com.webshop.model.Uloga;
 import com.webshop.repository.KorisnikRepository;
 import com.webshop.service.KorisnikService;
+import com.webshop.service.KupacService;
+import com.webshop.service.ProdavacService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -23,6 +26,10 @@ public class KorisnikRestController {
 
     @Autowired
     KorisnikService korisnikService;
+    @Autowired
+    private KupacService kupacService;
+    @Autowired
+    private ProdavacService prodavacService;
 
     @PostMapping("/api/registracija")
     public ResponseEntity<String> registracija(@RequestBody RegisterDto registerDto, @RequestParam String uloga, HttpSession session) {
@@ -127,5 +134,23 @@ public class KorisnikRestController {
         return new ResponseEntity("Uspesno azuriranje", HttpStatus.OK);
     }
 
+    @GetMapping("/api/korisnik/{id}")
+    public ResponseEntity<Korisnik> pregledProfila(@PathVariable(name="id") Long id) {
+        Korisnik korisnik = korisnikService.pronadjiPoId(id);
+
+        if(korisnik.getUloga().equals(Uloga.ADMIN) || korisnik == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        if(korisnik.getUloga().equals(Uloga.KUPAC)) {
+            Kupac kupac = kupacService.findOne(id);
+            return ResponseEntity.ok(kupac);
+        }
+        else {
+            Prodavac prodavac = prodavacService.findOne(id);
+            return ResponseEntity.ok(prodavac);
+        }
+
+    }
 
 }

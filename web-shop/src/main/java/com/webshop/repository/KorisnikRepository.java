@@ -15,5 +15,4 @@ public interface KorisnikRepository extends JpaRepository<Korisnik,Long> {
 
     Korisnik findByKorisnickoImeAndEmail(String korisnickoIme,String email);
 
-
 }

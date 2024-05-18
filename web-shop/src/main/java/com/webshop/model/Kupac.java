@@ -14,13 +14,9 @@ import java.util.Set;
 @DiscriminatorValue(value = "KUPAC")
 public class Kupac extends Korisnik{
 
-
-
     @OneToMany
     @JoinColumn
     private Set<Proizvod> kupljeniProizvodi = new HashSet<>();
-
-
 
     @Column
     private double prosecnaOcena;
@@ -28,7 +24,6 @@ public class Kupac extends Korisnik{
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn
     private Set<Recenzija> kupacRecenzije = new HashSet<>();
-
 
     public Set<Proizvod> getKupljeniProizvodi() {
         return kupljeniProizvodi;
@@ -45,6 +40,5 @@ public class Kupac extends Korisnik{
     public void setProsecnaOcena(double prosecnaOcena) {
         this.prosecnaOcena = prosecnaOcena;
     }
-
 
 }

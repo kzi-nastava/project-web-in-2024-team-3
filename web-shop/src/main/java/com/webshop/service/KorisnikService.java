@@ -5,6 +5,8 @@ import com.webshop.repository.KorisnikRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class KorisnikService {
 
@@ -47,6 +49,16 @@ public class KorisnikService {
             return null;
         }
         return korisnik;
+    }
+
+    public Korisnik pronadjiPoId(Long id) {
+        Optional<Korisnik> korisnik = korisnikRepository.findById(id);
+
+        if(korisnik.isEmpty()) {
+            return null;
+        }
+
+        return korisnik.get();
     }
 
 }
