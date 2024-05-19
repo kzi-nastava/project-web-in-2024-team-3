@@ -1,24 +1,15 @@
 package com.webshop.controller;
 
 import com.webshop.dtos.*;
-import com.webshop.model.Korisnik;
-import com.webshop.model.Kupac;
-import com.webshop.model.Prodavac;
-import com.webshop.model.Uloga;
-import com.webshop.repository.KorisnikRepository;
-import com.webshop.service.KorisnikService;
-import com.webshop.service.KupacService;
-import com.webshop.service.ProdavacService;
+import com.webshop.model.*;
+import com.webshop.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
-
 
 
 @RestController
@@ -150,6 +141,45 @@ public class KorisnikRestController {
             Prodavac prodavac = prodavacService.findOne(id);
             return ResponseEntity.ok(prodavac);
         }
+
+    }
+
+
+    @PutMapping("/api/kupovinaProizvoda")
+    public ResponseEntity<String> kupovinaProizvoda(@PathVariable(name = "id") Long id) {
+        PonudaService ponudaService = new PonudaService();
+        ProizvodService proizvodService = new ProizvodService();
+        Proizvod proizvod = proizvodService.pronadjiPoId(id);
+
+        Prodavac prodavac = new Prodavac();
+        Kupac kupac = new Kupac();
+        Ponuda ponuda = ponudaService.pronadjiPoKupcu(kupac);
+        if(prodavac.getProizvodiNaProdaju().contains(proizvod) && proizvod.getTipProdaje().equals(TIP.FIKSNACENA)) {
+
+            prodavac.getProizvodiNaProdaju().remove(proizvod);
+            kupac.getKupljeniProizvodi().add(proizvod);
+            return new ResponseEntity("Proizvod uspesno kupljen!", HttpStatus.OK);
+
+        } else if(prodavac.getProizvodiNaProdaju().contains(proizvod) && proizvod.getTipProdaje().equals(TIP.AUKCIJA)) {
+
+            Ponuda ponudaMax = new Ponuda();
+            ponudaMax.setCena(0);
+            for(Ponuda p : proizvod.getPonudeZaProizvod()) {
+                if (p.getCena() > ponudaMax.getCena()) {
+                    ponudaMax = p;
+                }
+            }
+
+            if(ponuda.getCena() > ponudaMax.getCena()) {
+                prodavac.getProizvodiNaProdaju().remove(proizvod);
+                kupac.getKupljeniProizvodi().add(proizvod);
+                return new ResponseEntity("Proizvod uspesno kupljen!", HttpStatus.OK);
+            }
+            proizvod.getPonudeZaProizvod().add(ponuda);
+            return new ResponseEntity("Ponuda je dodata u listu ponuda.", HttpStatus.OK);
+        }
+
+        return new ResponseEntity("Proizvod nije pronadjen!", HttpStatus.NOT_FOUND);
 
     }
 

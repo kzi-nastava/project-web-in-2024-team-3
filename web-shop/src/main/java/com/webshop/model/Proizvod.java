@@ -115,5 +115,11 @@ public class Proizvod {
         this.datumObjavljivanja = datumObjavljivanja;
     }
 
+    public Set<Ponuda> getPonudeZaProizvod() {
+        return ponudeZaProizvod;
+    }
 
+    public void setPonudeZaProizvod(Set<Ponuda> ponudeZaProizvod) {
+        this.ponudeZaProizvod = ponudeZaProizvod;
+    }
 }
