@@ -1,5 +1,7 @@
 package com.webshop.dtos;
 
+import com.webshop.model.Uloga;
+
 public class RegisterDto {
 
     private String ime;
@@ -16,10 +18,10 @@ public class RegisterDto {
 
     private String potvrdeLozinke;
 
-    private String uloga;
+    private Uloga uloga;
 
 
-    public RegisterDto(String ime, String prezime, String korisnickoIme, String email, String brojTelefona, String lozinka, String uloga) {
+    public RegisterDto(String ime, String prezime, String korisnickoIme, String email, String brojTelefona, String lozinka, Uloga uloga) {
         this.ime = ime;
         this.prezime = prezime;
         this.korisnickoIme = korisnickoIme;
@@ -85,11 +87,11 @@ public class RegisterDto {
         this.lozinka = lozinka;
     }
 
-    public String getUloga() {
+    public Uloga getUloga() {
         return uloga;
     }
 
-    public void setUloga(String uloga) {
+    public void setUloga(Uloga uloga) {
         this.uloga = uloga;
     }
 }

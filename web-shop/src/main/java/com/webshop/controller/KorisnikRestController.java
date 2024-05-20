@@ -35,7 +35,7 @@ public class KorisnikRestController {
     public ResponseEntity<String> registracija(@RequestBody RegisterDto registerDto, @RequestParam String uloga, HttpSession session) {
 
         if(registerDto.getIme().isEmpty() || registerDto.getKorisnickoIme().isEmpty() || registerDto.getBrojTelefona().isEmpty()
-                || registerDto.getEmail().isEmpty() || registerDto.getPrezime().isEmpty() || registerDto.getLozinka().isEmpty() || registerDto.getUloga() != "KUPAC" || registerDto.getUloga() != "PRODAVAC") {
+                || registerDto.getEmail().isEmpty() || registerDto.getPrezime().isEmpty() || registerDto.getLozinka().isEmpty() || registerDto.getUloga() != Uloga.KUPAC || registerDto.getUloga() != Uloga.PRODAVAC) {
 
             return new ResponseEntity("Neispravno uneti podaci.", HttpStatus.BAD_REQUEST);
         }
@@ -52,8 +52,11 @@ public class KorisnikRestController {
             return  new ResponseEntity("Nepodudaranje sifre", HttpStatus.BAD_REQUEST);
         }
 
-        if(!registerDto.getUloga().equals("KUPAC") || !registerDto.getUloga().equals("PRODAVAC")) {
-            return new ResponseEntity("Uloga nije u opticaju", HttpStatus.BAD_REQUEST);
+        if(registerDto.getUloga() == Uloga.KUPAC) {
+            korisnikService.createKupac(registerDto);
+        }
+        else if(registerDto.getUloga() == Uloga.PRODAVAC) {
+            korisnikService.createProdavac(registerDto);
         }
 
         return new ResponseEntity("Uspesna registracija", HttpStatus.OK);

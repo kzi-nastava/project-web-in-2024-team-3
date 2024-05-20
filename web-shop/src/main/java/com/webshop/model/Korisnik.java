@@ -1,5 +1,6 @@
 package com.webshop.model;
 
+import com.webshop.dtos.RegisterDto;
 import jakarta.persistence.*;
 
 
@@ -44,6 +45,10 @@ public class Korisnik implements Serializable {
 
     @Column
     private boolean blokiran;
+
+    public Korisnik() {}
+
+    public Korisnik(RegisterDto registerDto) {}
 
     public Uloga getUloga() {
         return uloga;

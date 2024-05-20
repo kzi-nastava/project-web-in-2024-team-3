@@ -1,8 +1,10 @@
 package com.webshop.model;
 
+import com.webshop.dtos.RecenzijaDto;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -13,15 +15,22 @@ public class Recenzija implements Serializable {
     private Long id;
 
     @Column
-    private int ocena;
+    private double ocena;
     @Column
     private String komentar;
     @Column
-    private Date datum;
+    private LocalDate datum;
 
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Korisnik korisnik;
+
+    public Recenzija(RecenzijaDto recenzijaDto, Korisnik korisnik) {
+        this.ocena = recenzijaDto.getOcena();
+        this.komentar = recenzijaDto.getKomentar();
+        this.datum = recenzijaDto.getDatumRecenzije();
+        this.korisnik = korisnik;
+    }
 
     public Long getId() {
         return id;
@@ -31,7 +40,7 @@ public class Recenzija implements Serializable {
         this.id = id;
     }
 
-    public int getOcena() {
+    public double getOcena() {
         return ocena;
     }
 
@@ -47,11 +56,11 @@ public class Recenzija implements Serializable {
         this.komentar = komentar;
     }
 
-    public Date getDatum() {
+    public LocalDate getDatum() {
         return datum;
     }
 
-    public void setDatum(Date datum) {
+    public void setDatum(LocalDate datum) {
         this.datum = datum;
     }
 

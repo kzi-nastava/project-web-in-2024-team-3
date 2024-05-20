@@ -1,6 +1,9 @@
 package com.webshop.dtos;
 
 import com.webshop.model.Korisnik;
+import org.springframework.cglib.core.Local;
+
+import java.time.LocalDate;
 
 public class RecenzijaDto {
 
@@ -10,11 +13,11 @@ public class RecenzijaDto {
 
     private String komentar;
 
-    private String datumRecenzije;
+    private LocalDate datumRecenzije;
 
     private Korisnik korisnik;
 
-    public RecenzijaDto(Long id, double ocena, String komentar, String datumRecenzije, Korisnik korisnik) {
+    public RecenzijaDto(Long id, int ocena, String komentar, LocalDate datumRecenzije, Korisnik korisnik) {
         this.id = id;
         this.ocena = ocena;
         this.komentar = komentar;
@@ -34,7 +37,7 @@ public class RecenzijaDto {
         return ocena;
     }
 
-    public void setOcena(double ocena) {
+    public void setOcena(int ocena) {
         this.ocena = ocena;
     }
 
@@ -46,11 +49,11 @@ public class RecenzijaDto {
         this.komentar = komentar;
     }
 
-    public String getDatumRecenzije() {
+    public LocalDate getDatumRecenzije() {
         return datumRecenzije;
     }
 
-    public void setDatumRecenzije(String datumRecenzije) {
+    public void setDatumRecenzije(LocalDate datumRecenzije) {
         this.datumRecenzije = datumRecenzije;
     }
 
