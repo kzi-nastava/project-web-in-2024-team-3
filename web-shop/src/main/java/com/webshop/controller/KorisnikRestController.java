@@ -43,7 +43,7 @@ public class KorisnikRestController {
             return  new ResponseEntity<>("Nepodudaranje sifre", HttpStatus.BAD_REQUEST);
         }
 
-        if(registerDto.getUloga().equals("KUPAC") {
+        if(registerDto.getUloga().equals("KUPAC")) {
             korisnikService.createKupac(registerDto);
         } else if (registerDto.getUloga().equals("PRODAVAC")) {
             korisnikService.createProdavac(registerDto);
