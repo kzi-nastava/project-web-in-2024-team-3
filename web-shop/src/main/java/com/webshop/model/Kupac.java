@@ -41,4 +41,8 @@ public class Kupac extends Korisnik{
         this.prosecnaOcena = prosecnaOcena;
     }
 
+    public void dodajKupljeniProizvod(Proizvod proizvod) {
+        this.kupljeniProizvodi.add(proizvod);
+    }
+
 }

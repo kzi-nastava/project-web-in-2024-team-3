@@ -2,6 +2,7 @@ package com.webshop.service;
 
 import com.webshop.model.Kupac;
 import com.webshop.model.Ponuda;
+import com.webshop.model.Proizvod;
 import com.webshop.repository.PonudaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,14 @@ public class PonudaService {
 
         return ponuda;
 
+    }
+
+    public Ponuda savePonuda(Ponuda ponuda) {
+        return ponudaRepository.save(ponuda);
+    }
+
+    public Ponuda findTopByProizvodOrderByCenaDesc(Proizvod proizvod) {
+        return ponudaRepository.findTopByProizvodOrderByCenaDesc(proizvod);
     }
 
 }

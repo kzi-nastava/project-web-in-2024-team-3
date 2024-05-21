@@ -1,6 +1,7 @@
 package com.webshop.service;
 
 import com.webshop.model.Kategorija;
+import com.webshop.model.Korisnik;
 import com.webshop.model.Proizvod;
 import com.webshop.model.TIP;
 import com.webshop.repository.ProizvodRepository;
@@ -66,5 +67,9 @@ public class ProizvodService {
 
     public void obrisiProizvodPoIdProdavca(Long id) {
         proizvodRepository.deleteByProdavacId(id);
+    }
+
+    public void saveProizvod(Proizvod proizvod) {
+        proizvodRepository.save(proizvod);
     }
 }
