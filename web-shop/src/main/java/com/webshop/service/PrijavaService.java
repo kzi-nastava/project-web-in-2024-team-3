@@ -57,4 +57,34 @@ public class PrijavaService {
         }
         return null;
     }
+
+    public Prijava prijaviKupca(Long kupacId, PrijavaDto razlog, Korisnik korisnik) {
+        Kupac kupac = (Kupac) korisnikRepository.findById(kupacId).get();
+        Prodavac prodavac = (Prodavac) korisnikRepository.findById(korisnik.getId()).get();
+
+        Set<Proizvod> kupljeniProizvodi = kupac.getKupljeniProizvodi();
+        Set<Proizvod> proizvodiNaProdaju = prodavac.getProizvodiNaProdaju();
+
+        boolean kupio = false;
+        for (Proizvod kupljeni : kupljeniProizvodi) {
+            for (Proizvod naProdaju : proizvodiNaProdaju) {
+                if (kupljeni.equals(naProdaju)) {
+                    kupio = true;
+                    break;
+                }
+            }
+        }
+
+        if (kupio) {
+            Prijava prijavaProfila = new Prijava(razlog);
+            prijavaProfila.setOdnosiPrijava(kupac);
+            prijavaProfila.setPodneoPrijavu(prodavac);
+            return prijavaRepository.save(prijavaProfila);
+        }
+        return null;
+
+
+
+
+    }
 }
