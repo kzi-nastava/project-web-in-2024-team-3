@@ -1,5 +1,6 @@
 package com.webshop.model;
 
+import com.webshop.dtos.RegisterDto;
 import jakarta.persistence.*;
 
 
@@ -24,6 +25,14 @@ public class Prodavac extends Korisnik{
 
     @Column
     private double prosecnaOcena;
+
+    public Prodavac(RegisterDto registerDto) {
+        super();
+    }
+
+    public Prodavac() {
+
+    }
 
     public Set<Proizvod> getProizvodiNaProdaju() {
         return proizvodiNaProdaju;

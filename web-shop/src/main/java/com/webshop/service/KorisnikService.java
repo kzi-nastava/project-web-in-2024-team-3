@@ -1,6 +1,8 @@
 package com.webshop.service;
 
+import com.webshop.dtos.RegisterDto;
 import com.webshop.model.Korisnik;
+import com.webshop.model.Kupac;
 import com.webshop.model.Prodavac;
 import com.webshop.model.Uloga;
 import com.webshop.repository.KorisnikRepository;
@@ -61,6 +63,16 @@ public class KorisnikService {
         }
 
         return korisnik.get();
+    }
+
+    public void createKupac(RegisterDto registerDto) {
+        Kupac kupac = new Kupac(registerDto);
+        korisnikRepository.save(kupac);
+    }
+
+    public void createProdavac(RegisterDto registerDto) {
+        Prodavac prodavac = new Prodavac(registerDto);
+        korisnikRepository.save(prodavac);
     }
 
     public void saveKorisnik(Korisnik korisnik) {
