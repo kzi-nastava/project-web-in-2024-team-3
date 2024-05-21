@@ -26,11 +26,21 @@ public class Prodavac extends Korisnik{
     @Column
     private double prosecnaOcena;
 
+
+    public Prodavac() {}
+
     public Prodavac(RegisterDto registerDto) {
-        super();
+        super(registerDto);
+        this.setUloga(Uloga.KUPAC);
+        this.prosecnaOcena = 0.0;
     }
 
-    public Prodavac() {
+    public Set<Recenzija> getProdavacRecenzije() {
+        return prodavacRecenzije;
+    }
+
+    public void setProdavacRecenzije(Set<Recenzija> prodavacRecenzije) {
+        this.prodavacRecenzije = prodavacRecenzije;
 
     }
 
@@ -41,8 +51,6 @@ public class Prodavac extends Korisnik{
     public void setProizvodiNaProdaju(Set<Proizvod> proizvodiNaProdaju) {
         this.proizvodiNaProdaju = proizvodiNaProdaju;
     }
-
-
 
     public double getProsecnaOcena() {
         return prosecnaOcena;

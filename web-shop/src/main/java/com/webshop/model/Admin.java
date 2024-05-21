@@ -1,5 +1,6 @@
 package com.webshop.model;
 
+import com.webshop.dtos.RegisterDto;
 import jakarta.persistence.*;
 
 @Entity
@@ -9,4 +10,10 @@ import jakarta.persistence.*;
 
 @DiscriminatorValue(value = "ADMINISTRATOR")
 public class Admin extends  Korisnik{
+
+    public Admin() {}
+
+    public Admin(RegisterDto registerDto) {
+        super(registerDto);
+    }
 }
