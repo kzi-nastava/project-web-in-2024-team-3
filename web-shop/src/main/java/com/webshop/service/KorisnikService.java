@@ -4,6 +4,9 @@ import com.webshop.dtos.RegisterDto;
 import com.webshop.model.Korisnik;
 import com.webshop.model.Kupac;
 import com.webshop.model.Prodavac;
+
+import com.webshop.model.Uloga;
+
 import com.webshop.repository.KorisnikRepository;
 import com.webshop.repository.ProdavacRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,6 +79,19 @@ public class KorisnikService {
     public void createProdavac(RegisterDto registerDto) {
         Prodavac prodavac = new Prodavac(registerDto);
         korisnikRepository.save(prodavac);
+    }
+
+
+    public void saveKorisnik(Korisnik korisnik) {
+        korisnikRepository.save(korisnik);
+    }
+
+    public Prodavac pronadjiKupcaPoId(Long id) {
+        Optional<Korisnik> optional = korisnikRepository.findById(id);
+        if (optional.isPresent() && optional.get().getUloga() == Uloga.PRODAVAC) {
+            return (Prodavac) optional.get();
+        }
+        return null;
     }
 
 

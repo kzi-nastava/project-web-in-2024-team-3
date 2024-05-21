@@ -26,6 +26,7 @@ public class Prodavac extends Korisnik{
     @Column
     private double prosecnaOcena;
 
+
     public Prodavac() {}
 
     public Prodavac(RegisterDto registerDto) {
@@ -40,6 +41,7 @@ public class Prodavac extends Korisnik{
 
     public void setProdavacRecenzije(Set<Recenzija> prodavacRecenzije) {
         this.prodavacRecenzije = prodavacRecenzije;
+
     }
 
     public Set<Proizvod> getProizvodiNaProdaju() {
@@ -56,5 +58,9 @@ public class Prodavac extends Korisnik{
 
     public void setProsecnaOcena(double prosecnaOcena) {
         this.prosecnaOcena = prosecnaOcena;
+    }
+
+    public void ukloniProizvodNaProdaju(Proizvod proizvod) {
+        this.proizvodiNaProdaju.remove(proizvod);
     }
 }

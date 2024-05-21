@@ -6,6 +6,7 @@ import java.io.Serializable;
 @Entity
 public class Ponuda implements Serializable {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,6 +17,15 @@ public class Ponuda implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn
     private Kupac kupac;
+
+    @OneToOne
+    private Proizvod proizvod;
+
+
+
+    public Ponuda() {
+
+    }
 
     public Long getId() {
         return id;
@@ -38,6 +48,12 @@ public class Ponuda implements Serializable {
     }
 
     public void setKupac(Kupac kupac) {
+        this.kupac = kupac;
+    }
+
+    public Ponuda(double cena,Proizvod proizvod, Kupac kupac) {
+        this.cena = cena;
+        this.proizvod = proizvod;
         this.kupac = kupac;
     }
 }

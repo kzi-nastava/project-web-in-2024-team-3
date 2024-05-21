@@ -26,12 +26,14 @@ public class Kupac extends Korisnik{
     @JoinColumn
     private Set<Recenzija> kupacRecenzije = new HashSet<>();
 
+
     public Kupac() {}
 
     public Kupac(RegisterDto registerDto) {
         super(registerDto);
         this.setUloga(Uloga.KUPAC);
         this.prosecnaOcena = 0.0;
+
     }
 
     public Set<Proizvod> getKupljeniProizvodi() {
@@ -48,6 +50,10 @@ public class Kupac extends Korisnik{
 
     public void setProsecnaOcena(double prosecnaOcena) {
         this.prosecnaOcena = prosecnaOcena;
+    }
+
+    public void dodajKupljeniProizvod(Proizvod proizvod) {
+        this.kupljeniProizvodi.add(proizvod);
     }
 
 }
