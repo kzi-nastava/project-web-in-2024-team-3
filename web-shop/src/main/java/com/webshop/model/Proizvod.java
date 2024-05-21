@@ -40,7 +40,15 @@ public class Proizvod {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn
-    private Korisnik prodavac;
+    private Prodavac prodavac;
+
+    public Prodavac getProdavac() {
+        return prodavac;
+    }
+
+    public void setProdavac(Prodavac prodavac) {
+        this.prodavac = prodavac;
+    }
 
     @Column
     private boolean recenzijaOdKupca;

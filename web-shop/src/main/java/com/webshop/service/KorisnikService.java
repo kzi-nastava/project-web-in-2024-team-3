@@ -4,8 +4,11 @@ import com.webshop.dtos.RegisterDto;
 import com.webshop.model.Korisnik;
 import com.webshop.model.Kupac;
 import com.webshop.model.Prodavac;
+
 import com.webshop.model.Uloga;
+
 import com.webshop.repository.KorisnikRepository;
+import com.webshop.repository.ProdavacRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +19,9 @@ public class KorisnikService {
 
     @Autowired
     KorisnikRepository korisnikRepository;
+
+    @Autowired
+    ProdavacRepository prodavacRepository;
 
     public Korisnik pronadjiMejl(String email) {
         Korisnik korisnik = korisnikRepository.findByEmail(email);
@@ -75,6 +81,7 @@ public class KorisnikService {
         korisnikRepository.save(prodavac);
     }
 
+
     public void saveKorisnik(Korisnik korisnik) {
         korisnikRepository.save(korisnik);
     }
@@ -86,5 +93,6 @@ public class KorisnikService {
         }
         return null;
     }
+
 
 }

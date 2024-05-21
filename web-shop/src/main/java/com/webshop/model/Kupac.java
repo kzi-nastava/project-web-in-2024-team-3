@@ -26,11 +26,13 @@ public class Kupac extends Korisnik{
     @JoinColumn
     private Set<Recenzija> kupacRecenzije = new HashSet<>();
 
-    public Kupac(RegisterDto registerDto) {
-        super();
-    }
 
-    public Kupac() {
+    public Kupac() {}
+
+    public Kupac(RegisterDto registerDto) {
+        super(registerDto);
+        this.setUloga(Uloga.KUPAC);
+        this.prosecnaOcena = 0.0;
 
     }
 
