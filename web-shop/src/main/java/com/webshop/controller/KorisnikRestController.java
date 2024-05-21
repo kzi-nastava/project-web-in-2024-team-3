@@ -43,6 +43,12 @@ public class KorisnikRestController {
             return  new ResponseEntity<>("Nepodudaranje sifre", HttpStatus.BAD_REQUEST);
         }
 
+        if(registerDto.getUloga().equals("KUPAC") {
+            korisnikService.createKupac(registerDto);
+        } else if (registerDto.getUloga().equals("PRODAVAC")) {
+            korisnikService.createProdavac(registerDto);
+        }
+
         if(!registerDto.getUloga().equals("KUPAC") || !registerDto.getUloga().equals("PRODAVAC")) {
             return new ResponseEntity<>("Uloga nije u opticaju", HttpStatus.BAD_REQUEST);
         }

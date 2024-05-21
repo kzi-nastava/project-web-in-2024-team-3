@@ -1,5 +1,6 @@
 package com.webshop.model;
 
+import com.webshop.dtos.RegisterDto;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -24,6 +25,14 @@ public class Kupac extends Korisnik{
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn
     private Set<Recenzija> kupacRecenzije = new HashSet<>();
+
+    public Kupac(RegisterDto registerDto) {
+        super();
+    }
+
+    public Kupac() {
+
+    }
 
     public Set<Proizvod> getKupljeniProizvodi() {
         return kupljeniProizvodi;
