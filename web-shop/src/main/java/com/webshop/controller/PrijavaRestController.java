@@ -105,5 +105,22 @@ public class PrijavaRestController {
         return new ResponseEntity<>(prijavaProfila, HttpStatus.OK);
     }
 
+    @PostMapping("/api/prijavi-kupca/{id}")
+    public ResponseEntity<?> prijaviKupca(@PathVariable Long id, @RequestBody PrijavaDto razlogPrijave, HttpSession session) {
+        Korisnik loggedKorisnik = (Korisnik) session.getAttribute("korisnik");
+        if (loggedKorisnik == null) {
+            return new ResponseEntity<>("Nema prijavljenog korisnika!", HttpStatus.FORBIDDEN);
+        }
+        if (loggedKorisnik.getUloga() != PRODAVAC) {
+            return new ResponseEntity<>("Niste prodavac!", HttpStatus.FORBIDDEN);
+        }
+
+        Prijava prijavaProfila = prijavaService.prijaviProdavca(id, razlogPrijave, loggedKorisnik);
+        if (prijavaProfila == null) {
+            return new ResponseEntity<>("Neuspesna prijava!", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(prijavaProfila, HttpStatus.OK);
+    }
+
 
 }
