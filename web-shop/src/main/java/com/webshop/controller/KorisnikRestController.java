@@ -25,44 +25,45 @@ public class KorisnikRestController {
     @PostMapping("/api/registracija")
     public ResponseEntity<String> registracija(@RequestBody RegisterDto registerDto) {
 
-        if(registerDto.getIme().isEmpty() || registerDto.getKorisnickoIme().isEmpty() || registerDto.getBrojTelefona().isEmpty()
+        if (registerDto.getIme().isEmpty() || registerDto.getKorisnickoIme().isEmpty() || registerDto.getBrojTelefona().isEmpty()
                 || registerDto.getEmail().isEmpty() || registerDto.getPrezime().isEmpty() || registerDto.getLozinka().isEmpty() || registerDto.getUloga() != Uloga.KUPAC || registerDto.getUloga() != Uloga.PRODAVAC) {
 
             return new ResponseEntity<>("Neispravno uneti podaci.", HttpStatus.BAD_REQUEST);
         }
 
-        if(registerDto.getEmail().equals(korisnikService.pronadjiMejl(registerDto.getEmail())) ) {
+        if (registerDto.getEmail().equals(korisnikService.pronadjiMejl(registerDto.getEmail()))) {
             return new ResponseEntity<>("Email vec postoji", HttpStatus.BAD_REQUEST);
         }
 
-        if(registerDto.getKorisnickoIme().equals(korisnikService.pronadjiKorisnickoIme(registerDto.getKorisnickoIme()))) {
+        if (registerDto.getKorisnickoIme().equals(korisnikService.pronadjiKorisnickoIme(registerDto.getKorisnickoIme()))) {
             return new ResponseEntity<>("Korisnicko ime vec postoji", HttpStatus.BAD_REQUEST);
         }
 
-        if(registerDto.getLozinka() != registerDto.getPotvrdeLozinke()) {
-            return  new ResponseEntity<>("Nepodudaranje sifre", HttpStatus.BAD_REQUEST);
+        if (registerDto.getLozinka() != registerDto.getPotvrdeLozinke()) {
+            return new ResponseEntity<>("Nepodudaranje sifre", HttpStatus.BAD_REQUEST);
         }
 
-        if(registerDto.getUloga().equals("KUPAC")) {
+        if (registerDto.getUloga().equals("KUPAC")) {
             korisnikService.createKupac(registerDto);
         } else if (registerDto.getUloga().equals("PRODAVAC")) {
             korisnikService.createProdavac(registerDto);
         }
 
 
-        if(registerDto.getUloga() == Uloga.KUPAC) {
+        if (registerDto.getUloga() == Uloga.KUPAC) {
             korisnikService.createKupac(registerDto);
-        }
-        else if(registerDto.getUloga() == Uloga.PRODAVAC) {
+        } else if (registerDto.getUloga() == Uloga.PRODAVAC) {
             korisnikService.createProdavac(registerDto);
+        }
 
-        if(!registerDto.getUloga().equals("KUPAC") || !registerDto.getUloga().equals("PRODAVAC")) {
+        if (!registerDto.getUloga().equals("KUPAC") || !registerDto.getUloga().equals("PRODAVAC")) {
             return new ResponseEntity<>("Uloga nije u opticaju", HttpStatus.BAD_REQUEST);
 
         }
 
         return new ResponseEntity<>("Uspesna registracija", HttpStatus.OK);
     }
+
 
     @PostMapping("api/login")
     public ResponseEntity<String> login (@RequestBody LoginDto loginDto,HttpSession session) {
@@ -90,8 +91,6 @@ public class KorisnikRestController {
         session.invalidate();
         return new ResponseEntity<>("Uspesno izlogovan!", HttpStatus.OK);
     }
-
-
 
     @PutMapping("/api/ulogovan-korisnik/azuriraj")
     public ResponseEntity<UpdateDto> azuriraj (@RequestBody UpdateDto updateDto, HttpSession session ) {
@@ -128,7 +127,7 @@ public class KorisnikRestController {
         }
 
         if(!updateDto.getOpis().isEmpty()) {
-                ulogovan.setOpis(updateDto.getOpis());
+            ulogovan.setOpis(updateDto.getOpis());
         }
 
         if(Objects.equals(updateDto.getStaraLozinka(), ulogovan.getLozinka())) {
@@ -145,9 +144,9 @@ public class KorisnikRestController {
                 ulogovan.setEmail(updateDto.getEmail());
             }
 
-            } else {
-                return new ResponseEntity("Pogresna lozinka", HttpStatus.BAD_REQUEST);
-            }
+        } else {
+            return new ResponseEntity("Pogresna lozinka", HttpStatus.BAD_REQUEST);
+        }
 
         korisnikService.saveKorisnik(ulogovan);
         return new ResponseEntity("Uspesno azuriranje podataka!", HttpStatus.OK);
@@ -172,7 +171,7 @@ public class KorisnikRestController {
 
     }
 
-
-
-
 }
+
+
+

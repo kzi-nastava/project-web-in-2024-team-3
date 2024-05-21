@@ -131,14 +131,7 @@ public class Proizvod {
     public void setProdat(boolean prodat) {
         this.prodat = prodat;
     }
-
-    public Korisnik getProdavac() {
-        return prodavac;
-    }
-
-    public void setProdavac(Korisnik prodavac) {
-        this.prodavac = prodavac;
-    }
+    
 
     public Set<Ponuda> getPonudeZaProizvod() {
         return ponudeZaProizvod;
