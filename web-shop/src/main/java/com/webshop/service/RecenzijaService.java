@@ -92,4 +92,24 @@ public class RecenzijaService {
         return recenzijaProdavcaDtos;
     }
 
+    public boolean razmena(Korisnik korisnik,Long prodavacId) {
+        Kupac kupac = (Kupac) korisnikRepository.findById(korisnik.getId()).get();
+        Prodavac prodavac = (Prodavac) korisnikRepository.findById(prodavacId).get();
+
+        Set<Proizvod> kupljeniProizvodi = kupac.getKupljeniProizvodi();
+        Set<Proizvod> proizvodiNaProdaju = prodavac.getProizvodiNaProdaju();
+
+        boolean kupio = false;
+        for (Proizvod kupljeni : kupljeniProizvodi) {
+            for (Proizvod naProdaju : proizvodiNaProdaju) {
+                if (kupljeni.equals(naProdaju)) {
+                    kupio = true;
+                    break;
+                }
+            }
+        }
+
+        return kupio;
+    }
+
 }

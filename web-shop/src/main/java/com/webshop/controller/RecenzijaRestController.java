@@ -26,8 +26,28 @@ public class RecenzijaRestController {
         if(loggedkorisnik == null) {
             return new ResponseEntity<>("Korisnik nije ulogovan.", HttpStatus.UNAUTHORIZED);
         }
-        Recenzija recenzija = new Recenzija(recenzijaDto,loggedkorisnik);
-        return new ResponseEntity<>(recenzijaService.dodajRecenziju(recenzija,prodavacId,loggedkorisnik.getId()),HttpStatus.OK);
+        boolean kupio = recenzijaService.razmena(loggedkorisnik,prodavacId);
+        if(kupio) {
+            Recenzija recenzija = new Recenzija(recenzijaDto, loggedkorisnik);
+            return new ResponseEntity<>(recenzijaService.dodajRecenziju(recenzija, prodavacId, loggedkorisnik.getId()), HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>("Ne mozete oceniti prodavca bez kupovine proizvoda",HttpStatus.FORBIDDEN);
+    }
+
+    @PostMapping("/api/oceni-kupca/{id}")
+    public ResponseEntity<?> oceniKupca(@PathVariable(name = "id") Long kupacId, @RequestBody RecenzijaDto recenzijaDto, HttpSession session) {
+        Korisnik loggedkorisnik = (Korisnik) session.getAttribute("korisnik");
+        if(loggedkorisnik == null) {
+            return new ResponseEntity<>("Korisnik nije ulogovan.", HttpStatus.UNAUTHORIZED);
+        }
+        boolean kupio = recenzijaService.razmena(loggedkorisnik,kupacId);
+        if(kupio) {
+            Recenzija recenzija = new Recenzija(recenzijaDto, loggedkorisnik);
+            return new ResponseEntity<>(recenzijaService.dodajRecenziju(recenzija, kupacId, loggedkorisnik.getId()), HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>("Ne mozete oceniti kupca ako nije kupio vas proizvod.",HttpStatus.FORBIDDEN);
     }
 
     public ResponseEntity<?> izmeniRecenziju(@PathVariable(name = "id") Long id, @RequestBody RecenzijaDto komentar,HttpSession session) {

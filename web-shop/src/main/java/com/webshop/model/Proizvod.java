@@ -2,6 +2,7 @@ package com.webshop.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Entity
@@ -32,7 +33,7 @@ public class Proizvod {
     private TIP tipProdaje;
 
     @Column
-    private Date datumObjavljivanja;
+    private LocalDate datumObjavljivanja;
 
     @OneToMany
     @JoinColumn
@@ -58,6 +59,22 @@ public class Proizvod {
 
     @Column
     private boolean prodat;
+
+    public boolean isRecenzijaOdKupca() {
+        return recenzijaOdKupca;
+    }
+
+    public void setRecenzijaOdKupca(boolean recenzijaOdKupca) {
+        this.recenzijaOdKupca = recenzijaOdKupca;
+    }
+
+    public boolean isRecenzijaOdProdavca() {
+        return recenzijaOdProdavca;
+    }
+
+    public void setRecenzijaOdProdavca(boolean recenzijaOdProdavca) {
+        this.recenzijaOdProdavca = recenzijaOdProdavca;
+    }
 
     public long getId() {
         return Id;
@@ -115,11 +132,11 @@ public class Proizvod {
         this.tipProdaje = tipProdaje;
     }
 
-    public Date getDatumObjavljivanja() {
+    public LocalDate getDatumObjavljivanja() {
         return datumObjavljivanja;
     }
 
-    public void setDatumObjavljivanja(Date datumObjavljivanja) {
+    public void setDatumObjavljivanja(LocalDate datumObjavljivanja) {
         this.datumObjavljivanja = datumObjavljivanja;
     }
 

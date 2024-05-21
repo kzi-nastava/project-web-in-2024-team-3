@@ -14,7 +14,10 @@ public class Kategorija implements Serializable {
     @Column
     private String naziv;
 
+    public Kategorija() {}
 
+    public Kategorija(Kategorija kategorija) {
+    }
     public long getId() {
         return id;
     }

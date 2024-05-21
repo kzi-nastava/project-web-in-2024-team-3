@@ -7,6 +7,9 @@ import jakarta.persistence.Id;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
 @Repository
 public interface PonudaRepository extends JpaRepository<Ponuda, Long> {
 
@@ -14,4 +17,5 @@ public interface PonudaRepository extends JpaRepository<Ponuda, Long> {
 
     Ponuda findTopByProizvodOrderByCenaDesc(Proizvod proizvod);
 
+    List<Ponuda> findAllByProizvod(Optional<Proizvod> proizvod);
 }

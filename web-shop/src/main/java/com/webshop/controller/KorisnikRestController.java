@@ -43,9 +43,9 @@ public class KorisnikRestController {
             return new ResponseEntity<>("Nepodudaranje sifre", HttpStatus.BAD_REQUEST);
         }
 
-        if (registerDto.getUloga().equals("KUPAC")) {
+        if (registerDto.getUloga().equals(Uloga.KUPAC)) {
             korisnikService.createKupac(registerDto);
-        } else if (registerDto.getUloga().equals("PRODAVAC")) {
+        } else if (registerDto.getUloga().equals(Uloga.PRODAVAC)) {
             korisnikService.createProdavac(registerDto);
         }
 
@@ -56,7 +56,7 @@ public class KorisnikRestController {
             korisnikService.createProdavac(registerDto);
         }
 
-        if (!registerDto.getUloga().equals("KUPAC") || !registerDto.getUloga().equals("PRODAVAC")) {
+        if (!registerDto.getUloga().equals(Uloga.KUPAC) || !registerDto.getUloga().equals(Uloga.PRODAVAC)) {
             return new ResponseEntity<>("Uloga nije u opticaju", HttpStatus.BAD_REQUEST);
 
         }

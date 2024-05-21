@@ -26,6 +26,9 @@ public class Prodavac extends Korisnik{
     @Column
     private double prosecnaOcena;
 
+    public void dodajProizvod(Proizvod proizvod) {
+        proizvodiNaProdaju.add(proizvod);
+    }
 
     public Prodavac() {}
 

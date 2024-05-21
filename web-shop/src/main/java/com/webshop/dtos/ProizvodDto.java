@@ -1,6 +1,8 @@
 package com.webshop.dtos;
 
+import com.webshop.model.Kategorija;
 import com.webshop.model.Proizvod;
+import com.webshop.model.TIP;
 
 public class ProizvodDto {
 
@@ -11,6 +13,36 @@ public class ProizvodDto {
     private String opis;
 
     private double cena;
+
+    private Kategorija kategorija;
+
+    private String slika;
+
+    private TIP tipProdaje;
+
+    public TIP getTipProdaje() {
+        return tipProdaje;
+    }
+
+    public void setTipProdaje(TIP tipProdaje) {
+        this.tipProdaje = tipProdaje;
+    }
+
+    public String getSlika() {
+        return slika;
+    }
+
+    public void setSlika(String slika) {
+        this.slika = slika;
+    }
+
+    public Kategorija getKategorija() {
+        return kategorija;
+    }
+
+    public void setKategorija(Kategorija kategorija) {
+        this.kategorija = kategorija;
+    }
 
     public ProizvodDto(Long id, String naziv, String opis, double cena) {
         this.id = id;
