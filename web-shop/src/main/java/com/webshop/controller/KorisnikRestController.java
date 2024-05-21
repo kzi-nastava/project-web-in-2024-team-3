@@ -50,11 +50,11 @@ public class KorisnikRestController {
         }
 
 
-        if(registerDto.getUloga() == Uloga.KUPAC) {
+        if(registerDto.getUloga().equals("KUPAC")) {
             korisnikService.createKupac(registerDto);
-        }
-        else if(registerDto.getUloga() == Uloga.PRODAVAC) {
+        } else if (registerDto.getUloga().equals("PRODAVAC")) {
             korisnikService.createProdavac(registerDto);
+        }
 
         if(!registerDto.getUloga().equals("KUPAC") || !registerDto.getUloga().equals("PRODAVAC")) {
             return new ResponseEntity<>("Uloga nije u opticaju", HttpStatus.BAD_REQUEST);
