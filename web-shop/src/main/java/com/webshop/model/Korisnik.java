@@ -45,7 +45,15 @@ public class Korisnik implements Serializable {
     @Column
     private boolean blokiran;
 
+    public Uloga getUloga() {
+        return uloga;
+    }
 
+    public void setUloga(Uloga uloga) {
+        this.uloga = uloga;
+    }
+
+    private Uloga uloga;
 
     public Long getId() {
         return id;

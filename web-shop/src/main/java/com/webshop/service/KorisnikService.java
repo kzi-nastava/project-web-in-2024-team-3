@@ -1,9 +1,13 @@
 package com.webshop.service;
 
 import com.webshop.model.Korisnik;
+import com.webshop.model.Prodavac;
+import com.webshop.model.Uloga;
 import com.webshop.repository.KorisnikRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class KorisnikService {
@@ -47,6 +51,28 @@ public class KorisnikService {
             return null;
         }
         return korisnik;
+    }
+
+    public Korisnik pronadjiPoId(Long id) {
+        Optional<Korisnik> korisnik = korisnikRepository.findById(id);
+
+        if(korisnik.isEmpty()) {
+            return null;
+        }
+
+        return korisnik.get();
+    }
+
+    public void saveKorisnik(Korisnik korisnik) {
+        korisnikRepository.save(korisnik);
+    }
+
+    public Prodavac pronadjiKupcaPoId(Long id) {
+        Optional<Korisnik> optional = korisnikRepository.findById(id);
+        if (optional.isPresent() && optional.get().getUloga() == Uloga.PRODAVAC) {
+            return (Prodavac) optional.get();
+        }
+        return null;
     }
 
 }

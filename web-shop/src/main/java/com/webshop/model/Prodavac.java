@@ -42,4 +42,8 @@ public class Prodavac extends Korisnik{
     public void setProsecnaOcena(double prosecnaOcena) {
         this.prosecnaOcena = prosecnaOcena;
     }
+
+    public void ukloniProizvodNaProdaju(Proizvod proizvod) {
+        this.proizvodiNaProdaju.remove(proizvod);
+    }
 }

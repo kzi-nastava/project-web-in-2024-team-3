@@ -1,11 +1,12 @@
 package com.webshop.model;
 
+import com.webshop.dtos.PrijavaDto;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
-enum STATUS {PODNETA,ODBIJENA,PRIHVACENA}
+
 @Entity
 public class Prijava implements Serializable {
     @Id
@@ -15,7 +16,7 @@ public class Prijava implements Serializable {
     @Column
     private String razlogZaPrijavu;
     @Column
-    private Date datumPrijave;
+    private LocalDate datumPrijave;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Korisnik podneoPrijavu;
 
@@ -24,6 +25,25 @@ public class Prijava implements Serializable {
     @Column
     @Enumerated(EnumType.STRING)
     private STATUS status;
+
+    public Prijava(Long id, String razlogZaPrijavu, LocalDate datumPrijave, Korisnik podneoPrijavu, Korisnik odnosiPrijava, STATUS status) {
+        this.id = id;
+        this.razlogZaPrijavu = razlogZaPrijavu;
+        this.datumPrijave = datumPrijave;
+        this.podneoPrijavu = podneoPrijavu;
+        this.odnosiPrijava = odnosiPrijava;
+        this.status = status;
+    }
+
+    public Prijava(PrijavaDto prijavaDto) {
+        this.razlogZaPrijavu = razlogZaPrijavu;
+        this.status = status.PODNETA;
+        this.datumPrijave = LocalDate.now();
+    }
+
+    public Prijava() {
+
+    }
 
     public Long getId() {
         return id;
@@ -41,11 +61,11 @@ public class Prijava implements Serializable {
         this.razlogZaPrijavu = razlogZaPrijavu;
     }
 
-    public Date getDatumPrijave() {
+    public LocalDate getDatumPrijave() {
         return datumPrijave;
     }
 
-    public void setDatumPrijave(Date datumPrijave) {
+    public void setDatumPrijave(LocalDate datumPrijave) {
         this.datumPrijave = datumPrijave;
     }
 
