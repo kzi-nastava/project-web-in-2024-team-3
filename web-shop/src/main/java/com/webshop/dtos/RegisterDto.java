@@ -16,27 +16,28 @@ public class RegisterDto {
 
     private String lozinka;
 
-    private String potvrdeLozinke;
+    private String potvrdaLozinke;
 
-    private Uloga uloga;
+    private String  uloga;
 
 
-    public RegisterDto(String ime, String prezime, String korisnickoIme, String email, String brojTelefona, String lozinka, Uloga uloga) {
+    public RegisterDto(String ime, String prezime, String korisnickoIme, String email, String brojTelefona, String lozinka, String potvrdaLozinke, String uloga) {
         this.ime = ime;
         this.prezime = prezime;
         this.korisnickoIme = korisnickoIme;
         this.email = email;
         this.brojTelefona = brojTelefona;
         this.lozinka = lozinka;
+        this.potvrdaLozinke = potvrdaLozinke;
         this.uloga = uloga;
     }
 
-    public String getPotvrdeLozinke() {
-        return potvrdeLozinke;
+    public String getPotvrdaLozinke() {
+        return potvrdaLozinke;
     }
 
-    public void setPotvrdeLozinke(String potvrdeLozinke) {
-        this.potvrdeLozinke = potvrdeLozinke;
+    public void setPotvrdaLozinke(String potvrdeLozinke) {
+        this.potvrdaLozinke = potvrdeLozinke;
     }
 
     public String getIme() {
@@ -87,11 +88,14 @@ public class RegisterDto {
         this.lozinka = lozinka;
     }
 
-    public Uloga getUloga() {
+    public String getUloga() {
         return uloga;
     }
 
-    public void setUloga(Uloga uloga) {
+    public void setUloga(String uloga) {
+
         this.uloga = uloga;
     }
+
+
 }

@@ -32,4 +32,8 @@ public class PonudaService {
         return ponudaRepository.findTopByProizvodOrderByCenaDesc(proizvod);
     }
 
+    public Ponuda findTopByProizvod(Proizvod proizvod) {
+        return ponudaRepository.findTopByProizvod(proizvod);
+    }
+
 }

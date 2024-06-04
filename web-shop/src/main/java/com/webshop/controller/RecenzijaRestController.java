@@ -50,6 +50,7 @@ public class RecenzijaRestController {
         return new ResponseEntity<>("Ne mozete oceniti kupca ako nije kupio vas proizvod.",HttpStatus.FORBIDDEN);
     }
 
+    @PutMapping("/api/izmeni-recenziju/{id}")
     public ResponseEntity<?> izmeniRecenziju(@PathVariable(name = "id") Long id, @RequestBody RecenzijaDto komentar,HttpSession session) {
         Korisnik korisnik = (Korisnik) session.getAttribute("korisnik");
         if(korisnik == null || korisnik.getUloga() != Uloga.ADMIN) {

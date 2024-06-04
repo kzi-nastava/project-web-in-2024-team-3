@@ -48,7 +48,13 @@ public class Korisnik implements Serializable {
 
     public Korisnik() {}
 
-    public Korisnik(RegisterDto registerDto) {}
+    public Korisnik(RegisterDto registerDto) {
+        this.ime = registerDto.getIme();
+        this.prezime = registerDto.getPrezime();
+        this.korisnickoIme = registerDto.getKorisnickoIme();
+        this.email = registerDto.getEmail();
+        this.lozinka = registerDto.getLozinka();
+    }
 
     public Uloga getUloga() {
         return uloga;

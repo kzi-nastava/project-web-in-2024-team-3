@@ -1,5 +1,6 @@
 package com.webshop.service;
 
+import com.webshop.dtos.KorisnikDto;
 import com.webshop.dtos.RegisterDto;
 import com.webshop.model.Korisnik;
 import com.webshop.model.Kupac;
@@ -94,5 +95,11 @@ public class KorisnikService {
         return null;
     }
 
+    public Boolean existsEmail(String email) { return korisnikRepository.existsKorisnikByEmail(email); }
 
-}
+    public Boolean existsLozinka(String lozinka) { return korisnikRepository.existsKorisnikByLozinka(lozinka); }
+
+    public Boolean existsKorisnickoIme(String username) { return korisnikRepository.existsKorisnikByKorisnickoIme(username); }
+
+
+    }

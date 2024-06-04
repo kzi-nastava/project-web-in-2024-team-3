@@ -1,5 +1,6 @@
 package com.webshop.model;
 
+import com.webshop.dtos.KorisnikDto;
 import com.webshop.dtos.RegisterDto;
 import jakarta.persistence.*;
 
@@ -28,6 +29,8 @@ public class Kupac extends Korisnik{
 
 
     public Kupac() {}
+
+    public Kupac(KorisnikDto korisnikDto) {}
 
     public Kupac(RegisterDto registerDto) {
         super(registerDto);

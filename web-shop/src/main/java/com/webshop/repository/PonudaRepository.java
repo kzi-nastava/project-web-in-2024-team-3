@@ -17,5 +17,7 @@ public interface PonudaRepository extends JpaRepository<Ponuda, Long> {
 
     Ponuda findTopByProizvodOrderByCenaDesc(Proizvod proizvod);
 
+    Ponuda findTopByProizvod(Proizvod proizvod);
+
     List<Ponuda> findAllByProizvod(Optional<Proizvod> proizvod);
 }

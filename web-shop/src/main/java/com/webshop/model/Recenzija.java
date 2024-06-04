@@ -25,6 +25,9 @@ public class Recenzija implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Korisnik korisnik;
 
+    public Recenzija() {
+    }
+
     public Recenzija(RecenzijaDto recenzijaDto, Korisnik korisnik) {
         this.ocena = recenzijaDto.getOcena();
         this.komentar = recenzijaDto.getKomentar();

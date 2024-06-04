@@ -20,6 +20,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 
 @RestController
@@ -53,7 +54,7 @@ public class ProizvodRestController {
     private PonudaRepository ponudaRepository;
 
     @GetMapping("/api/proizvodi")
-    public ResponseEntity<List<ProizvodDto>> getProizvodi(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    public ResponseEntity<List<ProizvodDto>> getProizvodi(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "1") int size) {
 
         List<ProizvodDto> dtos = new ArrayList<>();
         Page<Proizvod> proizvodi = proizvodService.getProizvodLista(page, size);
@@ -296,10 +297,10 @@ public class ProizvodRestController {
     public ResponseEntity<?> azuriranjeProizvoda(@RequestBody @Nullable ProizvodDto proizvodDto, @PathVariable Long id, HttpSession session) {
         Korisnik ulogovan = (Korisnik) session.getAttribute("korisnik");
         if (ulogovan == null) {
-            return new ResponseEntity<>("Nema prijavljenog prodavca", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Korisnik nije prijavljen!", HttpStatus.BAD_REQUEST);
         }
         if (ulogovan.getUloga() != Uloga.PRODAVAC) {
-            return new ResponseEntity<>("Niste ulogovani kako PRODAVAC pristup odbijem", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("Niste prijavljeni kao PRODAVAC", HttpStatus.FORBIDDEN);
         }
         Optional<Proizvod> proizvod = proizvodRepository.findById(id);
         List<Ponuda> ponudeZaProizvod = ponudaRepository.findAllByProizvod(proizvod);
@@ -337,6 +338,50 @@ public class ProizvodRestController {
 
         proizvodRepository.save(proizvod.get());
         return new ResponseEntity<>("Proizvod je uspeno updatovan", HttpStatus.OK);
+    }
+
+    @GetMapping("/prodavac/krajaukcije/{id}")
+    public ResponseEntity<?> krajAukcije(@PathVariable Long id, HttpSession session) {
+        Korisnik ulogovan = (Korisnik) session.getAttribute("korisnik");
+        if(ulogovan == null) {
+            return new ResponseEntity<>("Korisnik nije prijavljen!", HttpStatus.BAD_REQUEST);
+        }
+        if(ulogovan.getUloga() != Uloga.PRODAVAC) {
+            return new ResponseEntity<>("Niste prijavljeni kao PRODAVAC", HttpStatus.FORBIDDEN);
+        }
+
+        Optional<Proizvod> proizvod = proizvodRepository.findById(id);
+        List<Ponuda> ponude = ponudaRepository.findAllByProizvod(proizvod);
+
+        if(proizvod.get().jeProdat() || ponude.isEmpty()) {
+            return new ResponseEntity<>("Aukcija nije aktivna ili nema ponuda", HttpStatus.BAD_REQUEST);
+        }
+
+        proizvod.get().setProdat(true);
+        proizvodRepository.save(proizvod.get());
+
+        Ponuda ponuda = ponudaRepository.findTopByProizvod(proizvod.get());
+
+
+        Kupac kupac = ponuda.getKupac();
+        Set<Proizvod> kupljeniProizvodi = kupac.getKupljeniProizvodi();
+
+        Prodavac prodavac = (Prodavac) ulogovan;
+        Set<Proizvod> proizvodiNaProdaju = prodavac.getProizvodiNaProdaju();
+
+        if(proizvodiNaProdaju.contains(proizvod)) {
+            kupljeniProizvodi.add(proizvod.get());
+            proizvodiNaProdaju.remove(proizvod);
+        }
+
+        /*/String prodavacEmail=prodavac.getEmailAdresa();
+        emailService.sendEmail(prodavacEmail,"Zavrsena aukcija","Proizvod je prodat "+kupac.getIme()+" po ceni od "+ponuda.getCena());
+        String kupacEmail;
+        for(Ponuda p:ponudas){
+            kupacEmail=p.getKupac().getEmailAdresa();
+            emailService.sendEmail(kupacEmail,"Zavrsena aukcija");
+        }/*/
+        return ResponseEntity.ok("Aukcija je zavrsena!");
     }
 
 }

@@ -1,7 +1,7 @@
 
-INSERT INTO KORISNIK (id, ime, prezime, user_role, email, korisnicko_Ime, lozinka, broj_Telefona, datum_Rodjenja, profilna_Slika, blokiran, opis,  prosecna_Ocena) VALUES (1, 'Luka', 'Kolak', 'KUPAC', 'lukak@gmail.com', 'luka', 'luka123', '064789123', '2004-03-01', 'slika1', FALSE, 'opis1', 8.5);
-INSERT INTO KORISNIK (id, ime, prezime, user_role, email, korisnicko_Ime, lozinka, broj_Telefona, datum_Rodjenja, profilna_Slika, blokiran, opis,  prosecna_Ocena) VALUES (2, 'Vuk', 'Ilic', 'PRODAVAC', 'ilic@gmail.com', 'vuk', 'vuk456', '063128389', '2003-05-07', 'slika2', FALSE, 'opis2',  9);
-INSERT INTO KORISNIK (id, ime, prezime, user_role, email, korisnicko_Ime, lozinka, broj_Telefona, datum_Rodjenja, profilna_Slika, blokiran, opis,  prosecna_Ocena) VALUES (3, 'Matija', 'Bozanic', 'ADMINISTRATOR', 'matijab@gmail.com', 'matija', 'matija789', '06912386', '2003-02-03', 'slika3', FALSE, 'opis3',9);
+INSERT INTO KORISNIK ( ime, prezime, user_role, email, korisnicko_Ime, lozinka, broj_Telefona, datum_Rodjenja, profilna_Slika, blokiran, opis,  prosecna_Ocena) VALUES ( 'Luka', 'Kolak', 'KUPAC', 'lukak@gmail.com', 'luka', 'luka123', '064789123', current_date , 'slika1', FALSE, 'opis1', 8.5);
+INSERT INTO KORISNIK ( ime, prezime, user_role, email, korisnicko_Ime, lozinka, broj_Telefona, datum_Rodjenja, profilna_Slika, blokiran, opis,  prosecna_Ocena) VALUES ( 'Vuk', 'Ilic', 'PRODAVAC', 'ilic@gmail.com', 'vuk', 'vuk456', '063128389', current_date, 'slika2', FALSE, 'opis2',  9);
+INSERT INTO KORISNIK ( ime, prezime, user_role, email, korisnicko_Ime, lozinka, broj_Telefona, datum_Rodjenja, profilna_Slika, blokiran, opis,  prosecna_Ocena, uloga) VALUES ( 'Matija', 'Bozanic', 'ADMINISTRATOR', 'matijab@gmail.com', 'matija', 'matija789', '06912386', current_date, 'slika3', FALSE, 'opis3',9, 2);
 
 INSERT INTO KATEGORIJA (naziv) VALUES ('namestaj');
 INSERT INTO KATEGORIJA (naziv) VALUES ('elektrotehnika');

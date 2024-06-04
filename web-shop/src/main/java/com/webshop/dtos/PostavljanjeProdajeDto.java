@@ -76,4 +76,14 @@ public class PostavljanjeProdajeDto implements Serializable {
     public void setSlika(String slika) {
         this.slika = slika;
     }
+
+    public PostavljanjeProdajeDto(Long id, String naziv, String opis, double cena, Kategorija kategorija, TIP tipProdaje, String slika) {
+        this.id = id;
+        this.naziv = naziv;
+        this.opis = opis;
+        this.cena = cena;
+        this.kategorija = kategorija;
+        this.tipProdaje = tipProdaje;
+        this.slika = slika;
+    }
 }

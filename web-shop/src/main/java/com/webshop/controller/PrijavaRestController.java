@@ -37,7 +37,7 @@ public class PrijavaRestController {
     public ResponseEntity<?> odbijPrijavu(@PathVariable Long id, HttpSession session) {
         Korisnik korisnik = (Korisnik) session.getAttribute("korisnik");
         if(korisnik == null){
-            return new ResponseEntity<>("Nema prijavljenog korisnikai!", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("Nema prijavljenog korisnika!", HttpStatus.FORBIDDEN);
         }
         if(korisnik.getUloga() != ADMIN) {
             return new ResponseEntity<>("Nemate ovlascenje!", HttpStatus.FORBIDDEN);

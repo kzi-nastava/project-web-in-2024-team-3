@@ -20,4 +20,6 @@ public class PrijavaDto implements Serializable {
     public void setRazlogZaPrijavu(String razlogZaPrijavu) {
         this.razlogZaPrijavu = razlogZaPrijavu;
     }
+
+
 }

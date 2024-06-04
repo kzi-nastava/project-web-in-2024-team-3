@@ -22,51 +22,34 @@ public class KorisnikRestController {
     @Autowired
     private ProdavacService prodavacService;
 
-    @PostMapping("/api/registracija")
-    public ResponseEntity<String> registracija(@RequestBody RegisterDto registerDto) {
+    @PostMapping("api/register")
+    public ResponseEntity<?> register(@RequestBody RegisterDto dto) {
 
-        if (registerDto.getIme().isEmpty() || registerDto.getKorisnickoIme().isEmpty() || registerDto.getBrojTelefona().isEmpty()
-                || registerDto.getEmail().isEmpty() || registerDto.getPrezime().isEmpty() || registerDto.getLozinka().isEmpty() || registerDto.getUloga() != Uloga.KUPAC || registerDto.getUloga() != Uloga.PRODAVAC) {
-
-            return new ResponseEntity<>("Neispravno uneti podaci.", HttpStatus.BAD_REQUEST);
+        if (korisnikService.existsEmail(dto.getEmail()) || korisnikService.existsKorisnickoIme(dto.getKorisnickoIme())) {
+            return new ResponseEntity<>("Korisnik vec postoji!", HttpStatus.CONFLICT);
+        }
+        if (!(dto.getUloga().equalsIgnoreCase("kupac") || dto.getUloga().equalsIgnoreCase("prodavac"))) {
+                return new ResponseEntity<>("Uloga nije u opticaju", HttpStatus.BAD_REQUEST);
         }
 
-        if (registerDto.getEmail().equals(korisnikService.pronadjiMejl(registerDto.getEmail()))) {
-            return new ResponseEntity<>("Email vec postoji", HttpStatus.BAD_REQUEST);
+        if (!dto.getLozinka().equals(dto.getPotvrdaLozinke())) {
+                return new ResponseEntity<>("Nepodudaranje sifre", HttpStatus.BAD_REQUEST);
+
+        }
+        if (dto.getUloga().equalsIgnoreCase("kupac")) {
+                korisnikService.createKupac(dto);
         }
 
-        if (registerDto.getKorisnickoIme().equals(korisnikService.pronadjiKorisnickoIme(registerDto.getKorisnickoIme()))) {
-            return new ResponseEntity<>("Korisnicko ime vec postoji", HttpStatus.BAD_REQUEST);
-        }
-
-        if (registerDto.getLozinka() != registerDto.getPotvrdeLozinke()) {
-            return new ResponseEntity<>("Nepodudaranje sifre", HttpStatus.BAD_REQUEST);
-        }
-
-        if (registerDto.getUloga().equals(Uloga.KUPAC)) {
-            korisnikService.createKupac(registerDto);
-        } else if (registerDto.getUloga().equals(Uloga.PRODAVAC)) {
-            korisnikService.createProdavac(registerDto);
+        if (dto.getUloga().equalsIgnoreCase("prodavac")) {
+                korisnikService.createProdavac(dto);
         }
 
 
-        if (registerDto.getUloga() == Uloga.KUPAC) {
-            korisnikService.createKupac(registerDto);
-        } else if (registerDto.getUloga() == Uloga.PRODAVAC) {
-            korisnikService.createProdavac(registerDto);
+            return new ResponseEntity<>("Uspesna registracija!", HttpStatus.OK);
         }
-
-        if (!registerDto.getUloga().equals(Uloga.KUPAC) || !registerDto.getUloga().equals(Uloga.PRODAVAC)) {
-            return new ResponseEntity<>("Uloga nije u opticaju", HttpStatus.BAD_REQUEST);
-
-        }
-
-        return new ResponseEntity<>("Uspesna registracija", HttpStatus.OK);
-    }
-
 
     @PostMapping("api/login")
-    public ResponseEntity<String> login (@RequestBody LoginDto loginDto,HttpSession session) {
+    public ResponseEntity<?> login (@RequestBody LoginDto loginDto,HttpSession session) {
         if(loginDto.getKorisnickoIme().isEmpty() || loginDto.getLozinka().isEmpty()) {
             return new ResponseEntity<>("Pogresno uneti podaci.",HttpStatus.BAD_REQUEST);
         }
@@ -76,8 +59,8 @@ public class KorisnikRestController {
             return new ResponseEntity<>("Ne postoji korisnik!",HttpStatus.NOT_FOUND);
         }
 
-        session.setAttribute("korisnickoIme", ulogovan.getKorisnickoIme());
-        session.setAttribute("lozinka",ulogovan.getLozinka());
+        session.setAttribute("korisnik", ulogovan);
+
         return ResponseEntity.ok("Uspesno ulogovan!");
     }
 

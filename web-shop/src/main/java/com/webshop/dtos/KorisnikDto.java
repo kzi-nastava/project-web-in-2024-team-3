@@ -6,8 +6,6 @@ import java.util.Date;
 
 public class KorisnikDto {
 
-    private Long id;
-
     private String ime;
 
     private String prezime;
@@ -20,34 +18,16 @@ public class KorisnikDto {
 
     private String lozinka;
 
-    private Date datumRodjenja;
+    private String potvrdaLozinke;
 
-    private String profilnaSlika;
+    private String uloga;
 
-    private String opis;
-
-    private boolean blokiran;
-
-    public KorisnikDto(Long id, String ime, String prezime, String korisnickoIme, String email, String brojTelefona, String lozinka, Date datumRodjenja, String profilnaSlika, String opis, boolean blokiran) {
-        this.id = id;
-        this.ime = ime;
-        this.prezime = prezime;
-        this.korisnickoIme = korisnickoIme;
-        this.email = email;
-        this.brojTelefona = brojTelefona;
-        this.lozinka = lozinka;
-        this.datumRodjenja = datumRodjenja;
-        this.profilnaSlika = profilnaSlika;
-        this.opis = opis;
-        this.blokiran = blokiran;
+    public String getUloga() {
+        return uloga;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public void setUloga(String uloga) {
+        this.uloga = uloga;
     }
 
     public String getIme() {
@@ -98,35 +78,23 @@ public class KorisnikDto {
         this.lozinka = lozinka;
     }
 
-    public Date getDatumRodjenja() {
-        return datumRodjenja;
+    public String getPotvrdaLozinke() {
+        return potvrdaLozinke;
     }
 
-    public void setDatumRodjenja(Date datumRodjenja) {
-        this.datumRodjenja = datumRodjenja;
+    public void setPotvrdaLozinke(String potvrdaLozinke) {
+        this.potvrdaLozinke = potvrdaLozinke;
     }
 
-    public String getProfilnaSlika() {
-        return profilnaSlika;
-    }
-
-    public void setProfilnaSlika(String profilnaSlika) {
-        this.profilnaSlika = profilnaSlika;
-    }
-
-    public String getOpis() {
-        return opis;
-    }
-
-    public void setOpis(String opis) {
-        this.opis = opis;
-    }
-
-    public boolean isBlokiran() {
-        return blokiran;
-    }
-
-    public void setBlokiran(boolean blokiran) {
-        this.blokiran = blokiran;
+    public KorisnikDto(String ime, String prezime, String korisnickoIme, String email, String brojTelefona, String lozinka, String potvrdaLozinke, String uloga) {
+        this.ime = ime;
+        this.prezime = prezime;
+        this.korisnickoIme = korisnickoIme;
+        this.email = email;
+        this.brojTelefona = brojTelefona;
+        this.lozinka = lozinka;
+        this.potvrdaLozinke = potvrdaLozinke;
+        this.uloga = uloga;
     }
 }
+
