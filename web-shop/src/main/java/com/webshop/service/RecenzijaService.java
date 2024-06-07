@@ -2,10 +2,8 @@ package com.webshop.service;
 
 import com.webshop.dtos.RecenzijaProdavcaDto;
 import com.webshop.model.*;
-import com.webshop.repository.KorisnikRepository;
-import com.webshop.repository.ProdavacRepository;
-import com.webshop.repository.ProizvodRepository;
-import com.webshop.repository.RecenzijaRepository;
+import com.webshop.repository.*;
+import org.antlr.v4.runtime.misc.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +24,7 @@ public class RecenzijaService {
     @Autowired
     private ProdavacRepository prodavacRepository;
 
+
     public Recenzija dodajRecenziju(Recenzija recenzija,Long prodavacId, Long kupacId) {
         Proizvod proizvod = proizvodService.pronadjiPoId(prodavacId);
         Prodavac prodavac = proizvod.getProdavac();
@@ -43,8 +42,28 @@ public class RecenzijaService {
         for (Proizvod p : kupljeniProizvodi) {
             if (kupljeniProizvodi.contains(proizvod)) {
                 recenzija.setDatum(LocalDate.now());
-                Set<Recenzija> dobijenaRecenzija = prodavac.getProdavacRecenzije();
-                dobijenaRecenzija.add(recenzija);
+                prodavac.getProdavacRecenzije().add(recenzija);
+                prodavacRepository.save(prodavac);
+                recenzija.setKorisnik(korisnikRepository.findById(kupacId).get());
+                return recenzijaRepository.save(recenzija);
+            }
+        }
+        return null;
+    }
+    public Recenzija dodajRecenzijuKupac(Recenzija recenzija,Long prodavacId, Long kupacId) {
+        Proizvod proizvod = proizvodService.pronadjiPoId(prodavacId);
+        Prodavac prodavac = proizvod.getProdavac();
+        Kupac kupac = (Kupac) korisnikRepository.findById(kupacId).get();
+        Set<Proizvod> kupljeniProizvodi = new HashSet<>();
+
+        kupljeniProizvodi = kupac.getKupljeniProizvodi();
+
+        for (Proizvod p : kupljeniProizvodi) {
+            if (kupljeniProizvodi.contains(proizvod)) {
+                recenzija.setDatum(LocalDate.now());
+                kupac.getKupacRecenzije().add(recenzija);
+                korisnikRepository.save(kupac);
+                recenzija.setKorisnik(korisnikRepository.findById(prodavacId).get());
                 return recenzijaRepository.save(recenzija);
             }
         }
@@ -92,8 +111,9 @@ public class RecenzijaService {
         return recenzijaProdavcaDtos;
     }
 
-    public boolean razmena(Korisnik korisnik,Long prodavacId) {
-        Kupac kupac = (Kupac) korisnikRepository.findById(korisnik.getId()).get();
+    public boolean razmena(Long kupacId,Long prodavacId) {
+
+        Kupac kupac = (Kupac) korisnikRepository.findById(kupacId).get();
         Prodavac prodavac = (Prodavac) korisnikRepository.findById(prodavacId).get();
 
         Set<Proizvod> kupljeniProizvodi = kupac.getKupljeniProizvodi();
@@ -101,15 +121,18 @@ public class RecenzijaService {
 
         boolean kupio = false;
         for (Proizvod kupljeni : kupljeniProizvodi) {
-            for (Proizvod naProdaju : proizvodiNaProdaju) {
-                if (kupljeni.equals(naProdaju)) {
+
+                if (kupljeni.getProdavac().getId().equals(prodavac.getId())) {
                     kupio = true;
                     break;
                 }
-            }
         }
 
         return kupio;
+    }
+
+    public List<Recenzija> getRecenzijaList() {
+        return recenzijaRepository.findAll();
     }
 
 }

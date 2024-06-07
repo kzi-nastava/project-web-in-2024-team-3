@@ -149,7 +149,7 @@ public class ProizvodRestController {
         Proizvod proizvod = proizvodOptional.get();
 
         if (proizvod.jeProdat()) {
-            return new ResponseEntity<>("Proizvod je prodat!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Proizvod je vec prodat!", HttpStatus.BAD_REQUEST);
         }
 
         Kupac ulogovanKupac = ulogovanKupacOptional.get();
@@ -176,8 +176,8 @@ public class ProizvodRestController {
         String prodavacEmail = prodavac.getEmail();
         String imeProizvoda = proizvod.getNaziv();
 
-        //emailService.sendEmail(kupacEmail,"Potvrda kupovine","Uspesno ste kupili proizvod" + imeProizvoda);
-        //emailService.sendEmail(prodavacEmail,"Prodaja proizvoda", "Prodali ste proizvod" + imeProizvoda);
+//        emailService.sendEmail(kupacEmail,"Potvrda kupovine","Uspesno ste kupili proizvod" + imeProizvoda);
+//        emailService.sendEmail(prodavacEmail,"Prodaja proizvoda", "Prodali ste proizvod" + imeProizvoda);
 
         return new ResponseEntity<>("Proizvod je prodat!", HttpStatus.OK);
 
@@ -236,7 +236,7 @@ public class ProizvodRestController {
         String kupacEmail = ulogovanKupac.getEmail();
         String prodavacEmail = proizvod.getProdavac().getEmail();
 
-        //emailService.sendEmail(prodavacEmail,"Nova ponuda za proizvod","Imate novu ponudu za proizvod" + proizvod.getNaziv() + " od strane " + kupacEmail + ".");
+//        emailService.sendEmail(prodavacEmail,"Nova ponuda za proizvod","Imate novu ponudu za proizvod" + proizvod.getNaziv() + " od strane " + kupacEmail + ".");
 
         return new ResponseEntity<>("Ponuda je sacuvana!", HttpStatus.OK);
     }
@@ -374,13 +374,13 @@ public class ProizvodRestController {
             proizvodiNaProdaju.remove(proizvod);
         }
 
-        /*/String prodavacEmail=prodavac.getEmailAdresa();
-        emailService.sendEmail(prodavacEmail,"Zavrsena aukcija","Proizvod je prodat "+kupac.getIme()+" po ceni od "+ponuda.getCena());
+        String prodavacEmail=prodavac.getEmail();
+//        emailService.sendEmail(prodavacEmail,"Zavrsena aukcija","Proizvod je prodat "+kupac.getIme()+" po ceni od "+ponuda.getCena());
         String kupacEmail;
-        for(Ponuda p:ponudas){
-            kupacEmail=p.getKupac().getEmailAdresa();
-            emailService.sendEmail(kupacEmail,"Zavrsena aukcija");
-        }/*/
+        for(Ponuda p:ponude){
+            kupacEmail=p.getKupac().getEmail();
+//            emailService.sendEmail( kupacEmail,"Zavrsena aukcija","Kupljen proizvod");
+        }
         return ResponseEntity.ok("Aukcija je zavrsena!");
     }
 

@@ -9,6 +9,9 @@ public class PrijavaDto implements Serializable {
 
     private String razlogZaPrijavu;
 
+    public PrijavaDto() {
+    }
+
     public PrijavaDto(String razlogZaPrijavu) {
         this.razlogZaPrijavu = razlogZaPrijavu;
     }

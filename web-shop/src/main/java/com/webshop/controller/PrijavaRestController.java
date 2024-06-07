@@ -1,10 +1,7 @@
 package com.webshop.controller;
 
 import com.webshop.dtos.PrijavaDto;
-import com.webshop.model.Korisnik;
-import com.webshop.model.Prijava;
-import com.webshop.model.STATUS;
-import com.webshop.model.Uloga;
+import com.webshop.model.*;
 import com.webshop.service.KorisnikService;
 import com.webshop.service.PrijavaService;
 import com.webshop.service.ProizvodService;
@@ -12,10 +9,9 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static com.webshop.model.STATUS.*;
 import static com.webshop.model.Uloga.*;
@@ -98,7 +94,7 @@ public class PrijavaRestController {
             return new ResponseEntity<>("Niste kupac!", HttpStatus.FORBIDDEN);
         }
 
-        Prijava prijavaProfila = prijavaService.prijaviProdavca(id, razlogPrijave, loggedKorisnik);
+        Prijava prijavaProfila = prijavaService.prijavi(id, razlogPrijave, loggedKorisnik.getId());
         if (prijavaProfila == null) {
             return new ResponseEntity<>("Neuspesna prijava!", HttpStatus.NOT_FOUND);
         }
@@ -115,12 +111,22 @@ public class PrijavaRestController {
             return new ResponseEntity<>("Niste prodavac!", HttpStatus.FORBIDDEN);
         }
 
-        Prijava prijavaProfila = prijavaService.prijaviProdavca(id, razlogPrijave, loggedKorisnik);
+        Prijava prijavaProfila = prijavaService.prijavi(loggedKorisnik.getId(), razlogPrijave, id);
         if (prijavaProfila == null) {
             return new ResponseEntity<>("Neuspesna prijava!", HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(prijavaProfila, HttpStatus.OK);
     }
 
+    @GetMapping("/prijave")
+    public ResponseEntity<List<Prijava>> getPrijave() {
+        List<Prijava> prijavaList = prijavaService.getPrijavaList();
 
-}
+        if (prijavaList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(prijavaService.getPrijavaList(), HttpStatus.OK);
+
+    }
+
+    }

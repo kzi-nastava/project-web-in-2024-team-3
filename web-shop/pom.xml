@@ -44,10 +44,11 @@
             <scope>compile</scope>
         </dependency>
 
-		<!-- <dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
-		</dependency> Ne prepoznaje spring-boot-starter-mail -->
+
+		</dependency>
 	</dependencies>
 
 	<build>

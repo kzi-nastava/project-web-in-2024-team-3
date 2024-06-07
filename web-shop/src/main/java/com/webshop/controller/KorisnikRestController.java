@@ -142,15 +142,16 @@ public class KorisnikRestController {
         if(korisnik.getUloga().equals(Uloga.ADMIN)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        return ResponseEntity.ok(korisnik);
 
-        if(korisnik.getUloga().equals(Uloga.KUPAC)) {
-            Kupac kupac = kupacService.findOne(id);
-            return ResponseEntity.ok(kupac);
-        }
-        else {
-            Prodavac prodavac = prodavacService.findOne(id);
-            return ResponseEntity.ok(prodavac);
-        }
+//        if(korisnik.getUloga().equals(Uloga.KUPAC)) {
+//            Kupac kupac = kupacService.findOne(id);
+//            return ResponseEntity.ok(kupac);
+//        }
+//        else {
+//            Prodavac prodavac = prodavacService.findOne(id);
+//            return ResponseEntity.ok(prodavac);
+//        }
 
     }
 

@@ -59,4 +59,11 @@ public class Kupac extends Korisnik{
         this.kupljeniProizvodi.add(proizvod);
     }
 
+    public Set<Recenzija> getKupacRecenzije() {
+        return kupacRecenzije;
+    }
+
+    public void setKupacRecenzije(Set<Recenzija> kupacRecenzije) {
+        this.kupacRecenzije = kupacRecenzije;
+    }
 }

@@ -7,8 +7,8 @@ import com.webshop.repository.PrijavaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class PrijavaService {
@@ -18,6 +18,9 @@ public class PrijavaService {
 
     @Autowired
     private KorisnikRepository korisnikRepository;
+
+    @Autowired
+    private RecenzijaService recenzijaService;
 
     public Prijava getPrijavaById(Long id) {
         Optional<Prijava> prijavaProfila = prijavaRepository.findById(id);
@@ -32,24 +35,11 @@ public class PrijavaService {
         prijavaRepository.save(prijavaProfila);
     }
 
-    public Prijava prijaviProdavca(Long prodavacId, PrijavaDto razlog, Korisnik korisnik) {
-        Kupac kupac = (Kupac) korisnikRepository.findById(korisnik.getId()).get();
+    public Prijava prijavi(Long prodavacId, PrijavaDto razlog, Long kupacId) {
+        Kupac kupac = (Kupac) korisnikRepository.findById(kupacId).get();
         Prodavac prodavac = (Prodavac) korisnikRepository.findById(prodavacId).get();
 
-        Set<Proizvod> kupljeniProizvodi = kupac.getKupljeniProizvodi();
-        Set<Proizvod> proizvodiNaProdaju = prodavac.getProizvodiNaProdaju();
-
-        boolean kupio = false;
-        for (Proizvod kupljeni : kupljeniProizvodi) {
-            for (Proizvod naProdaju : proizvodiNaProdaju) {
-                if (kupljeni.equals(naProdaju)) {
-                    kupio = true;
-                    break;
-                }
-            }
-        }
-
-        if (kupio) {
+        if (recenzijaService.razmena(kupacId, prodavacId)) {
             Prijava prijavaProfila = new Prijava(razlog);
             prijavaProfila.setOdnosiPrijava(prodavac);
             prijavaProfila.setPodneoPrijavu(kupac);
@@ -58,33 +48,7 @@ public class PrijavaService {
         return null;
     }
 
-    public Prijava prijaviKupca(Long kupacId, PrijavaDto razlog, Korisnik korisnik) {
-        Kupac kupac = (Kupac) korisnikRepository.findById(kupacId).get();
-        Prodavac prodavac = (Prodavac) korisnikRepository.findById(korisnik.getId()).get();
-
-        Set<Proizvod> kupljeniProizvodi = kupac.getKupljeniProizvodi();
-        Set<Proizvod> proizvodiNaProdaju = prodavac.getProizvodiNaProdaju();
-
-        boolean kupio = false;
-        for (Proizvod kupljeni : kupljeniProizvodi) {
-            for (Proizvod naProdaju : proizvodiNaProdaju) {
-                if (kupljeni.equals(naProdaju)) {
-                    kupio = true;
-                    break;
-                }
-            }
-        }
-
-        if (kupio) {
-            Prijava prijavaProfila = new Prijava(razlog);
-            prijavaProfila.setOdnosiPrijava(kupac);
-            prijavaProfila.setPodneoPrijavu(prodavac);
-            return prijavaRepository.save(prijavaProfila);
-        }
-        return null;
-
-
-
-
+    public List<Prijava> getPrijavaList() {
+        return prijavaRepository.findAll();
     }
 }
