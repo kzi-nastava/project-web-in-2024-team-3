@@ -39,6 +39,7 @@ public class Kupac extends Korisnik{
 
     }
 
+
     public Set<Proizvod> getKupljeniProizvodi() {
         return kupljeniProizvodi;
     }

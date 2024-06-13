@@ -3,6 +3,7 @@ package com.webshop.controller;
 import com.webshop.dtos.RecenzijaDto;
 import com.webshop.dtos.RecenzijaProdavcaDto;
 import com.webshop.model.Korisnik;
+import com.webshop.model.Kupac;
 import com.webshop.model.Recenzija;
 import com.webshop.model.Uloga;
 import com.webshop.service.RecenzijaService;
@@ -113,7 +114,23 @@ public class RecenzijaRestController {
         return new ResponseEntity<>(recenzijaService.getRecenzijaList(), HttpStatus.OK);
 
     }
+
+    public ResponseEntity<?> getSvojeRecenzije(HttpSession session) {
+        Korisnik loggedkorisnik = (Korisnik) session.getAttribute("korisnik");
+
+        if(loggedkorisnik == null) {
+            return new ResponseEntity<>("Korisnik nije ulogovan",HttpStatus.FORBIDDEN);
+        }
+
+        List<Recenzija> recenzijaList = recenzijaService.getSvojeRecenzije(loggedkorisnik.getId());
+
+        if(recenzijaList.isEmpty()) {
+            return new ResponseEntity<>("Recenizja ne postoji!",HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(recenzijaList,HttpStatus.OK);
     }
+}
 
 
 

@@ -135,4 +135,6 @@ public class RecenzijaService {
         return recenzijaRepository.findAll();
     }
 
+    public List<Recenzija> getSvojeRecenzije(Long id) {return recenzijaRepository.findAllByKorisnik_Id(id);}
+
 }
