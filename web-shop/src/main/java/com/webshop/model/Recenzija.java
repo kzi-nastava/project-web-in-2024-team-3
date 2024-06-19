@@ -28,11 +28,11 @@ public class Recenzija implements Serializable {
     public Recenzija() {
     }
 
-    public Recenzija(RecenzijaDto recenzijaDto, Korisnik korisnik) {
+    public Recenzija(RecenzijaDto recenzijaDto,String korisnikIme) {
         this.ocena = recenzijaDto.getOcena();
         this.komentar = recenzijaDto.getKomentar();
         this.datum = recenzijaDto.getDatumRecenzije();
-        this.korisnik = korisnik;
+
     }
 
     public Long getId() {

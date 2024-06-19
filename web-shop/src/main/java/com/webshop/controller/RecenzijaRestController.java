@@ -29,7 +29,7 @@ public class RecenzijaRestController {
         }
         boolean kupio = recenzijaService.razmena(loggedkorisnik.getId(),prodavacId);
         if(kupio) {
-            Recenzija recenzija = new Recenzija(recenzijaDto, loggedkorisnik);
+            Recenzija recenzija = new Recenzija(recenzijaDto, loggedkorisnik.getIme());
             return new ResponseEntity<>(recenzijaService.dodajRecenziju(recenzija, prodavacId, loggedkorisnik.getId()), HttpStatus.OK);
         }
 
@@ -44,7 +44,7 @@ public class RecenzijaRestController {
         }
         boolean kupio = recenzijaService.razmena(kupacId,loggedkorisnik.getId());
         if(kupio) {
-            Recenzija recenzija = new Recenzija(recenzijaDto, loggedkorisnik);
+            Recenzija recenzija = new Recenzija(recenzijaDto, loggedkorisnik.getIme());
             return new ResponseEntity<>(recenzijaService.dodajRecenzijuKupac(recenzija, loggedkorisnik.getId(), kupacId), HttpStatus.OK);
         }
 
@@ -115,6 +115,7 @@ public class RecenzijaRestController {
 
     }
 
+    @GetMapping("/svoje_recenzije")
     public ResponseEntity<?> getSvojeRecenzije(HttpSession session) {
         Korisnik loggedkorisnik = (Korisnik) session.getAttribute("korisnik");
 

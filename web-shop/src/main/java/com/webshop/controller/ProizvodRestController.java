@@ -54,7 +54,7 @@ public class ProizvodRestController {
     private PonudaRepository ponudaRepository;
 
     @GetMapping("/api/proizvodi")
-    public ResponseEntity<List<ProizvodDto>> getProizvodi(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "1") int size) {
+    public ResponseEntity<List<ProizvodDto>> getProizvodi(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
 
         List<ProizvodDto> dtos = new ArrayList<>();
         Page<Proizvod> proizvodi = proizvodService.getProizvodLista(page, size);

@@ -17,12 +17,12 @@ public class RecenzijaDto {
 
     private Korisnik korisnik;
 
-    public RecenzijaDto(Long id, int ocena, String komentar, LocalDate datumRecenzije, Korisnik korisnik) {
+    public RecenzijaDto(Long id, int ocena, String komentar, LocalDate datumRecenzije) {
         this.id = id;
         this.ocena = ocena;
         this.komentar = komentar;
         this.datumRecenzije = datumRecenzije;
-        this.korisnik = korisnik;
+
     }
 
     public Long getId() {
