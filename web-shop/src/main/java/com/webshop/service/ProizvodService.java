@@ -59,8 +59,8 @@ public class ProizvodService {
     }
 
 
-    public List<Proizvod> filtrirajProizvod(Double min, Double max, TIP tip, String kateogrija) {
-        Optional<List<Proizvod>> proizvodi = proizvodRepository.findAllByFilter(min, max, tip, kateogrija);
+    public List<Proizvod> filtrirajProizvod(Double min, Double max, TIP tip, String kategorija) {
+        Optional<List<Proizvod>> proizvodi = proizvodRepository.findAllByFilter(min, max, tip, kategorija);
 
         return proizvodi.orElse(null);
     }

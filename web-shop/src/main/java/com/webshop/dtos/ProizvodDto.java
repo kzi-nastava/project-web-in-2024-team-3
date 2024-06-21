@@ -51,13 +51,20 @@ public class ProizvodDto {
         this.cena = cena;
     }
 
-    public ProizvodDto(Proizvod proizvod) {
+    public ProizvodDto(double cena, Kategorija kategorija, TIP tipProdaje) {
+        this.cena = cena;
+        this.kategorija = kategorija;
+        this.tipProdaje = tipProdaje;
+    }
+
+    public ProizvodDto(Proizvod proizvod){
         this.id = proizvod.getId();
         this.naziv = proizvod.getNaziv();
         this.opis = proizvod.getOpis();
         this.cena = proizvod.getCena();
-
-
+        this.slika = proizvod.getSlika();
+        this.tipProdaje = proizvod.getTipProdaje();
+        this.kategorija = proizvod.getKategorija();
     }
 
     public Long getId() {

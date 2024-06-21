@@ -25,6 +25,7 @@ public interface ProizvodRepository extends JpaRepository<Proizvod, Long> {
     @Query("SELECT p FROM Proizvod p WHERE (:cenaOd IS NULL OR p.cena >= :cenaOd) AND (:cenaDo IS NULL OR p.cena <= :cenaDo) AND (:tipProdaje IS NULL OR p.tipProdaje = :tipProdaje) AND (:kategorija IS NULL OR p.kategorija.naziv = :kategorija)")
     Optional<List<Proizvod>> findAllByFilter(@Param("cenaOd") Double cenaOd, @Param("cenaDo") Double cenaDo, @Param("tipProdaje") TIP tipProdaje, @Param("kategorija") String kategorija);
 
+
     Proizvod findById(long id);
 
     List<Proizvod> findByKategorijaId(Long id);

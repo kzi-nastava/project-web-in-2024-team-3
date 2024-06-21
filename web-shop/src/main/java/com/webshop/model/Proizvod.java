@@ -2,15 +2,16 @@ package com.webshop.model;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
 
 @Entity
-public class Proizvod {
+public class Proizvod implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long Id;
+    private Long Id;
 
     @Column
     private String naziv;
@@ -169,5 +170,24 @@ public class Proizvod {
 
     public void dodajPonudu(Ponuda ponuda) {
         this.ponudeZaProizvod.add(ponuda);
+    }
+
+    public Proizvod(Long id, String naziv, String opis, String slika, Kategorija kategorija, double cena, TIP tipProdaje, LocalDate datumObjavljivanja, Set<Ponuda> ponudeZaProizvod, Prodavac prodavac, boolean recenzijaOdKupca, boolean recenzijaOdProdavca, boolean prodat) {
+        Id = id;
+        this.naziv = naziv;
+        this.opis = opis;
+        this.slika = slika;
+        this.kategorija = kategorija;
+        this.cena = cena;
+        this.tipProdaje = tipProdaje;
+        this.datumObjavljivanja = datumObjavljivanja;
+        this.ponudeZaProizvod = ponudeZaProizvod;
+        this.prodavac = prodavac;
+        this.recenzijaOdKupca = recenzijaOdKupca;
+        this.recenzijaOdProdavca = recenzijaOdProdavca;
+        this.prodat = prodat;
+    }
+
+    public Proizvod() {
     }
 }

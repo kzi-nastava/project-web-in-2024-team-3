@@ -127,10 +127,10 @@ export default {
     filtrirajProizvode() {
       let params = {};
       if (this.cenaOd !== null) {
-        params.cenaMin = this.cenaOd;
+        params.cenaOd = this.cenaOd;
       }
       if (this.cenaDo !== null) {
-        params.cenaMax = this.cenaDo;
+        params.cenaDo = this.cenaDo;
       }
       if (this.tipProdaje !== "") {
         params.tip = this.tipProdaje; // Ovde šaljemo vrednost iz selecta
@@ -142,7 +142,7 @@ export default {
       console.log("Parametri za filtriranje:", params);
 
       axios
-        .get(`http://localhost:8081/proizvodi/filtrirajProizvode`, {
+        .get(`http://localhost:8081/api/proizvodi/filtrirajProizvode`, {
           params: params,
           withCredentials: true,
         })

@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 
@@ -61,7 +63,11 @@ public class KorisnikRestController {
 
         session.setAttribute("korisnik", ulogovan);
 
-        return ResponseEntity.ok("Uspesno ulogovan!");
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Uspesno ulogovan!");
+        response.put("korisnik", ulogovan);
+
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("api/logout")

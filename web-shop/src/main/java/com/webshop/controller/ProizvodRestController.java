@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +53,7 @@ public class ProizvodRestController {
     private KategorijaRepository kategorijaRepository;
     @Autowired
     private PonudaRepository ponudaRepository;
+
 
     @GetMapping("/api/proizvodi")
     public ResponseEntity<List<ProizvodDto>> getProizvodi(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
@@ -98,18 +100,33 @@ public class ProizvodRestController {
     }
 
     @GetMapping(value = "/api/proizvodi/filtrirajProizvode")
-    public ResponseEntity<List<ProizvodDto>> getProizvodiByFilter(@RequestParam(required = false) Double min, @RequestParam(required = false) Double max, @RequestParam(required = false) TIP tip, @RequestParam(required = false) String kategorija) {
-        List<Proizvod> proizvodi = proizvodService.filtrirajProizvod(min, max, tip, kategorija);
-        List<ProizvodDto> dtos = new ArrayList<>();
+    public ResponseEntity<List<ProizvodDto>> getProizvodiByFilter(@RequestParam(required = false) Double min, @RequestParam(required = false) Double max, @RequestParam(required = false) TIP tipProdaje, @RequestParam(required = false) String kategorija) {
+
+        List<Proizvod> proizvodi = proizvodService.filtrirajProizvod(min, max, tipProdaje, kategorija);
+        /*List<ProizvodDto> dtos = new ArrayList<>();
 
         for (Proizvod proizvod : proizvodi) {
             ProizvodDto dto = new ProizvodDto(proizvod);
             dtos.add(dto);
         }
 
-        return ResponseEntity.ok(dtos);
+        return ResponseEntity.ok(dtos);*/
+        return getListResponseEntity(proizvodi);
 
 
+
+    }
+    private ResponseEntity<List<ProizvodDto>> getListResponseEntity(List<Proizvod> proizvodList) {
+        List<ProizvodDto> proizvodDtos = new ArrayList<>();
+
+        if (proizvodList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        for (Proizvod proizvod : proizvodList) {
+            proizvodDtos.add(new ProizvodDto(proizvod));
+        }
+        return new ResponseEntity<>(proizvodDtos, HttpStatus.OK);
     }
 
     @GetMapping("/api/kategorije/{id}/proizvodi")
