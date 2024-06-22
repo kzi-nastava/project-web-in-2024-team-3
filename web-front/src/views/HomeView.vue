@@ -70,14 +70,14 @@ export default {
       cenaOd: null,
       cenaDo: null,
       tipProdaje: "",
-      kategorijaNaziv: "", // Koristimo naziv kategorije umesto ID-ja
-      kategorije: [], // Sve dostupne kategorije
-      filtriraneKategorije: [], // Kategorije za prikaz i filtriranje
+      kategorijaNaziv: "", 
+      kategorije: [], 
+      filtriraneKategorije: [],
     };
   },
   mounted() {
     this.ucitajProizvode();
-    this.ucitajSveKategorije(); // Učitavanje svih kategorija prilikom montiranja komponente
+    this.ucitajSveKategorije(); 
   },
   methods: {
     ucitajProizvode() {
@@ -86,7 +86,7 @@ export default {
         .then((res) => {
           console.log("Response:", res.data);
           this.proizvodi = res.data;
-          this.filtriraniProizvodi = res.data; // Inicijalno prikazujemo sve proizvode
+          this.filtriraniProizvodi = res.data;
         })
         .catch((err) => {
           console.error("Error:", err);
@@ -98,7 +98,7 @@ export default {
         .then((res) => {
           console.log("Sve kategorije Response:", res.data);
           this.kategorije = res.data;
-          this.filtriraneKategorije = res.data; // Inicijalno prikazujemo sve kategorije
+          this.filtriraneKategorije = res.data; 
         })
         .catch((err) => {
           console.error("Sve kategorije Error:", err);
@@ -133,10 +133,10 @@ export default {
         params.cenaDo = this.cenaDo;
       }
       if (this.tipProdaje !== "") {
-        params.tip = this.tipProdaje; // Ovde šaljemo vrednost iz selecta
+        params.tip = this.tipProdaje; 
       }
       if (this.kategorijaNaziv !== "") {
-        params.kategorija = this.kategorijaNaziv; // Koristimo naziv kategorije umesto ID-ja
+        params.kategorija = this.kategorijaNaziv; 
       }
 
       console.log("Parametri za filtriranje:", params);
@@ -164,10 +164,10 @@ export default {
 <style>
 .logo{
   display: block;
-  margin: 0 auto; /* Centriranje slike */
-  max-width: 200px; /* Maksimalna širina slike */
-  max-height: 100px; /* Maksimalna visina slike */
-  width: auto; /* Održava proporcije slike */
+  margin: 0 auto; 
+  max-width: 200px; 
+  max-height: 100px;
+  width: auto; 
   height: auto; 
 }
 .od{
@@ -183,7 +183,7 @@ export default {
   margin-left: 60px;
 }
 .input{
-  width: 220px; /* Postavlja širinu na 300 piksela */
+  width: 220px;
   height: 20px;
   margin-bottom: 10px;
 }

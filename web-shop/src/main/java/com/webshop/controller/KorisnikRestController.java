@@ -71,13 +71,18 @@ public class KorisnikRestController {
     }
 
     @PostMapping("api/logout")
-    public ResponseEntity<String> logout (HttpSession session) {
+    public ResponseEntity<?> logout (HttpSession session) {
         Korisnik korisnik = (Korisnik) session.getAttribute("korisnik");
 
         if (korisnik == null) {
+            System.out.println("Korisnik nije ulogovan!");
+            System.out.println("Sesija ID: " + session.getId());
             return new ResponseEntity<>("Korisnik nije ulogovan!", HttpStatus.FORBIDDEN);
         }
+        System.out.println("Korisnik pre logout-a: " + korisnik.getIme());
+        System.out.println("Sesija ID: " + session.getId());
         session.invalidate();
+        System.out.println("Sesija invalidirana");
         return new ResponseEntity<>("Uspesno izlogovan!", HttpStatus.OK);
     }
 

@@ -6,10 +6,25 @@ INSERT INTO KORISNIK ( ime, prezime, user_role, email, korisnicko_Ime, lozinka, 
 INSERT INTO KATEGORIJA (naziv) VALUES ('namestaj');
 INSERT INTO KATEGORIJA (naziv) VALUES ('elektrotehnika');
 INSERT INTO KATEGORIJA (naziv) VALUES ('sport');
+INSERT INTO KATEGORIJA (naziv) VALUES ('odeca');
+INSERT INTO KATEGORIJA (naziv) VALUES ('knjige');
+INSERT INTO KATEGORIJA (naziv) VALUES ('muzika');
+INSERT INTO KATEGORIJA (naziv) VALUES ('igracke');
+INSERT INTO KATEGORIJA (naziv) VALUES ('automobili');
+
 
 INSERT INTO PROIZVOD (prodat, recenzija_od_kupca, recenzija_od_prodavca, id, cena, datum_objavljivanja, naziv, opis, slika, tip_prodaje, kategorija_id, prodavac_id,kupljeni_proizvodi_id) VALUES (FALSE, FALSE, FALSE, 1 , 15000,'2023-12-31', 'Stolica', 'drvena', 'slika', 'FIKSNACENA', 1, 2, 3);
 INSERT INTO PROIZVOD (prodat, recenzija_od_kupca, recenzija_od_prodavca, id, cena, datum_objavljivanja, naziv, opis, slika, tip_prodaje, kategorija_id, prodavac_id,kupljeni_proizvodi_id) VALUES (TRUE, FALSE, FALSE, 2 , 90000,'2023-11-11', 'Laptop', 'Dell', 'slika2', 'FIKSNACENA', 2, 2, 3);
 INSERT INTO PROIZVOD (prodat, recenzija_od_kupca, recenzija_od_prodavca, id, cena, datum_objavljivanja, naziv, opis, slika, tip_prodaje, kategorija_id, prodavac_id,kupljeni_proizvodi_id) VALUES (FALSE, FALSE, FALSE, 3 , 5000,'2023-10-31', 'Lopta', 'kosarka', 'slika3', 'AUKCIJA', 3, 2, 3);
+INSERT INTO PROIZVOD (prodat, recenzija_od_kupca, recenzija_od_prodavca, id, cena, datum_objavljivanja, naziv, opis, slika, tip_prodaje, kategorija_id, prodavac_id, kupljeni_proizvodi_id) VALUES (FALSE, FALSE, FALSE, 4, 2000, '2024-01-15', 'Majica', 'Pamucna', 'slika4', 'FIKSNACENA', 4, 2, 3);
+INSERT INTO PROIZVOD (prodat, recenzija_od_kupca, recenzija_od_prodavca, id, cena, datum_objavljivanja, naziv, opis, slika, tip_prodaje, kategorija_id, prodavac_id, kupljeni_proizvodi_id) VALUES (FALSE, FALSE, FALSE, 5, 1500, '2024-02-20', 'Knjiga', 'Fikcija', 'slika5', 'FIKSNACENA', 5, 2, 3);
+INSERT INTO PROIZVOD (prodat, recenzija_od_kupca, recenzija_od_prodavca, id, cena, datum_objavljivanja, naziv, opis, slika, tip_prodaje, kategorija_id, prodavac_id, kupljeni_proizvodi_id) VALUES (FALSE, FALSE, FALSE, 6, 8000, '2024-03-05', 'Gitara', 'Akusticna', 'slika6', 'AUKCIJA', 6, 2, 3);
+INSERT INTO PROIZVOD (prodat, recenzija_od_kupca, recenzija_od_prodavca, id, cena, datum_objavljivanja, naziv, opis, slika, tip_prodaje, kategorija_id, prodavac_id, kupljeni_proizvodi_id) VALUES (TRUE, FALSE, FALSE, 7, 1200, '2024-04-10', 'Lutka', 'Plasticna', 'slika7', 'FIKSNACENA', 7, 2, 3);
+INSERT INTO PROIZVOD (prodat, recenzija_od_kupca, recenzija_od_prodavca, id, cena, datum_objavljivanja, naziv, opis, slika, tip_prodaje, kategorija_id, prodavac_id, kupljeni_proizvodi_id) VALUES (TRUE, TRUE, TRUE, 8, 200000, '2024-05-25', 'Automobil', 'Polovan', 'slika8', 'AUKCIJA', 8, 2, 3);
+INSERT INTO PROIZVOD (prodat, recenzija_od_kupca, recenzija_od_prodavca, id, cena, datum_objavljivanja, naziv, opis, slika, tip_prodaje, kategorija_id, prodavac_id, kupljeni_proizvodi_id) VALUES (FALSE, FALSE, FALSE, 9, 3000, '2024-06-15', 'Pantalone', 'Trenerka', 'slika9', 'FIKSNACENA', 4, 2, 3);
+INSERT INTO PROIZVOD (prodat, recenzija_od_kupca, recenzija_od_prodavca, id, cena, datum_objavljivanja, naziv, opis, slika, tip_prodaje, kategorija_id, prodavac_id, kupljeni_proizvodi_id) VALUES (FALSE, FALSE, FALSE, 10, 2500, '2024-07-01', 'Strip', 'Superhero', 'slika10', 'AUKCIJA', 5, 2, 3);
+
+
 
 INSERT INTO PONUDA (cena, kupac_id) VALUES (30000, 1);
 INSERT INTO PONUDA (cena, kupac_id) VALUES (15000, 2);
