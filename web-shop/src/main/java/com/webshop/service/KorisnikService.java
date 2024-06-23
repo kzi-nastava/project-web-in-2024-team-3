@@ -82,6 +82,10 @@ public class KorisnikService {
         korisnikRepository.save(prodavac);
     }
 
+    public void createAdmin(RegisterDto registerDto) {
+
+    }
+
 
     public void saveKorisnik(Korisnik korisnik) {
         korisnikRepository.save(korisnik);

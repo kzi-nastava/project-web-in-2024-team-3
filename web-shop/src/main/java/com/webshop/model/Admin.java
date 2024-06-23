@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 @DiscriminatorColumn(name = "user_role",discriminatorType = DiscriminatorType.STRING)
 
 
-@DiscriminatorValue(value = "ADMINISTRATOR")
+@DiscriminatorValue(value = "ADMIN")
 public class Admin extends  Korisnik{
 
     public Admin() {}

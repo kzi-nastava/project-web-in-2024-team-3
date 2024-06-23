@@ -36,6 +36,7 @@
           <th>Naziv</th>
           <th>Cena</th>
           <th>Vise</th>
+          <th>Akcije</th>
         </tr>
         <tr v-for="proizvod in paginiraniProizvodi" :key="proizvod.id">
           <td>{{ proizvod.naziv }}</td>
@@ -45,11 +46,11 @@
               Prikazi više
             </button>
           </td>
-          <td> 
-            <button v-if="proizvod.tipProdaje === 'FIKSNA_CENA'" @click="kupiProizvod(proizvod.id)">
+          <td>
+            <button v-if="proizvod.tipProdaje === 'FIKSNACENA'" @click="kupiProizvod(proizvod)">
               Kupi proizvod
             </button>
-            <div v-if="proizvod.tip === 'AUKCIJA'">
+            <div v-if="proizvod.tipProdaje === 'AUKCIJA'">
               <input
                 type="number"
                 v-model.number="ponudaCene[proizvod.id]"
@@ -99,6 +100,7 @@ export default {
       currentPage: 1,
       itemsPerPage: 5,
       totalPages: 1,
+      ponudaCene: {}
     };
   },
   mounted() {
@@ -132,9 +134,8 @@ export default {
         });
     },
     seeMore(proizvod) {
-      this.$router.push("/proizvod?id=" + proizvod.id);
+      this.$router.push({ path: '/proizvod', query: { id: proizvod.id, role: 'kupac' } });
     },
-    
     kupiProizvod(proizvod) {
       axios
         .post(`http://localhost:8081/api/proizvod-fiskna/${proizvod.id}`, {}, { withCredentials: true })
@@ -143,6 +144,7 @@ export default {
           this.errorMessage = "";
           // Ukloni proizvod iz liste
           this.filtriraniProizvodi = this.filtriraniProizvodi.filter(p => p.id !== proizvod.id);
+          this.updatePagination();
         })
         .catch((err) => {
           this.errorMessage = "Greška pri kupovini proizvoda: " + err.response.data;
@@ -150,9 +152,8 @@ export default {
           console.error("Error:", err);
         });
     },
-
     napraviPonudu(proizvodId) {
-      const cena = this.napraviPonudu[proizvodId];
+      const cena = this.ponudaCene[proizvodId];
       if (cena) {
         axios
           .post(`http://localhost:8081/api/proizvod-aukcija/${proizvodId}`, null, {
@@ -162,7 +163,7 @@ export default {
           .then((res) => {
             this.successMessage = "Ponuda uspešno poslata!";
             this.errorMessage = "";
-            this.napraviPonudu[proizvodId] = ""; 
+            this.ponudaCene[proizvodId] = ""; 
             this.ucitajProizvode(); 
           })
           .catch((err) => {
@@ -181,7 +182,9 @@ export default {
         this.successMessage = "";
       }
     },
-  
+    prikaziPonude(proizvodId) {
+      this.$router.push({ path: '/ponude', query: { id: proizvodId } });
+    },
     logout() {
       axios
       .post("http://localhost:8081/api/logout", {}, { withCredentials: true })
@@ -243,24 +246,18 @@ export default {
           console.error("Filtriranje Error:", err);
         });
     },
-
-    prikaziPonude(proizvodId) {
-      this.$router.push(`/ponude?id=${proizvodId}`);
-    },
-
-    azurirajProfila() {
+    azurirajProfil() {
       this.$router.push("/azuriranjeProfila");
     },
-    pregledProfila() {
-      this.$router.push("/pregledProfila");
+    pregledajKorisnike() {
+      this.$router.push("/pregledajKorisnike");
     },
-    pregledRecenzija() {
-      this.$router.push("/recenzijeProdavac");
+    oceniProdavca() {
+      this.$router.push("/oceniProdavca");
     },
-    postaviProizvod() {
-      this.$router.push("/postaviProizvod");
+    prijaviProdavca() {
+      this.$router.push("/prijaviProdavca");
     },
-  
     updatePagination() {
       this.totalPages = Math.ceil(this.filtriraniProizvodi.length / this.itemsPerPage);
       this.currentPage = Math.min(this.currentPage, this.totalPages);
@@ -287,8 +284,6 @@ export default {
       this.updatePagination();
     }
   }
-
-  
 };
 </script>
 
@@ -389,13 +384,11 @@ button {
   border-radius: 4px;
 }
 button:hover {
-  background-color: #C0C0C0	;
+  background-color: #c0c0c0;
 }
 body {
-  background-color: #DCDCDC;
+  background-color: #dcdcdc;
   color: white;
   font-family: Arial, sans-serif;
 }
 </style>
-
-  

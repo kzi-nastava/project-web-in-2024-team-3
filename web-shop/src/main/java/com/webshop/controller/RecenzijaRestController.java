@@ -73,15 +73,23 @@ public class RecenzijaRestController {
     @DeleteMapping("/obrisi-recenziju/{id}")
     public ResponseEntity<?> obrisiRecenziju(@PathVariable Long id, HttpSession session) {
         Korisnik korisnik = (Korisnik) session.getAttribute("korisnik");
-        if (korisnik == null || korisnik.getUloga() != Uloga.ADMIN) {
-            return new ResponseEntity<>("Ne mozete obrisati recenziju!",HttpStatus.UNAUTHORIZED);
+        if (korisnik == null) {
+            return new ResponseEntity<>("Niste ulogovani!", HttpStatus.UNAUTHORIZED);
+        }
+        if (korisnik.getUloga() != Uloga.ADMIN) {
+            return new ResponseEntity<>("Ne možete obrisati recenziju!", HttpStatus.FORBIDDEN);
         }
         Recenzija recenzija = recenzijaService.findById(id);
-        if(recenzija == null) {
-            return new ResponseEntity<>("Ne postoji data recenzija!",HttpStatus.NOT_FOUND);
+        if (recenzija == null) {
+            return new ResponseEntity<>("Ne postoji data recenzija!", HttpStatus.NOT_FOUND);
         }
-        recenzijaService.deleteRecenzijaById(id);
-        return new ResponseEntity<>("Uspesno obrisana recenzija", HttpStatus.OK);
+        try {
+            recenzijaService.deleteRecenzijaById(id);
+            return new ResponseEntity<>("Uspešno obrisana recenzija", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Greška prilikom brisanja recenzije", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/recenzije-prodavaca")
@@ -113,6 +121,16 @@ public class RecenzijaRestController {
         }
         return new ResponseEntity<>(recenzijaService.getRecenzijaList(), HttpStatus.OK);
 
+    }
+
+    @GetMapping("/recenzije/{id}")
+    public ResponseEntity<RecenzijaDto> getRecenzijaById(@PathVariable Long id) {
+        Recenzija recenzija = recenzijaService.findById(id);
+        if (recenzija == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        RecenzijaDto recenzijaDto = new RecenzijaDto(recenzija);
+        return ResponseEntity.ok(recenzijaDto);
     }
 
     @GetMapping("/svoje_recenzije")

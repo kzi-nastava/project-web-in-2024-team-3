@@ -61,7 +61,7 @@
             this.errorMessage = "Greška pri prijavljivanju.";
           }
         } catch (error) {
-          console.error("Login error:", error); // Loguje celu grešku
+          console.error("Login error:", error); 
           if (error.response) {
             this.errorMessage = error.response.data;
           } else {

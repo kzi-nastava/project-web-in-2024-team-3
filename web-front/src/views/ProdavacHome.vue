@@ -58,12 +58,10 @@
     <div class="container-buttons">
       <button @click="azurirajProfil">Ažuriraj profil</button>
       <button @click="pregledajKorisnike">Pregledaj korisnike</button>
-      <button @click="prodajProizvod">Prodaj proizvod</button>
-      <button @click="postaviAukciju">Postavi aukciju</button>
+      <button @click="postaviProizvod">Postavi proizvod</button>
       <button @click="oceniKupca">Oceni kupca</button>
       <button @click="prijaviKupca">Prijavi kupca</button>
       <button @click="logout">Izloguj se</button>
-
     </div>
   </div>
 </template>
@@ -101,7 +99,7 @@ export default {
         .then((res) => {
           console.log("Response:", res.data);
           this.proizvodi = res.data;
-          this.filtriraniProizvodi = res.data; // Inicijalno prikazujemo sve proizvode
+          this.filtriraniProizvodi = res.data; 
           this.updatePagination();
         })
         .catch((err) => {
@@ -114,14 +112,14 @@ export default {
         .then((res) => {
           console.log("Sve kategorije Response:", res.data);
           this.kategorije = res.data;
-          this.filtriraneKategorije = res.data; // Inicijalno prikazujemo sve kategorije
+          this.filtriraneKategorije = res.data; 
         })
         .catch((err) => {
           console.error("Sve kategorije Error:", err);
         });
     },
     seeMore(proizvod) {
-      this.$router.push("/proizvod?id=" + proizvod.id);
+      this.$router.push({ path: '/proizvod', query: { id: proizvod.id, role: 'prodavac' } });
     },
     azurirajProizvod(id) {
       this.$router.push({ name: "azurirajProizvod", query: { id: id } });
@@ -210,7 +208,7 @@ export default {
     postaviProizvod() {
       this.$router.push("/postaviProizvod");
     },
-    azurirajProfila() {
+    azurirajProfil() {
       this.$router.push("/azuriranjeProfila");
     },
     pregledProfila() {
@@ -353,5 +351,3 @@ body {
   font-family: Arial, sans-serif;
 }
 </style>
-
-  

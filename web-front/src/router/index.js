@@ -5,6 +5,8 @@ import HomeAdminView from '../views/AdminHome.vue'
 import HomeProdavacView from '../views/ProdavacHome.vue'
 import HomeKupacView from '../views/KupacHome.vue'
 import RegisterView from '../views/RegisterView.vue'
+import ProizvodView from '../views/ProizvodView.vue'
+
 
 
 
@@ -43,6 +45,12 @@ const routes = [
     path: '/register',
     name: 'register',
     component: RegisterView
+  },
+
+  {
+    path: '/proizvod',
+    name: 'proizvod',
+    component: ProizvodView 
   }
 
   

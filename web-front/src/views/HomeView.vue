@@ -105,7 +105,7 @@ export default {
         });
     },
     seeMore(proizvod) {
-      this.$router.push("/proizvod?id=" + proizvod.id);
+      this.$router.push({ path: '/proizvod', query: { id: proizvod.id, role: 'visitor' } });
     },
     login() {
       this.$router.push("/login");

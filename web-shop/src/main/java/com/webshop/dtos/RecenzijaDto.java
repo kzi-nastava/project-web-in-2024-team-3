@@ -1,6 +1,7 @@
 package com.webshop.dtos;
 
 import com.webshop.model.Korisnik;
+import com.webshop.model.Recenzija;
 import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
@@ -22,6 +23,10 @@ public class RecenzijaDto {
         this.ocena = ocena;
         this.komentar = komentar;
         this.datumRecenzije = datumRecenzije;
+
+    }
+
+    public RecenzijaDto(Recenzija recenzija) {
 
     }
 
