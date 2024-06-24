@@ -281,7 +281,7 @@ export default {
 .btn-primary:hover {
   color: #fff;
   background-color: #17a2b8;
-  border-color: #17a2b8;
+  border-color: #17a2b8
 }
 
 .btn-secondary {

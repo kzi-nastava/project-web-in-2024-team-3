@@ -102,7 +102,7 @@ border-radius: 5px;
 
 button {
 padding: 0.7em 1.5em;
-background-color: #007bff;
+background-color: #17a2b8;
 border: none;
 color: white;
 border-radius: 5px;
@@ -110,7 +110,7 @@ cursor: pointer;
 }
 
 button:hover {
-background-color: #0056b3;
+  background-color: #138496;
 }
 
 p {
