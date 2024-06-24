@@ -72,7 +72,7 @@
     <br />
     <div class="container-buttons">
       <button @click="azurirajProfil">Ažuriraj profil</button>
-      <button @click="pregledajKorisnike">Pregledaj korisnike</button>
+      <button @click="pregledKorisnika">Pregledaj korisnike</button>
       <button @click="oceniProdavca">Oceni prodavca</button>
       <button @click="prijaviProdavca">Prijavi prodavca</button>
       <button @click="logout">Izloguj se</button>
@@ -82,6 +82,7 @@
 
 <script>
 import axios from "axios";
+import PregledKorisnika from "./PregledKorisnika.vue";
 
 export default {
   name: "KupacHomeView",
@@ -247,10 +248,11 @@ export default {
         });
     },
     azurirajProfil() {
-      this.$router.push("/azuriranjeProfila");
+      this.$router.push({ path: '/azurirajProfil', query: { role: 'kupac' } });
+
     },
-    pregledajKorisnike() {
-      this.$router.push("/pregledajKorisnike");
+    pregledKorisnika() {
+      this.$router.push({ path: '/pregledKorisnika', query: { role: 'prodavac' } });
     },
     oceniProdavca() {
       this.$router.push("/oceniProdavca");

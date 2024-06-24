@@ -16,6 +16,10 @@ public class Kategorija implements Serializable {
 
     public Kategorija() {}
 
+    public Kategorija(String naziv) {
+        this.naziv = naziv;
+    }
+
     public Kategorija(Kategorija kategorija) {
     }
     public long getId() {

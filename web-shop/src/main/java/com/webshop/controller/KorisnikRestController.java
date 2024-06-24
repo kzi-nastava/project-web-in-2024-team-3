@@ -9,9 +9,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -100,41 +103,43 @@ public class KorisnikRestController {
         }
 
 
-        if(!updateDto.getIme().isEmpty()) {
+        if (updateDto.getIme() != null && !updateDto.getIme().isEmpty()) {
             ulogovan.setIme(updateDto.getIme());
         }
 
-        if(!updateDto.getPrezime().isEmpty()) {
+        if (updateDto.getPrezime() != null && !updateDto.getPrezime().isEmpty()) {
             ulogovan.setPrezime(updateDto.getPrezime());
         }
 
-        if(!updateDto.getBrojTelefona().isEmpty()) {
+        if (updateDto.getBrojTelefona() != null && !updateDto.getBrojTelefona().isEmpty()) {
             ulogovan.setBrojTelefona(updateDto.getBrojTelefona());
         }
 
-        if(!updateDto.getDatumRodjenja().toString().isEmpty()) {
+
+        if (updateDto.getDatumRodjenja() != null) {
             ulogovan.setDatumRodjenja(updateDto.getDatumRodjenja());
         }
 
-        if(!updateDto.getProfilnaSlika().isEmpty()) {
-            ulogovan.setProfilnaSlika(updateDto.getProfilnaSlika());
+        if (updateDto.getProfilnaSlika() != null && !updateDto.getProfilnaSlika().isEmpty()) {
+            String filePath = saveImage(updateDto.getProfilnaSlika(), ulogovan.getKorisnickoIme());
+            ulogovan.setProfilnaSlika(filePath);
         }
 
-        if(!updateDto.getOpis().isEmpty()) {
+        if (updateDto.getOpis() != null && !updateDto.getOpis().isEmpty()) {
             ulogovan.setOpis(updateDto.getOpis());
         }
 
         if(Objects.equals(updateDto.getStaraLozinka(), ulogovan.getLozinka())) {
 
-            if(!updateDto.getNovaLozinka().isEmpty()) {
+            if (updateDto.getNovaLozinka() != null && !updateDto.getNovaLozinka().isEmpty()) {
                 ulogovan.setLozinka(updateDto.getNovaLozinka());
             }
 
-            if(!updateDto.getKorisnickoIme().isEmpty()) {
+            if (updateDto.getKorisnickoIme() != null && !updateDto.getKorisnickoIme().isEmpty()) {
                 ulogovan.setKorisnickoIme(updateDto.getKorisnickoIme());
             }
 
-            if(!updateDto.getEmail().isEmpty()) {
+            if (updateDto.getEmail() != null && !updateDto.getEmail().isEmpty()) {
                 ulogovan.setEmail(updateDto.getEmail());
             }
 
@@ -145,6 +150,31 @@ public class KorisnikRestController {
         korisnikService.saveKorisnik(ulogovan);
         return new ResponseEntity("Uspesno azuriranje podataka!", HttpStatus.OK);
     }
+
+    private String saveImage(String base64Image, String username) {
+        try {
+            String[] parts = base64Image.split(",");
+            String imageString = parts[1];
+            byte[] imageBytes = Base64.getDecoder().decode(imageString);
+            String userHome = System.getProperty("user.home");
+            String directoryPath = Paths.get(userHome, "Downloads").toString();
+            String filePath = directoryPath + "/" + username + ".jpg";
+
+
+            File directory = new File(directoryPath);
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+
+            try (FileOutputStream fos = new FileOutputStream(filePath)) {
+                fos.write(imageBytes);
+            }
+            return filePath;
+        } catch (IOException e) {
+            throw new RuntimeException("Error while saving image", e);
+        }
+    }
+
 
     @GetMapping("/api/korisnik/{id}")
     public ResponseEntity<Korisnik> pregledProfila(@PathVariable(name="id") Long id) {
@@ -165,6 +195,26 @@ public class KorisnikRestController {
 //        }
 
     }
+
+    @GetMapping("/sviProfili")
+    public ResponseEntity<?> getAllKupciAndProdavci(HttpSession session) {
+        Korisnik ulogovan = (Korisnik) session.getAttribute("korisnik");
+
+        if (ulogovan == null) {
+            return new ResponseEntity<>("Korisnik nije prijavljen!", HttpStatus.UNAUTHORIZED);
+        }
+
+        if (ulogovan.getUloga() != Uloga.KUPAC && ulogovan.getUloga() != Uloga.PRODAVAC) {
+            return new ResponseEntity<>("Korisnik nije ovlašćen da pregleda profile!", HttpStatus.FORBIDDEN);
+        }
+
+        List<Korisnik> korisnici = korisnikService.pronadjiSve().stream()
+                .filter(k -> k.getUloga() == Uloga.KUPAC || k.getUloga() == Uloga.PRODAVAC)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(korisnici);
+    }
+
 
 }
 

@@ -13,6 +13,7 @@ import com.webshop.repository.ProdavacRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -97,6 +98,10 @@ public class KorisnikService {
             return (Prodavac) optional.get();
         }
         return null;
+    }
+
+    public List<Korisnik> pronadjiSve() {
+        return korisnikRepository.findAll();
     }
 
     public Boolean existsEmail(String email) { return korisnikRepository.existsKorisnikByEmail(email); }

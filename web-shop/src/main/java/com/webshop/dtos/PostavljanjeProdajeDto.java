@@ -7,26 +7,20 @@ import java.io.Serializable;
 
 public class PostavljanjeProdajeDto implements Serializable {
 
-    private Long id;
-
     private String naziv;
-
     private String opis;
-
     private double cena;
-
+    private String slika;
+    private TIP tipProdaje;
     private Kategorija kategorija;
 
-    private TIP tipProdaje;
-
-    private String slika;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public PostavljanjeProdajeDto(String naziv, String opis, double cena, String slika, TIP tipProdaje, Kategorija kategorija) {
+        this.naziv = naziv;
+        this.opis = opis;
+        this.cena = cena;
+        this.slika = slika;
+        this.tipProdaje = tipProdaje;
+        this.kategorija = kategorija;
     }
 
     public String getNaziv() {
@@ -53,12 +47,12 @@ public class PostavljanjeProdajeDto implements Serializable {
         this.cena = cena;
     }
 
-    public Kategorija getKategorija() {
-        return kategorija;
+    public String getSlika() {
+        return slika;
     }
 
-    public void setKategorija(Kategorija kategorija) {
-        this.kategorija = kategorija;
+    public void setSlika(String slika) {
+        this.slika = slika;
     }
 
     public TIP getTipProdaje() {
@@ -69,21 +63,11 @@ public class PostavljanjeProdajeDto implements Serializable {
         this.tipProdaje = tipProdaje;
     }
 
-    public String getSlika() {
-        return slika;
+    public Kategorija getKategorija() {
+        return kategorija;
     }
 
-    public void setSlika(String slika) {
-        this.slika = slika;
-    }
-
-    public PostavljanjeProdajeDto(Long id, String naziv, String opis, double cena, Kategorija kategorija, TIP tipProdaje, String slika) {
-        this.id = id;
-        this.naziv = naziv;
-        this.opis = opis;
-        this.cena = cena;
+    public void setKategorija(Kategorija kategorija) {
         this.kategorija = kategorija;
-        this.tipProdaje = tipProdaje;
-        this.slika = slika;
     }
 }

@@ -6,6 +6,9 @@ import HomeProdavacView from '../views/ProdavacHome.vue'
 import HomeKupacView from '../views/KupacHome.vue'
 import RegisterView from '../views/RegisterView.vue'
 import ProizvodView from '../views/ProizvodView.vue'
+import AzurirajProfil from '../views/AzurirajProfil.vue'
+import PregledKorisnika from '../views/PregledKorisnika.vue'
+import PostaviProizvod from '../views/PostaviProizvod.vue'
 
 
 
@@ -51,6 +54,24 @@ const routes = [
     path: '/proizvod',
     name: 'proizvod',
     component: ProizvodView 
+  },
+
+  {
+    path: '/azurirajProfil',
+    name: 'azurirajProfil',
+    component: AzurirajProfil
+  },
+
+  {
+    path: '/pregledKorisnika',
+    name: 'pregledKorisnika',
+    component: PregledKorisnika
+  },
+
+  {
+    path: '/postaviProizvod',
+    name: 'postaviProizvod',
+    component: PostaviProizvod
   }
 
   

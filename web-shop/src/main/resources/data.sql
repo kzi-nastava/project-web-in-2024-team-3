@@ -1,8 +1,9 @@
 
-INSERT INTO KORISNIK ( ime, prezime, user_role, email, korisnicko_Ime, lozinka, broj_Telefona, datum_Rodjenja, profilna_Slika, blokiran, opis,  prosecna_Ocena, uloga) VALUES ( 'Luka', 'Kolak', 'KUPAC', 'lukak@gmail.com', 'luka', 'luka123', '064789123', current_date , 'slika1', FALSE, 'opis1', 8.5, 0);
-INSERT INTO KORISNIK ( ime, prezime, user_role, email, korisnicko_Ime, lozinka, broj_Telefona, datum_Rodjenja, profilna_Slika, blokiran, opis,  prosecna_Ocena, uloga) VALUES ( 'Vuk', 'Ilic', 'PRODAVAC', 'ilic@gmail.com', 'vuk', 'vuk456', '063128389', current_date, 'slika2', FALSE, 'opis2',  9, 1);
-INSERT INTO KORISNIK ( ime, prezime, user_role, email, korisnicko_Ime, lozinka, broj_Telefona, datum_Rodjenja, profilna_Slika, blokiran, opis,  prosecna_Ocena, uloga) VALUES ( 'Matija', 'Bozanic', 'KUPAC', 'matijab@gmail.com', 'matija', 'matija789', '06912386', current_date, 'slika3', FALSE, 'opis3',9, 0);
+INSERT INTO KORISNIK ( ime, prezime, user_role, email, korisnicko_Ime, lozinka, broj_Telefona, datum_Rodjenja, profilna_Slika, blokiran, opis,  prosecna_Ocena, uloga) VALUES ( 'Luka', 'Kolak', 'KUPAC', 'lukak@gmail.com', 'luka', 'luka123', '064789123', current_date , 'slika1', FALSE, 'Kupac Luka', 8.5, 0);
+INSERT INTO KORISNIK ( ime, prezime, user_role, email, korisnicko_Ime, lozinka, broj_Telefona, datum_Rodjenja, profilna_Slika, blokiran, opis,  prosecna_Ocena, uloga) VALUES ( 'Vuk', 'Ilic', 'PRODAVAC', 'ilic@gmail.com', 'vuk', 'vuk456', '063128389', current_date, 'slika2', FALSE, 'Prodavac Vuk',  9, 1);
+INSERT INTO KORISNIK ( ime, prezime, user_role, email, korisnicko_Ime, lozinka, broj_Telefona, datum_Rodjenja, profilna_Slika, blokiran, opis,  prosecna_Ocena, uloga) VALUES ( 'Matija', 'Bozanic', 'KUPAC', 'matijab@gmail.com', 'matija', 'matija789', '06912386', current_date, 'slika3', FALSE, 'Kupac Matija',9, 0);
 INSERT INTO KORISNIK (ime, prezime, user_role, email, korisnicko_Ime, lozinka, broj_Telefona, datum_Rodjenja, profilna_Slika, blokiran, opis, prosecna_Ocena, uloga) VALUES ('Marko', 'Marković', 'ADMIN', 'marko.markovic@gmail.com', 'marko_admin', 'admin123', '063456789', current_date, 'slika2', FALSE, 'Admin korisnik', 9.0, 2);
+INSERT INTO KORISNIK (ime, prezime, user_role, email, korisnicko_Ime, lozinka, broj_Telefona, datum_Rodjenja, profilna_Slika, blokiran, opis, prosecna_Ocena, uloga) VALUES ('Nikola', 'Petrović', 'KUPAC', 'nikola.petrovic@gmail.com', 'nikola', 'nikola123', '061234567', current_date, 'slika4', FALSE, 'Kupac Nikola', 8.0, 0);
 
 
 INSERT INTO KATEGORIJA (naziv) VALUES ('namestaj');

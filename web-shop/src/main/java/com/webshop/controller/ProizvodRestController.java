@@ -17,11 +17,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 
 @RestController
@@ -281,33 +282,67 @@ public class ProizvodRestController {
         proizvod.setProdat(false);
         proizvod.setOpis(postavljanjeProdajeDto.getOpis());
         proizvod.setDatumObjavljivanja(LocalDate.now());
-        proizvod.setSlika(postavljanjeProdajeDto.getSlika());
         proizvod.setPonudeZaProizvod(null);
         if (!postavljanjeProdajeDto.getTipProdaje().equals(TIP.AUKCIJA)) {
             proizvod.setTipProdaje(TIP.AUKCIJA);
         } else if (postavljanjeProdajeDto.getTipProdaje().equals(TIP.FIKSNACENA)) {
             proizvod.setTipProdaje(TIP.FIKSNACENA);
         } else {
-            return new ResponseEntity<>("Wrong type of selling!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Pogresan tip prodaje!", HttpStatus.BAD_REQUEST);
         }
 
-        Kategorija kategorija = kategorijaService.getKategorija(postavljanjeProdajeDto.getKategorija().getNaziv());
-        if (kategorija == null) {
-            Kategorija kategorija1 = new Kategorija(postavljanjeProdajeDto.getKategorija());
-            proizvod.setKategorija(kategorija1);
-            kategorijaRepository.save(kategorija1);
+        Kategorija kategorija = postavljanjeProdajeDto.getKategorija();
+        if (kategorija == null || kategorija.getNaziv() == null || kategorija.getNaziv().isEmpty()) {
+            return new ResponseEntity<>("Kategorija nije validna!", HttpStatus.BAD_REQUEST);
+        }
 
+        Kategorija foundKategorija = kategorijaService.getKategorija(kategorija.getNaziv());
+        if (foundKategorija == null) {
+            Kategorija novaKategorija = new Kategorija();
+            novaKategorija.setNaziv(kategorija.getNaziv());
+            kategorijaRepository.save(novaKategorija);
+            proizvod.setKategorija(novaKategorija);
         } else {
-            proizvod.setKategorija(kategorija);
-            kategorijaRepository.save(kategorija);
+            proizvod.setKategorija(foundKategorija);
+        }
 
+        try {
+            String filePath = saveImage(postavljanjeProdajeDto.getSlika(), proizvod.getNaziv());
+            proizvod.setSlika(filePath);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Greska pri cuvanju slike.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         prodavac.dodajProizvod(proizvod);
         proizvodRepository.save(proizvod);
         korisnikRepository.save(prodavac);
 
-        return new ResponseEntity<>("New product is successfully saved.", HttpStatus.OK);
+        return new ResponseEntity<>("Novi proizvod je uspesno dodat.", HttpStatus.OK);
+    }
+
+    private String saveImage(String base64Image, String nazivProizvoda) {
+        try {
+            String[] parts = base64Image.split(",");
+            String imageString = parts[1];
+            byte[] imageBytes = Base64.getDecoder().decode(imageString);
+            String userHome = System.getProperty("user.home");
+            String directoryPath = Paths.get(userHome, "Downloads", "proizvodi").toString();
+            String filePath = directoryPath + "/" + nazivProizvoda + ".jpg";
+
+
+            File directory = new File(directoryPath);
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+
+            try (FileOutputStream fos = new FileOutputStream(filePath)) {
+                fos.write(imageBytes);
+            }
+            return filePath;
+        } catch (IOException e) {
+            throw new RuntimeException("Greska pri cuvanju slike!", e);
+        }
     }
 
     @PutMapping("api/azuriranjeProizvoda/{id}")

@@ -57,7 +57,7 @@
     <br />
     <div class="container-buttons">
       <button @click="azurirajProfil">Ažuriraj profil</button>
-      <button @click="pregledajKorisnike">Pregledaj korisnike</button>
+      <button @click="pregledKorisnika">Pregledaj korisnike</button>
       <button @click="postaviProizvod">Postavi proizvod</button>
       <button @click="oceniKupca">Oceni kupca</button>
       <button @click="prijaviKupca">Prijavi kupca</button>
@@ -209,10 +209,11 @@ export default {
       this.$router.push("/postaviProizvod");
     },
     azurirajProfil() {
-      this.$router.push("/azuriranjeProfila");
+      this.$router.push({ path: '/azurirajProfil', query: { role: 'prodavac' } });
+
     },
-    pregledProfila() {
-      this.$router.push("/pregledProfila");
+    pregledKorisnika() {
+      this.$router.push({ path: '/pregledKorisnika', query: { role: 'prodavac' } });
     },
     pregledRecenzija() {
       this.$router.push("/recenzijeProdavac");
