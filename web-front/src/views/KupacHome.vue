@@ -7,8 +7,6 @@
       <div>
         <button class="btn btn-outline-secondary mr-2 btn-sm" @click="azurirajProfil">Ažuriraj profil</button>
         <button class="btn btn-outline-secondary mr-2 btn-sm" @click="pregledKorisnika">Pregledaj korisnike</button>
-        <button class="btn btn-outline-secondary mr-2 btn-sm" @click="oceniProdavca">Oceni prodavca</button>
-        <button class="btn btn-outline-secondary mr-2 btn-sm" @click="prijaviProdavca">Prijavi prodavca</button>
         <button class="btn btn-outline-primary btn-sm" @click="logout">Izloguj se</button>
       </div>
     </div>
@@ -260,12 +258,6 @@ export default {
     },
     pregledKorisnika() {
       this.$router.push({ path: '/pregledKorisnika', query: { role: 'kupac' } });
-    },
-    oceniProdavca() {
-      this.$router.push("/oceniProdavca");
-    },
-    prijaviProdavca() {
-      this.$router.push("/prijaviProdavca");
     },
     updatePagination() {
       this.totalPages = Math.ceil(this.filtriraniProizvodi.length / this.itemsPerPage);

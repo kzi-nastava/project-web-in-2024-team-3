@@ -8,8 +8,6 @@
         <button class="btn btn-outline-secondary mr-2 btn-sm" @click="azurirajProfil">Ažuriraj profil</button>
         <button class="btn btn-outline-secondary mr-2 btn-sm" @click="pregledKorisnika">Pregledaj korisnike</button>
         <button class="btn btn-outline-secondary mr-2 btn-sm" @click="postaviProizvod">Postavi proizvod</button>
-        <button class="btn btn-outline-secondary mr-2 btn-sm" @click="oceniKupca">Oceni kupca</button>
-        <button class="btn btn-outline-secondary mr-2 btn-sm" @click="prijaviKupca">Prijavi kupca</button>
         <button class="btn btn-outline-primary btn-sm" @click="logout">Izloguj se</button>
       </div>
     </div>
@@ -145,12 +143,6 @@ export default {
     },
     postaviProizvod() {
       this.$router.push("/postaviProizvod");
-    },
-    oceniKupca() {
-      // Implementacija funkcionalnosti
-    },
-    prijaviKupca() {
-      // Implementacija funkcionalnosti
     },
     logout() {
       axios
