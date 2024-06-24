@@ -16,7 +16,7 @@
             <td>{{ korisnik.prezime }}</td>
             <td>{{ korisnik.uloga }}</td>
             <td>
-              <button @click="idiNaProfil(korisnik)">Idi na profil</button>
+              <button class="button" @click="idiNaProfil(korisnik)">Idi na profil</button>
             </td>
           </tr>
         </tbody>
@@ -96,16 +96,17 @@
   th {
     background-color: #f2f2f2;
   }
-  button {
+  .button {
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #17a2b8;
     color: white;
     border: none;
     cursor: pointer;
     border-radius: 4px;
   }
   button:hover {
-    background-color: #0056b3;
+    background-color: #17a2b8;
+    color: white;
   }
   </style>
   
