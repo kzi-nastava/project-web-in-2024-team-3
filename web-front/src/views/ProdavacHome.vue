@@ -1,67 +1,82 @@
 <template>
-  <div id="prodavacProizvodi">
-    <img src="images/ShopLogo.jpg" alt="Logo" class="logo" />
-    <br /><br />
-    <div class="kontejner-proizvodi">
-      <!-- Pretraga po nazivu ili opisu -->
-      <input class="input" type="text" v-model="pretraga" placeholder="Pretraži proizvode po nazivu ili opisu" />
-      <button @click="pretrazi">Pretraži</button>
-      
-      <!-- Filtriranje -->
-      <div class="filtriranje">
-        <label class="od">Cena od:</label>
-        <input type="number" v-model.number="cenaOd" />
-
-        <label class="do">do:</label>
-        <input type="number" v-model.number="cenaDo" />
-        
-        <label class="tip">Tip prodaje:</label>
-        <select v-model="tipProdaje">
-          <option value="">Svi tipovi</option>
-          <option value="FIKSNA_CENA">Fiksna cena</option>
-          <option value="AUKCIJA">Aukcija</option>
-        </select>
-        
-        <!-- Dropdown za kategorije -->
-        <label class="kategorija">Kategorija:</label>
-        <select v-model="kategorijaNaziv">
-          <option value="">Sve kategorije</option>
-          <option v-for="kategorija in filtriraneKategorije" :key="kategorija.id" :value="kategorija.naziv">{{ kategorija.naziv }}</option>
-        </select>
-        <button @click="filtrirajProizvode">Filtriraj</button>
+  <div id="prodavacProizvodi" class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <img src="images/ShopLogo.jpg" alt="Logo" class="logo img-fluid" />
       </div>
-      
-      <table id="proizvodi">
+      <div>
+        <button class="btn btn-outline-secondary mr-2 btn-sm" @click="azurirajProfil">Ažuriraj profil</button>
+        <button class="btn btn-outline-secondary mr-2 btn-sm" @click="pregledKorisnika">Pregledaj korisnike</button>
+        <button class="btn btn-outline-secondary mr-2 btn-sm" @click="postaviProizvod">Postavi proizvod</button>
+        <button class="btn btn-outline-secondary mr-2 btn-sm" @click="oceniKupca">Oceni kupca</button>
+        <button class="btn btn-outline-secondary mr-2 btn-sm" @click="prijaviKupca">Prijavi kupca</button>
+        <button class="btn btn-outline-primary btn-sm" @click="logout">Izloguj se</button>
+      </div>
+    </div>
+
+    <div class="card p-3 mb-4">
+      <!-- Pretraga po nazivu ili opisu -->
+      <div class="input-group mb-3">
+        <input class="form-control" type="text" v-model="pretraga" placeholder="Pretraži proizvode po nazivu ili opisu" />
+        <div class="input-group-append">
+          <button class="btn btn-primary" @click="pretrazi">Pretraži</button>
+        </div>
+      </div>
+
+      <!-- Filtriranje -->
+      <div class="form-row">
+        <div class="col-md-3 mb-3">
+          <label for="cenaOd">Cena od:</label>
+          <input id="cenaOd" type="number" class="form-control" v-model.number="cenaOd" />
+        </div>
+        <div class="col-md-3 mb-3">
+          <label for="cenaDo">do:</label>
+          <input id="cenaDo" type="number" class="form-control" v-model.number="cenaDo" />
+        </div>
+        <div class="col-md-3 mb-3">
+          <label for="tipProdaje">Tip prodaje:</label>
+          <select id="tipProdaje" class="form-control" v-model="tipProdaje">
+            <option value="">Svi tipovi</option>
+            <option value="FIKSNA_CENA">Fiksna cena</option>
+            <option value="AUKCIJA">Aukcija</option>
+          </select>
+        </div>
+        <div class="col-md-3 mb-3">
+          <label for="kategorija">Kategorija:</label>
+          <select id="kategorija" class="form-control" v-model="kategorijaNaziv">
+            <option value="">Sve kategorije</option>
+            <option v-for="kategorija in filtriraneKategorije" :key="kategorija.id" :value="kategorija.naziv">
+              {{ kategorija.naziv }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-secondary mt-2" @click="filtrirajProizvode">Filtriraj</button>
+    </div>
+
+    <table class="table table-striped">
+      <thead>
         <tr>
           <th>Naziv</th>
           <th>Cena</th>
           <th>Vise</th>
         </tr>
+      </thead>
+      <tbody>
         <tr v-for="proizvod in paginiraniProizvodi" :key="proizvod.id">
           <td>{{ proizvod.naziv }}</td>
           <td>{{ proizvod.cena }}</td>
           <td>
-            <button class="btnSeeMore" @click="seeMore(proizvod)">
-              Prikazi više
-            </button>
+            <button class="btn btn-info btn-sm" @click="seeMore(proizvod)">Prikazi više</button>
           </td>
         </tr>
-      </table>
-    </div>
-    <br />
-    <div class="pagination">
-      <button @click="prevPage" :disabled="currentPage === 1">Prethodna</button>
+      </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between align-items-center mt-4">
+      <button class="btn btn-outline-primary btn-sm" @click="prevPage" :disabled="currentPage === 1">Prethodna</button>
       <span>Stranica {{ currentPage }} od {{ totalPages }}</span>
-      <button @click="nextPage" :disabled="currentPage === totalPages">Sledeća</button>
-    </div>
-    <br />
-    <div class="container-buttons">
-      <button @click="azurirajProfil">Ažuriraj profil</button>
-      <button @click="pregledKorisnika">Pregledaj korisnike</button>
-      <button @click="postaviProizvod">Postavi proizvod</button>
-      <button @click="oceniKupca">Oceni kupca</button>
-      <button @click="prijaviKupca">Prijavi kupca</button>
-      <button @click="logout">Izloguj se</button>
+      <button class="btn btn-outline-primary btn-sm" @click="nextPage" :disabled="currentPage === totalPages">Sledeća</button>
     </div>
   </div>
 </template>
@@ -71,6 +86,7 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 
 export default {
+  name: "ProdavacHome",
   data() {
     return {
       proizvodi: [],
@@ -82,15 +98,15 @@ export default {
       kategorije: [],
       filtriraneKategorije: [],
       filtriraniProizvodi: [],
-      paginiraniProizvodi: [], 
-      currentPage: 1, 
-      itemsPerPage: 5, 
+      paginiraniProizvodi: [],
+      currentPage: 1,
+      itemsPerPage: 5,
       totalPages: 1,
     };
   },
   mounted() {
     this.ucitajProizvode();
-    this.ucitajSveKategorije(); 
+    this.ucitajSveKategorije();
   },
   methods: {
     ucitajProizvode() {
@@ -99,7 +115,7 @@ export default {
         .then((res) => {
           console.log("Response:", res.data);
           this.proizvodi = res.data;
-          this.filtriraniProizvodi = res.data; 
+          this.filtriraniProizvodi = res.data;
           this.updatePagination();
         })
         .catch((err) => {
@@ -112,7 +128,7 @@ export default {
         .then((res) => {
           console.log("Sve kategorije Response:", res.data);
           this.kategorije = res.data;
-          this.filtriraneKategorije = res.data; 
+          this.filtriraneKategorije = res.data;
         })
         .catch((err) => {
           console.error("Sve kategorije Error:", err);
@@ -121,10 +137,36 @@ export default {
     seeMore(proizvod) {
       this.$router.push({ path: '/proizvod', query: { id: proizvod.id, role: 'prodavac' } });
     },
-    azurirajProizvod(id) {
-      this.$router.push({ name: "azurirajProizvod", query: { id: id } });
+    azurirajProfil() {
+      this.$router.push({ path: '/azurirajProfil', query: { role: 'prodavac' } });
     },
-
+    pregledKorisnika() {
+      this.$router.push({ path: '/pregledKorisnika', query: { role: 'prodavac' } });
+    },
+    postaviProizvod() {
+      this.$router.push("/postaviProizvod");
+    },
+    oceniKupca() {
+      // Implementacija funkcionalnosti
+    },
+    prijaviKupca() {
+      // Implementacija funkcionalnosti
+    },
+    logout() {
+      axios
+        .post("http://localhost:8081/api/logout", {}, { withCredentials: true })
+        .then(() => {
+          this.$router.push("/");
+        })
+        .catch((err) => {
+          console.error("Logout Error:", err);
+          if (err.response && err.response.status === 403) {
+            alert("Niste ulogovani ili nemate privilegije za ovu akciju.");
+          } else {
+            alert("Došlo je do greške prilikom pokušaja logout-a.");
+          }
+        });
+    },
     pretrazi() {
       if (this.pretraga.trim() !== "") {
         let pretragaLower = this.pretraga.toLowerCase().trim();
@@ -146,209 +188,143 @@ export default {
         params.cenaDo = this.cenaDo;
       }
       if (this.tipProdaje !== "") {
-        params.tip = this.tipProdaje; 
+        params.tip = this.tipProdaje;
       }
       if (this.kategorijaNaziv !== "") {
-        params.kategorija = this.kategorijaNaziv; 
+        params.kategorija = this.kategorijaNaziv;
       }
 
       console.log("Parametri za filtriranje:", params);
 
       axios
         .get(`http://localhost:8081/api/proizvodi/filtrirajProizvode`, {
-          params: params,
-          withCredentials: true,
-        })
-        .then((res) => {
-          console.log("Filtriranje Response:", res.data);
-          this.filtriraniProizvodi = res.data;
-          if (res.data.length === 0) {
-            console.warn("Server je vratio prazan odgovor.");
-          }
-        })
-        .catch((err) => {
-          console.error("Filtriranje Error:", err);
-        });
-    },
-
-    logout() {
-      axios
-      .post("http://localhost:8081/api/logout", {}, { withCredentials: true })
-      .then(() => {
-      this.$router.push("/");
-      })
-      .catch((err) => {
-        console.error("Logout Error:", err);
-        if (err.response && err.response.status === 403) {
-          alert("Niste ulogovani ili nemate privilegije za ovu akciju.");
-        } else {
-          alert("Došlo je do greške prilikom pokušaja logout-a.");
-        }
-      });
-    },
-
-    zavrsiAukciju(id) {
-      if (confirm("Da li ste sigurni da želite da završite aukciju za ovaj proizvod?")) {
-        axios.post(`http://localhost:8081/prodavac/krajaukcije/${id}`, {}, { withCredentials: true })
-          .then(response => {
-            alert("Aukcija je uspešno završena!");
-            this.filtriraniProizvodi = this.filtriraniProizvodi.filter(proizvod => proizvod.id !== id);
-          })
-          .catch(error => {
-            console.error("Error finishing auction:", error);
-            alert(error.response.data || "Greška pri završavanju aukcije.");
-          });
-      }
-    },
-
-    prikaziPonude(proizvodId) {
-      this.$router.push(`/ponude?id=${proizvodId}`);
-    },
-    
-    postaviProizvod() {
-      this.$router.push("/postaviProizvod");
-    },
-    azurirajProfil() {
-      this.$router.push({ path: '/azurirajProfil', query: { role: 'prodavac' } });
-
-    },
-    pregledKorisnika() {
-      this.$router.push({ path: '/pregledKorisnika', query: { role: 'prodavac' } });
-    },
-    pregledRecenzija() {
-      this.$router.push("/recenzijeProdavac");
-    },
-
-    updatePagination() {
-      this.totalPages = Math.ceil(this.filtriraniProizvodi.length / this.itemsPerPage);
-      this.currentPage = Math.min(this.currentPage, this.totalPages);
-      this.paginiraniProizvodi = this.filtriraniProizvodi.slice(
-        (this.currentPage - 1) * this.itemsPerPage,
-        this.currentPage * this.itemsPerPage
-      );
-    },
-
-    nextPage() {
-      if (this.currentPage < this.totalPages) {
-        this.currentPage++;
-        this.updatePagination();
-      }
-    },
-    prevPage() {
-      if (this.currentPage > 1) {
-        this.currentPage--;
-        this.updatePagination();
-      }
-    },
-  },
-  watch: {
-    currentPage() {
-      this.updatePagination();
-    }
-  }
-  
+params: params,
+withCredentials: true,
+})
+.then((res) => {
+console.log("Filtriranje Response:", res.data);
+this.filtriraniProizvodi = res.data;
+if (res.data.length === 0) {
+console.warn("Server je vratio prazan odgovor.");
+}
+this.updatePagination(); // Dodajemo poziv za ažuriranje paginacije nakon filtriranja
+})
+.catch((err) => {
+console.error("Filtriranje Error:", err);
+});
+},
+nextPage() {
+if (this.currentPage < this.totalPages) {
+this.currentPage++;
+this.updatePagination();
+}
+},
+prevPage() {
+if (this.currentPage > 1) {
+this.currentPage--;
+this.updatePagination();
+}
+},
+updatePagination() {
+this.totalPages = Math.ceil(this.filtriraniProizvodi.length / this.itemsPerPage);
+this.currentPage = Math.min(this.currentPage, this.totalPages);
+const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+this.paginiraniProizvodi = this.filtriraniProizvodi.slice(
+startIndex,
+startIndex + this.itemsPerPage
+);
+},
+},
+watch: {
+currentPage() {
+this.updatePagination();
+},
+},
 };
 </script>
 
-<style>
+<style scoped>
 .logo {
-  display: block;
-  margin: 0 auto;
   max-width: 200px;
   max-height: 100px;
   width: auto;
   height: auto;
 }
-.od {
-  padding-left: auto;
+
+.container {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
 }
-.do {
-  margin-left: 60px;
+
+.btn {
+  font-size: 14px;
 }
-.kategorija {
-  margin-left: 60px;
+
+.input-group-append .btn {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
-.tip {
-  margin-left: 60px;
+
+.table {
+  background-color: white;
 }
-.input {
-  width: 220px;
-  height: 20px;
-  margin-bottom: 10px;
+
+.card {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-.kontejner-proizvodi {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
-}
-.filtriranje {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 20px;
-  margin-top: 20px;
-}
-.filtriranje label {
-  margin-right: 10px;
-}
-.filtriranje input,
-.filtriranje select,
-.filtriranje button {
-  margin-left: 10px;
-  padding: 8px;
-  border: 1px solid #ccc;
+
+.form-control {
   border-radius: 4px;
 }
-.filtriranje button {
+
+.form-row {
+  align-items: center;
+}
+
+.btn-primary {
   background-color: #007bff;
   color: white;
-  border: none;
-  cursor: pointer;
 }
-.filtriranje button:hover {
-  background-color: #0056b3;
-}
-#proizvodi {
-  width: 80%;
-  margin-top: 20px;
-  border-collapse: collapse;
-}
-#proizvodi th,
-#proizvodi td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
-}
-#proizvodi th {
-  background-color: #f2f2f2;
-}
-#proizvodi tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-#proizvodi tr:hover {
-  background-color: #ddd;
-}
-.container-buttons {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 20px;
-}
-button {
-  margin-left: 10px;
-  padding: 10px 20px;
-  background-color: #fdfeff;
-  color: #080000;
-  border: none;
-  cursor: pointer;
-  border-radius: 4px;
-}
-button:hover {
-  background-color: #c0c0c0;
-}
-body {
-  background-color: #dcdcdc;
+
+.btn-secondary {
+  background-color: #6c757d;
   color: white;
-  font-family: Arial, sans-serif;
 }
+
+.btn-outline-primary {
+  color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-outline-secondary {
+  color: #6c757d;
+  border-color: #6c757d;
+}
+
+.btn-info {
+  background-color: #17a2b8;
+  color: white;
+}
+
+.btn-sm {
+  font-size: 12px;
+}
+
+.btn-sm:not(:last-child) {
+  margin-right: 8px;
+}
+
+.btn-sm:not(:first-child) {
+  margin-left: 8px;
+}
+
+.table th,
+.table td {
+  vertical-align: middle;
+}
+
 </style>
