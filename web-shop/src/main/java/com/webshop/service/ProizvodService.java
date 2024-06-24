@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class ProizvodService {
@@ -24,6 +25,7 @@ public class ProizvodService {
         Pageable desetProizvoda = PageRequest.of(page, size);
         return proizvodRepository.findAll(desetProizvoda);
     }
+
 
     public List<Proizvod> findAll() { return proizvodRepository.findAll();}
 

@@ -252,7 +252,7 @@ export default {
 
     },
     pregledKorisnika() {
-      this.$router.push({ path: '/pregledKorisnika', query: { role: 'prodavac' } });
+      this.$router.push({ path: '/pregledKorisnika', query: { role: 'kupac' } });
     },
     oceniProdavca() {
       this.$router.push("/oceniProdavca");

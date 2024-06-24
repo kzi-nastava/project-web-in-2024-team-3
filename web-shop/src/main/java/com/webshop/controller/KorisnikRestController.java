@@ -14,6 +14,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 
@@ -195,6 +197,85 @@ public class KorisnikRestController {
 //        }
 
     }
+
+    private static final Logger logger = Logger.getLogger(KorisnikRestController.class.getName());
+
+    @GetMapping("/kupac/{id}")
+    public ResponseEntity<KupacDto> kupacProfil(@PathVariable(name="id") Long kupacId) {
+        logger.info("Primljen zahtev za kupca sa ID: " + kupacId);
+        Korisnik korisnik = korisnikService.pronadjiKupcaPoId(kupacId);
+
+        if (korisnik == null || !korisnik.getUloga().equals(Uloga.KUPAC)) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        Kupac kupac = (Kupac) korisnik;
+        KupacDto kupacDto = new KupacDto(kupac, kupac.getProsecnaOcena(), kupac.getKupljeniProizvodi(), kupac.getKupacRecenzije());
+
+
+        return ResponseEntity.ok(kupacDto);
+    }
+
+    @GetMapping("/kupac/{id}/proizvodi")
+    public ResponseEntity<Set<Proizvod>> getKupljeniProizvodi(@PathVariable(name="id") Long kupacId) {
+        logger.info("Primljen zahtev za proizvode kupca sa ID: " + kupacId);
+        try {
+            Korisnik korisnik = korisnikService.pronadjiKupcaPoId(kupacId);
+            if (korisnik == null || !(korisnik instanceof Kupac)) {
+                logger.warning("Kupac sa ID: " + kupacId + " nije pronađen ili nije tipa Kupac");
+                return ResponseEntity.notFound().build();
+            }
+
+            Kupac kupac = (Kupac) korisnik;
+            Set<Proizvod> proizvodi = kupac.getKupljeniProizvodi();
+            logger.info("Proizvodi za kupca sa ID: " + kupacId + " su uspešno preuzeti");
+            return ResponseEntity.ok(proizvodi);
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Greška pri preuzimanju proizvoda za kupca sa ID: " + kupacId, e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/prodavac/{id}")
+    public ResponseEntity<ProdavacDto> prodavacProfil(@PathVariable(name="id") Long prodavacId) {
+        logger.info("Primljen zahtev za prodavca sa ID: " + prodavacId);
+        Korisnik korisnik = korisnikService.pronadjiProdavcaPoId(prodavacId);
+
+        if (korisnik == null || !korisnik.getUloga().equals(Uloga.PRODAVAC)) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        Prodavac prodavac = (Prodavac) korisnik;
+        ProdavacDto prodavacDto = new ProdavacDto(prodavac, prodavac.getProsecnaOcena(), prodavac.getProizvodiNaProdaju(), prodavac.getProdavacRecenzije());
+
+
+        return ResponseEntity.ok(prodavacDto);
+    }
+
+    @GetMapping("/prodavac/{id}/proizvodi")
+    public ResponseEntity<Set<Proizvod>> getProdavacProizvodi(@PathVariable(name="id") Long prodavacId) {
+        logger.info("Primljen zahtev za proizvode prodavca sa ID: " + prodavacId);
+        try {
+            Korisnik korisnik = korisnikService.pronadjiProdavcaPoId(prodavacId);
+            if (korisnik == null || !(korisnik instanceof Prodavac)) {
+                logger.warning("Prodavac sa ID: " + prodavacId + " nije pronađen ili nije tipa Prodavac");
+                return ResponseEntity.notFound().build();
+            }
+
+            Prodavac prodavac = (Prodavac) korisnik;
+            Set<Proizvod> proizvodi = prodavac.getProizvodiNaProdaju();
+            logger.info("Proizvodi za prodavca sa ID: " + prodavacId + " su uspešno preuzeti");
+            return ResponseEntity.ok(proizvodi);
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Greška pri preuzimanju proizvoda za prodavca sa ID: " + prodavacId, e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+
+
+
 
     @GetMapping("/sviProfili")
     public ResponseEntity<?> getAllKupciAndProdavci(HttpSession session) {

@@ -92,10 +92,18 @@ public class KorisnikService {
         korisnikRepository.save(korisnik);
     }
 
-    public Prodavac pronadjiKupcaPoId(Long id) {
+    public Kupac pronadjiKupcaPoId(Long id) {
         Optional<Korisnik> optional = korisnikRepository.findById(id);
-        if (optional.isPresent() && optional.get().getUloga() == Uloga.PRODAVAC) {
-            return (Prodavac) optional.get();
+        if (optional.isPresent() && optional.get().getUloga() == Uloga.KUPAC) {
+            return (Kupac) optional.get();
+        }
+        return null;
+    }
+
+    public Prodavac pronadjiProdavcaPoId(Long id) {
+        Optional<Korisnik> optionalKorisnik = korisnikRepository.findById(id);
+        if (optionalKorisnik.isPresent() && optionalKorisnik.get().getUloga() == Uloga.PRODAVAC) {
+            return (Prodavac) optionalKorisnik.get();
         }
         return null;
     }

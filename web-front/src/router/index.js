@@ -9,6 +9,8 @@ import ProizvodView from '../views/ProizvodView.vue'
 import AzurirajProfil from '../views/AzurirajProfil.vue'
 import PregledKorisnika from '../views/PregledKorisnika.vue'
 import PostaviProizvod from '../views/PostaviProizvod.vue'
+import KupacProfil from '../views/KupacProfil.vue'
+import ProdavacProfil from '../views/ProdavacProfil.vue'
 
 
 
@@ -72,6 +74,18 @@ const routes = [
     path: '/postaviProizvod',
     name: 'postaviProizvod',
     component: PostaviProizvod
+  },
+
+  {
+    path: '/kupacProfil',
+    name: 'kupacProfil',
+    component: KupacProfil
+  },
+
+  {
+    path: '/prodavacProfil',
+    name: 'prodavacProfil',
+    component: ProdavacProfil
   }
 
   

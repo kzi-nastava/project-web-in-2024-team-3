@@ -1,9 +1,12 @@
 package com.webshop.dtos;
 
 import com.webshop.model.Korisnik;
+import com.webshop.model.Proizvod;
+import com.webshop.model.Recenzija;
 
 import java.util.Date;
 import java.util.Optional;
+import java.util.Set;
 
 public class KupacDto {
 
@@ -31,6 +34,11 @@ public class KupacDto {
 
     private boolean blokiran;
 
+    private Set<Proizvod> kupljeni;
+
+    private Set<Recenzija> recenzije;
+
+
     public KupacDto(Korisnik korisnik, double prosecnaOcena) {
         this.prosecnaOcena = prosecnaOcena;
         this.id = korisnik.getId();
@@ -44,6 +52,54 @@ public class KupacDto {
         this.profilnaSlika = korisnik.getProfilnaSlika();
         this.opis = korisnik.getOpis();
         this.blokiran = korisnik.isBlokiran();
+    }
+
+    public KupacDto(double prosecnaOcena, Long id, String ime, String prezime, String korisnickoIme, String email, String brojTelefona, String lozinka, Date datumRodjenja, String profilnaSlika, String opis, boolean blokiran, Set<Proizvod> kupljeni) {
+        this.prosecnaOcena = prosecnaOcena;
+        this.id = id;
+        this.ime = ime;
+        this.prezime = prezime;
+        this.korisnickoIme = korisnickoIme;
+        this.email = email;
+        this.brojTelefona = brojTelefona;
+        this.lozinka = lozinka;
+        this.datumRodjenja = datumRodjenja;
+        this.profilnaSlika = profilnaSlika;
+        this.opis = opis;
+        this.blokiran = blokiran;
+        this.kupljeni = kupljeni;
+    }
+
+    public KupacDto(Korisnik korisnik, double prosecnaOcena, Set<Proizvod> kupljeni, Set<Recenzija> recenzije) {
+        this.id = korisnik.getId();
+        this.ime = korisnik.getIme();
+        this.prezime = korisnik.getPrezime();
+        this.korisnickoIme = korisnik.getKorisnickoIme();
+        this.lozinka = korisnik.getLozinka();
+        this.email = korisnik.getEmail();
+        this.brojTelefona = korisnik.getBrojTelefona();
+        this.datumRodjenja = korisnik.getDatumRodjenja();
+        this.profilnaSlika = korisnik.getProfilnaSlika();
+        this.opis = korisnik.getOpis();
+        this.prosecnaOcena = prosecnaOcena;
+        this.kupljeni = kupljeni;
+        this.recenzije = recenzije;
+    }
+
+    public Set<Recenzija> getRecenzije() {
+        return recenzije;
+    }
+
+    public void setRecenzije(Set<Recenzija> recenzije) {
+        this.recenzije = recenzije;
+    }
+
+    public Set<Proizvod> getKupljeni() {
+        return kupljeni;
+    }
+
+    public void setKupljeni(Set<Proizvod> kupljeni) {
+        this.kupljeni = kupljeni;
     }
 
     public double getProsecnaOcena() {
