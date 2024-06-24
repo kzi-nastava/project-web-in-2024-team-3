@@ -1,63 +1,79 @@
 <template>
-  <div id="sviProizvodi">
-    <img src="images/ShopLogo.jpg" alt="Logo" class="logo" />
-    <br /><br />
-    <div class="kontejner-proizvodi">
+  <div id="sviProizvodi" class="container mt-5">
+    <!-- Gornji deo sa logom i dugmadima -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <img src="images/ShopLogo.jpg" alt="Logo" class="logo img-fluid" />
+      </div>
+      <div>
+        <button class="btn btn-outline-secondary mr-2 btn-sm" @click="register">Registracija</button>
+        <button class="btn btn-outline-primary btn-sm" @click="login">Prijava</button>
+      </div>
+    </div>
+
+    <div class="card p-3 mb-4">
       <!-- Pretraga po nazivu ili opisu -->
-      <input class="input" type="text" v-model="pretraga" placeholder="Pretraži proizvode po nazivu ili opisu" />
-      <button @click="pretrazi">Pretraži</button>
-
-      <!-- Filtriranje -->
-      <div class="filtriranje">
-        <label class="od">Cena od:</label>
-        <input type="number" v-model.number="cenaOd" />
-
-        <label class="do">do:</label>
-        <input type="number" v-model.number="cenaDo" />
-
-        <label class="tip">Tip prodaje:</label>
-        <select v-model="tipProdaje">
-          <option value="">Svi tipovi</option>
-          <option value="FIKSNACENA">Fiksna cena</option>
-          <option value="AUKCIJA">Aukcija</option>
-        </select>
-
-        <!-- Dropdown za kategorije -->
-        <label class="kategorija">Kategorija:</label>
-        <select v-model="kategorijaNaziv">
-          <option value="">Sve kategorije</option>
-          <option v-for="kategorija in filtriraneKategorije" :key="kategorija.id" :value="kategorija.naziv">{{ kategorija.naziv }}</option>
-        </select>
-        <button @click="filtrirajProizvode">Filtriraj</button>
+      <div class="input-group mb-3">
+        <input class="form-control" type="text" v-model="pretraga" placeholder="Pretraži proizvode po nazivu ili opisu" />
+        <div class="input-group-append">
+          <button class="btn btn-primary" @click="pretrazi">Pretraži</button>
+        </div>
       </div>
 
-      <table id="proizvodi">
+      <!-- Filtriranje -->
+      <div class="form-row">
+        <div class="col-md-3 mb-3">
+          <label for="cenaOd">Cena od:</label>
+          <input id="cenaOd" type="number" class="form-control" v-model.number="cenaOd" />
+        </div>
+        <div class="col-md-3 mb-3">
+          <label for="cenaDo">do:</label>
+          <input id="cenaDo" type="number" class="form-control" v-model.number="cenaDo" />
+        </div>
+        <div class="col-md-3 mb-3">
+          <label for="tipProdaje">Tip prodaje:</label>
+          <select id="tipProdaje" class="form-control" v-model="tipProdaje">
+            <option value="">Svi tipovi</option>
+            <option value="FIKSNACENA">Fiksna cena</option>
+            <option value="AUKCIJA">Aukcija</option>
+          </select>
+        </div>
+        <div class="col-md-3 mb-3">
+          <label for="kategorija">Kategorija:</label>
+          <select id="kategorija" class="form-control" v-model="kategorijaNaziv">
+            <option value="">Sve kategorije</option>
+            <option v-for="kategorija in filtriraneKategorije" :key="kategorija.id" :value="kategorija.naziv">
+              {{ kategorija.naziv }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-secondary mt-2" @click="filtrirajProizvode">Filtriraj</button>
+    </div>
+
+    <table class="table table-striped">
+      <thead>
         <tr>
           <th>Naziv</th>
           <th>Cena</th>
           <th>Vise</th>
         </tr>
+      </thead>
+      <tbody>
         <tr v-for="proizvod in paginiraniProizvodi" :key="proizvod.id">
           <td>{{ proizvod.naziv }}</td>
           <td>{{ proizvod.cena }}</td>
           <td>
-            <button class="btnSeeMore" @click="seeMore(proizvod)">
-              Prikazi više
-            </button>
+            <button class="btn btn-info btn-sm" @click="seeMore(proizvod)">Prikazi više</button>
           </td>
         </tr>
-      </table>
-    </div>
-    <br />
-    <div class="pagination">
-      <button @click="prevPage" :disabled="currentPage === 1">Prethodna</button>
+      </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between align-items-center mt-4">
+      <button class="btn btn-outline-primary btn-sm" @click="prevPage" :disabled="currentPage === 1">Prethodna</button>
       <span>Stranica {{ currentPage }} od {{ totalPages }}</span>
-      <button @click="nextPage" :disabled="currentPage === totalPages">Sledeća</button>
-    </div>
-    <br />
-    <div class="container-buttons">
-      <button @click="login">Uloguj se</button>
-      <button @click="register">Registruj se</button>
+      <button class="btn btn-outline-primary btn-sm" @click="nextPage" :disabled="currentPage === totalPages">Sledeća</button>
     </div>
   </div>
 </template>
@@ -76,8 +92,8 @@ export default {
       cenaOd: null,
       cenaDo: null,
       tipProdaje: "",
-      kategorijaNaziv: "", 
-      kategorije: [], 
+      kategorijaNaziv: "",
+      kategorije: [],
       filtriraneKategorije: [],
       currentPage: 1,
       itemsPerPage: 5,
@@ -86,7 +102,7 @@ export default {
   },
   mounted() {
     this.ucitajProizvode();
-    this.ucitajSveKategorije(); 
+    this.ucitajSveKategorije();
   },
   methods: {
     ucitajProizvode() {
@@ -108,14 +124,14 @@ export default {
         .then((res) => {
           console.log("Sve kategorije Response:", res.data);
           this.kategorije = res.data;
-          this.filtriraneKategorije = res.data; 
+          this.filtriraneKategorije = res.data;
         })
         .catch((err) => {
           console.error("Sve kategorije Error:", err);
         });
     },
     seeMore(proizvod) {
-      this.$router.push({ path: '/proizvod', query: { id: proizvod.id, role: 'visitor' } });
+      this.$router.push({ path: "/proizvod", query: { id: proizvod.id, role: "visitor" } });
     },
     login() {
       this.$router.push("/login");
@@ -126,9 +142,10 @@ export default {
     pretrazi() {
       if (this.pretraga.trim() !== "") {
         let pretragaLower = this.pretraga.toLowerCase().trim();
-        this.filtriraniProizvodi = this.proizvodi.filter((proizvod) =>
-          proizvod.naziv.toLowerCase().includes(pretragaLower) ||
-          proizvod.opis.toLowerCase().includes(pretragaLower)
+        this.filtriraniProizvodi = this.proizvodi.filter(
+          (proizvod) =>
+            proizvod.naziv.toLowerCase().includes(pretragaLower) ||
+            proizvod.opis.toLowerCase().includes(pretragaLower)
         );
       } else {
         this.filtriraniProizvodi = [...this.proizvodi];
@@ -144,10 +161,10 @@ export default {
         params.max = this.cenaDo;
       }
       if (this.tipProdaje !== "") {
-        params.tipProdaje = this.tipProdaje; 
+        params.tipProdaje = this.tipProdaje;
       }
       if (this.kategorijaNaziv !== "") {
-        params.kategorija = this.kategorijaNaziv; 
+        params.kategorija = this.kategorijaNaziv;
       }
 
       console.log("Parametri za filtriranje:", params);
@@ -193,134 +210,125 @@ export default {
   watch: {
     currentPage() {
       this.updatePagination();
-    }
-  }
+    },
+  },
 };
 </script>
 
-<style>
+<style scoped>
 .logo {
   display: block;
-  margin: 0 auto; 
-  max-width: 200px; 
+  margin: 0 auto;
+  max-width: 200px;
   max-height: 100px;
-  width: auto; 
-  height: auto; 
+  width: auto;
+  height: auto;
 }
-.od {
-  padding-left: auto;
-}
-.do {
-  margin-left: 60px;
-}
-.kategorija {
-  margin-left: 60px;
-}
-.tip {
-  margin-left: 60px;
-}
-.input {
-  width: 220px;
-  height: 20px;
-  margin-bottom: 10px;
-}
-h1 {
-  color: #00BFFF;
-}
-.kontejner-proizvodi {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
-}
-.filtriranje {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 20px;
-  margin-top: 20px;
-}
-.filtriranje label {
-  margin-right: 10px;
-}
-.filtriranje input,
-.filtriranje select,
-.filtriranje button {
-  margin-left: 10px;
-  padding: 8px;
+
+.card {
+  background-color: #f8f9fa;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 5px;
 }
-.filtriranje button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  cursor: pointer;
+
+.form-control {
+  padding: 0.375rem 0.
+  .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
-.filtriranje button:hover {
-  background-color: #0056b3;
+
+.input-group-append .btn {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
-#proizvodi {
-  width: 80%;
-  margin-top: 20px;
-  border-collapse: collapse;
+
+.table {
+  background-color: #fff;
 }
-#proizvodi th,
-#proizvodi td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
+
+.table th,
+.table td {
+  border: 1px solid #dee2e6;
+  padding: 0.75rem;
+  vertical-align: top;
 }
-#proizvodi th {
+
+.table th {
   background-color: #f2f2f2;
 }
-#proizvodi tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-#proizvodi tr:hover {
-  background-color: #ddd;
-}
-.container-buttons {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 20px;
-}
-button {
-  margin-left: 10px;
-  padding: 10px 20px;
-  background-color: #fdfeff;
-  color: #080000;
-  border: none;
+
+.btn {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  border-radius: 0.25rem;
   cursor: pointer;
-  border-radius: 4px;
 }
-button:hover {
-  background-color: #c0c0c0;
+
+.btn-primary {
+  color: #fff;
+  background-color: #17a2b8;
+  border-color: #17a2b8;
 }
-body {
-  background-color: #dcdcdc;
-  color: white;
-  font-family: Arial, sans-serif;
+
+.btn-primary:hover {
+  color: #fff;
+  background-color: #17a2b8;
+  border-color: #17a2b8;
 }
+
+.btn-secondary {
+  color: #fff;
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+.btn-secondary:hover {
+  color: #fff;
+  background-color: #5a6268;
+  border-color: #545b62;
+}
+
+.btn-info {
+  color: #fff;
+  background-color: #17a2b8;
+  border-color: #17a2b8;
+}
+
+.btn-info:hover {
+  color: #fff;
+  background-color: #138496;
+  border-color: #117a8b;
+}
+
+.btn-outline-secondary {
+  color: #6c757d;
+  border-color: #6c757d;
+}
+
+.btn-outline-secondary:hover {
+  color: #fff;
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
 .pagination {
-  display: flex;
   justify-content: center;
-  align-items: center;
-  margin-top: 20px;
 }
-.pagination button {
-  margin: 0 10px;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 4px;
+
+.pagination .btn {
+  margin: 0 2px;
 }
-.pagination button:disabled {
-  background-color: #ccc;
-}
-.pagination span {
-  margin: 0 10px;
+
+.container-buttons {
+  text-align: right;
+  margin-top: 10px;
 }
 </style>
