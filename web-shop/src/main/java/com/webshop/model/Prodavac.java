@@ -37,7 +37,7 @@ public class Prodavac extends Korisnik{
 
     public Prodavac(RegisterDto registerDto) {
         super(registerDto);
-        this.setUloga(Uloga.KUPAC);
+        this.setUloga(Uloga.PRODAVAC);
         this.prosecnaOcena = 0.0;
     }
 

@@ -10,15 +10,15 @@ public class PostavljanjeProdajeDto implements Serializable {
     private String naziv;
     private String opis;
     private double cena;
-    private String slika;
+    //private String slika;
     private TIP tipProdaje;
     private Kategorija kategorija;
 
-    public PostavljanjeProdajeDto(String naziv, String opis, double cena, String slika, TIP tipProdaje, Kategorija kategorija) {
+    public PostavljanjeProdajeDto(String naziv, String opis, double cena,  TIP tipProdaje, Kategorija kategorija) {
         this.naziv = naziv;
         this.opis = opis;
         this.cena = cena;
-        this.slika = slika;
+        //this.slika = slika;
         this.tipProdaje = tipProdaje;
         this.kategorija = kategorija;
     }
@@ -47,13 +47,13 @@ public class PostavljanjeProdajeDto implements Serializable {
         this.cena = cena;
     }
 
-    public String getSlika() {
+   /* public String getSlika() {
         return slika;
     }
 
     public void setSlika(String slika) {
         this.slika = slika;
-    }
+    }*/
 
     public TIP getTipProdaje() {
         return tipProdaje;

@@ -44,6 +44,9 @@ public class ProizvodDto {
         this.kategorija = kategorija;
     }
 
+    public ProizvodDto() {
+    }
+
     public ProizvodDto(Long id, String naziv, String opis, double cena) {
         this.id = id;
         this.naziv = naziv;

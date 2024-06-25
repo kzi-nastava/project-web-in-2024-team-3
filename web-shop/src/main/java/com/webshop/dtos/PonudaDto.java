@@ -10,10 +10,13 @@ public class PonudaDto {
 
     private Kupac kupac;
 
-    public PonudaDto(Long id, double cena, Kupac kupac) {
+    private  String korisnickoIme;
+
+
+    public PonudaDto(Long id, Double cena, String korisnickoIme) {
         this.id = id;
         this.cena = cena;
-        this.kupac = kupac;
+        this.korisnickoIme = korisnickoIme;
     }
 
     public Long getId() {

@@ -73,8 +73,6 @@
     <div class="container-buttons">
       <button @click="azurirajProfil">Ažuriraj profil</button>
       <button @click="pregledKorisnika">Pregledaj korisnike</button>
-      <button @click="oceniProdavca">Oceni prodavca</button>
-      <button @click="prijaviProdavca">Prijavi prodavca</button>
       <button @click="logout">Izloguj se</button>
     </div>
   </div>
@@ -143,7 +141,7 @@ export default {
         .then((res) => {
           this.successMessage = "Proizvod uspešno kupljen!";
           this.errorMessage = "";
-          // Ukloni proizvod iz liste
+          
           this.filtriraniProizvodi = this.filtriraniProizvodi.filter(p => p.id !== proizvod.id);
           this.updatePagination();
         })
@@ -158,7 +156,7 @@ export default {
       if (cena) {
         axios
           .post(`http://localhost:8081/api/proizvod-aukcija/${proizvodId}`, null, {
-            params: { cena: parseFloat(cena) },
+            params: { ponuda: parseFloat(cena) },
             withCredentials: true
           })
           .then((res) => {
@@ -216,13 +214,13 @@ export default {
     filtrirajProizvode() {
       let params = {};
       if (this.cenaOd !== null) {
-        params.cenaOd = this.cenaOd;
+        params.min = this.cenaOd;
       }
       if (this.cenaDo !== null) {
-        params.cenaDo = this.cenaDo;
+        params.max = this.cenaDo;
       }
       if (this.tipProdaje !== "") {
-        params.tip = this.tipProdaje; 
+        params.tipProdaje = this.tipProdaje; 
       }
       if (this.kategorijaNaziv !== "") {
         params.kategorija = this.kategorijaNaziv; 

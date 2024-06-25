@@ -32,20 +32,33 @@
       </div>
       
       <table id="proizvodi">
-        <tr>
-          <th>Naziv</th>
-          <th>Cena</th>
-          <th>Vise</th>
-        </tr>
-        <tr v-for="proizvod in paginiraniProizvodi" :key="proizvod.id">
-          <td>{{ proizvod.naziv }}</td>
-          <td>{{ proizvod.cena }}</td>
-          <td>
-            <button class="btnSeeMore" @click="seeMore(proizvod)">
-              Prikazi više
-            </button>
-          </td>
-        </tr>
+        <thead>
+          <tr>
+            <th>Naziv</th>
+            <th>Cena</th>
+            <th>Vise</th>
+            <th>Akcije</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="proizvod in paginiraniProizvodi" :key="proizvod.id">
+            <td>{{ proizvod.naziv }}</td>
+            <td>{{ proizvod.cena }}</td>
+            <td>
+              <button class="btnSeeMore" @click="seeMore(proizvod)">
+                Prikazi više
+              </button>
+            </td>
+            <td>
+              <button class="btn btn-warning btn-sm" @click="azurirajProizvod(proizvod.id)">
+                Ažuriraj proizvod
+              </button>
+              <button v-if="proizvod.tipProdaje === 'AUKCIJA'" class="btn btn-danger btn-sm" @click="zavrsiAukciju(proizvod.id)">
+                Završetak aukcije
+              </button>
+            </td>
+          </tr>
+        </tbody>
       </table>
     </div>
     <br />
@@ -59,8 +72,6 @@
       <button @click="azurirajProfil">Ažuriraj profil</button>
       <button @click="pregledKorisnika">Pregledaj korisnike</button>
       <button @click="postaviProizvod">Postavi proizvod</button>
-      <button @click="oceniKupca">Oceni kupca</button>
-      <button @click="prijaviKupca">Prijavi kupca</button>
       <button @click="logout">Izloguj se</button>
     </div>
   </div>
@@ -122,9 +133,8 @@ export default {
       this.$router.push({ path: '/proizvod', query: { id: proizvod.id, role: 'prodavac' } });
     },
     azurirajProizvod(id) {
-      this.$router.push({ name: "azurirajProizvod", query: { id: id } });
+      this.$router.push({ name: "azuriranjeProizvoda", query: { id: id } });
     },
-
     pretrazi() {
       if (this.pretraga.trim() !== "") {
         let pretragaLower = this.pretraga.toLowerCase().trim();
@@ -140,13 +150,13 @@ export default {
     filtrirajProizvode() {
       let params = {};
       if (this.cenaOd !== null) {
-        params.cenaOd = this.cenaOd;
+        params.min = this.cenaOd;
       }
       if (this.cenaDo !== null) {
-        params.cenaDo = this.cenaDo;
+        params.max = this.cenaDo;
       }
       if (this.tipProdaje !== "") {
-        params.tip = this.tipProdaje; 
+        params.tipProdaje = this.tipProdaje; 
       }
       if (this.kategorijaNaziv !== "") {
         params.kategorija = this.kategorijaNaziv; 
@@ -165,12 +175,12 @@ export default {
           if (res.data.length === 0) {
             console.warn("Server je vratio prazan odgovor.");
           }
+          this.updatePagination();
         })
         .catch((err) => {
           console.error("Filtriranje Error:", err);
         });
     },
-
     logout() {
       axios
       .post("http://localhost:8081/api/logout", {}, { withCredentials: true })
@@ -186,13 +196,13 @@ export default {
         }
       });
     },
-
     zavrsiAukciju(id) {
       if (confirm("Da li ste sigurni da želite da završite aukciju za ovaj proizvod?")) {
         axios.post(`http://localhost:8081/prodavac/krajaukcije/${id}`, {}, { withCredentials: true })
           .then(response => {
             alert("Aukcija je uspešno završena!");
             this.filtriraniProizvodi = this.filtriraniProizvodi.filter(proizvod => proizvod.id !== id);
+            this.updatePagination();
           })
           .catch(error => {
             console.error("Error finishing auction:", error);
@@ -200,17 +210,14 @@ export default {
           });
       }
     },
-
     prikaziPonude(proizvodId) {
       this.$router.push(`/ponude?id=${proizvodId}`);
     },
-    
     postaviProizvod() {
       this.$router.push("/postaviProizvod");
     },
     azurirajProfil() {
       this.$router.push({ path: '/azurirajProfil', query: { role: 'prodavac' } });
-
     },
     pregledKorisnika() {
       this.$router.push({ path: '/pregledKorisnika', query: { role: 'prodavac' } });
@@ -218,7 +225,6 @@ export default {
     pregledRecenzija() {
       this.$router.push("/recenzijeProdavac");
     },
-
     updatePagination() {
       this.totalPages = Math.ceil(this.filtriraniProizvodi.length / this.itemsPerPage);
       this.currentPage = Math.min(this.currentPage, this.totalPages);
@@ -227,7 +233,6 @@ export default {
         this.currentPage * this.itemsPerPage
       );
     },
-
     nextPage() {
       if (this.currentPage < this.totalPages) {
         this.currentPage++;
@@ -246,7 +251,6 @@ export default {
       this.updatePagination();
     }
   }
-  
 };
 </script>
 

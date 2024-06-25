@@ -24,6 +24,7 @@
           <li v-for="prijava in prijave" :key="prijava.id">
             <p><strong>Razlog:</strong> {{ prijava.razlogZaPrijavu }}</p>
             <p><strong>Podneo prijavu:</strong> {{ prijava.podneoPrijavu.korisnickoIme }}</p>
+            <p><strong>Odnosi se na:</strong> {{ prijava.odnosiPrijava.korisnickoIme }}</p>
             <button @click="prihvatiPrijavu(prijava.id)">Prihvati</button>
             <button @click="odbijPrijavu(prijava.id)">Odbij</button>
           </li>

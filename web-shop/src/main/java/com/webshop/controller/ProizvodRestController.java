@@ -1,5 +1,6 @@
 package com.webshop.controller;
 
+import com.webshop.dtos.PonudaDto;
 import com.webshop.dtos.PostavljanjeProdajeDto;
 import com.webshop.dtos.ProizvodDto;
 import com.webshop.model.*;
@@ -23,6 +24,11 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
+import static java.util.logging.Level.SEVERE;
 
 
 @RestController
@@ -143,6 +149,8 @@ public class ProizvodRestController {
 
         return ResponseEntity.ok(dtos);
     }
+
+    private static final Logger logger = Logger.getLogger(ProizvodRestController.class.getName());
 
     @PostMapping("/api/proizvod-fiskna/{idProizvod}")
     public ResponseEntity<?> kupovinaProizovdaFiksna(@PathVariable Long idProizvod, HttpSession session) {
@@ -282,7 +290,7 @@ public class ProizvodRestController {
         proizvod.setProdat(false);
         proizvod.setOpis(postavljanjeProdajeDto.getOpis());
         proizvod.setDatumObjavljivanja(LocalDate.now());
-        proizvod.setPonudeZaProizvod(null);
+        proizvod.setPonudeZaProizvod(new HashSet<>());
         if (!postavljanjeProdajeDto.getTipProdaje().equals(TIP.AUKCIJA)) {
             proizvod.setTipProdaje(TIP.AUKCIJA);
         } else if (postavljanjeProdajeDto.getTipProdaje().equals(TIP.FIKSNACENA)) {
@@ -296,6 +304,9 @@ public class ProizvodRestController {
             return new ResponseEntity<>("Kategorija nije validna!", HttpStatus.BAD_REQUEST);
         }
 
+        System.out.println("Kategorija primljena: " + kategorija.getNaziv());
+
+
         Kategorija foundKategorija = kategorijaService.getKategorija(kategorija.getNaziv());
         if (foundKategorija == null) {
             Kategorija novaKategorija = new Kategorija();
@@ -306,13 +317,13 @@ public class ProizvodRestController {
             proizvod.setKategorija(foundKategorija);
         }
 
-        try {
+        /*try {
             String filePath = saveImage(postavljanjeProdajeDto.getSlika(), proizvod.getNaziv());
             proizvod.setSlika(filePath);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>("Greska pri cuvanju slike.", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        }*/
 
         prodavac.dodajProizvod(proizvod);
         proizvodRepository.save(proizvod);
@@ -321,15 +332,20 @@ public class ProizvodRestController {
         return new ResponseEntity<>("Novi proizvod je uspesno dodat.", HttpStatus.OK);
     }
 
-    private String saveImage(String base64Image, String nazivProizvoda) {
+    /*private String saveImage(String base64Image, String nazivProizvoda) {
         try {
+            logger.info("Početak čuvanja slike...");
             String[] parts = base64Image.split(",");
+            if (parts.length != 2) {
+                logger.log(SEVERE, "Invalid base64 image format: parts length is " + parts.length);
+                throw new IllegalArgumentException("Invalid base64 image format");
+            }
             String imageString = parts[1];
+            logger.info("Image string length: " + imageString.length());
             byte[] imageBytes = Base64.getDecoder().decode(imageString);
             String userHome = System.getProperty("user.home");
             String directoryPath = Paths.get(userHome, "Downloads", "proizvodi").toString();
             String filePath = directoryPath + "/" + nazivProizvoda + ".jpg";
-
 
             File directory = new File(directoryPath);
             if (!directory.exists()) {
@@ -339,11 +355,32 @@ public class ProizvodRestController {
             try (FileOutputStream fos = new FileOutputStream(filePath)) {
                 fos.write(imageBytes);
             }
+            logger.info("Slika je uspešno sačuvana na lokaciji: " + filePath);
             return filePath;
         } catch (IOException e) {
+            logger.log(SEVERE, "Greska pri cuvanju slike!", e);
             throw new RuntimeException("Greska pri cuvanju slike!", e);
         }
+    }*/
+
+    @GetMapping("proizvodi/{id}/ponude")
+    public ResponseEntity<List<PonudaDto>> getPonudeZaProizvod(@PathVariable Long id) {
+        Proizvod proizvod = proizvodService.pronadjiPoId(id);
+        if (proizvod == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        List<PonudaDto> ponudeDto = proizvod.getPonudeZaProizvod().stream()
+                .map(ponuda -> {
+                    Kupac kupac = ponuda.getKupac();
+                    String korisnickoIme = (kupac != null) ? kupac.getKorisnickoIme() : "Nepoznato";
+                    return new PonudaDto(ponuda.getId(), ponuda.getCena(), korisnickoIme);
+                })
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(ponudeDto, HttpStatus.OK);
     }
+
 
     @PutMapping("api/azuriranjeProizvoda/{id}")
     public ResponseEntity<?> azuriranjeProizvoda(@RequestBody @Nullable ProizvodDto proizvodDto, @PathVariable Long id, HttpSession session) {
@@ -392,7 +429,7 @@ public class ProizvodRestController {
         return new ResponseEntity<>("Proizvod je uspeno updatovan", HttpStatus.OK);
     }
 
-    @GetMapping("/prodavac/krajaukcije/{id}")
+    @PostMapping("/prodavac/krajaukcije/{id}")
     public ResponseEntity<?> krajAukcije(@PathVariable Long id, HttpSession session) {
         Korisnik ulogovan = (Korisnik) session.getAttribute("korisnik");
         if(ulogovan == null) {

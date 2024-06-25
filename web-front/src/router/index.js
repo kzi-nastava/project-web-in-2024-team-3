@@ -11,6 +11,12 @@ import PregledKorisnika from '../views/PregledKorisnika.vue'
 import PostaviProizvod from '../views/PostaviProizvod.vue'
 import KupacProfil from '../views/KupacProfil.vue'
 import ProdavacProfil from '../views/ProdavacProfil.vue'
+import OceniKupca from '../views/OceniKupca.vue'
+import OceniProdavca from '../views/OceniProdavca.vue'
+import PrijaviKupca from '../views/PrijaviKupca.vue'
+import PrijaviProdavca from '../views/PrijaviProdavca.vue'
+import Ponude from '../views/Ponude.vue'
+import AzuriranjeProizvoda from '../views/AzuriranjeProizvoda.vue'
 
 
 
@@ -86,6 +92,42 @@ const routes = [
     path: '/prodavacProfil',
     name: 'prodavacProfil',
     component: ProdavacProfil
+  },
+
+  {
+    path: '/oceniKupca',
+    name: 'oceniKupca',
+    component: OceniKupca
+  },
+
+  {
+    path: '/oceniProdavca',
+    name: 'oceniProdavca',
+    component: OceniProdavca
+  },
+
+  {
+    path: '/prijaviKupca',
+    name: 'prijaviKupca',
+    component: PrijaviKupca
+  },
+
+  {
+    path: '/prijaviProdavca',
+    name: 'prijaviKupca',
+    component: PrijaviProdavca
+  },
+
+  {
+    path: '/ponude',
+    name: 'ponude',
+    component: Ponude
+  },
+
+  {
+    path: '/azuriranjeProizvoda',
+    name: 'azuriranjeProizvoda',
+    component: AzuriranjeProizvoda
   }
 
   

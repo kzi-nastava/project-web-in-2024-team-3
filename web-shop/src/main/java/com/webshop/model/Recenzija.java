@@ -22,7 +22,7 @@ public class Recenzija implements Serializable {
     private LocalDate datum;
 
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Korisnik korisnik;
 
     public Recenzija() {

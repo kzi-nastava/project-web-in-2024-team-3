@@ -79,10 +79,12 @@
         }
       },
       oceniKupca() {
-        // Implementacija funkcionalnosti za ocenjivanje kupca
+        const id = this.$route.query.id;
+            this.$router.push({ path: '/oceniKupca', query: { id } });
       },
       prijaviKupca() {
-        // Implementacija funkcionalnosti za prijavu kupca
+        const id = this.$route.query.id;
+            this.$router.push({ path: '/prijaviKupca', query: { id } });
       }
     }
   };

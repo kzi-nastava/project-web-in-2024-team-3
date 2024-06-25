@@ -6,6 +6,7 @@ import com.webshop.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -89,6 +90,17 @@ public class KorisnikRestController {
         session.invalidate();
         System.out.println("Sesija invalidirana");
         return new ResponseEntity<>("Uspesno izlogovan!", HttpStatus.OK);
+    }
+
+    @GetMapping("/ulogovan")
+    public ResponseEntity<?> ulogovanKorisnik(HttpSession session) {
+        Korisnik ulogovaniKorisnik = (Korisnik) session.getAttribute("korisnik");
+
+        if (ulogovaniKorisnik == null) {
+            return new ResponseEntity<>("Nijedan korisnik nije prijavljen!", HttpStatus.UNAUTHORIZED);
+        }
+
+        return ResponseEntity.ok(ulogovaniKorisnik);
     }
 
     @PutMapping("/api/ulogovan-korisnik/azuriraj")
@@ -242,14 +254,18 @@ public class KorisnikRestController {
         Korisnik korisnik = korisnikService.pronadjiProdavcaPoId(prodavacId);
 
         if (korisnik == null || !korisnik.getUloga().equals(Uloga.PRODAVAC)) {
+            logger.warning("Prodavac sa ID: " + prodavacId + " nije pronađen ili nije tipa Prodavac");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        Prodavac prodavac = (Prodavac) korisnik;
-        ProdavacDto prodavacDto = new ProdavacDto(prodavac, prodavac.getProsecnaOcena(), prodavac.getProizvodiNaProdaju(), prodavac.getProdavacRecenzije());
-
-
-        return ResponseEntity.ok(prodavacDto);
+        try {
+            Prodavac prodavac = (Prodavac) korisnik;
+            ProdavacDto prodavacDto = new ProdavacDto(prodavac, prodavac.getProsecnaOcena(), prodavac.getProizvodiNaProdaju(), prodavac.getProdavacRecenzije());
+            return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(prodavacDto);
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Greška pri preuzimanju podataka za prodavca sa ID: " + prodavacId, e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/prodavac/{id}/proizvodi")

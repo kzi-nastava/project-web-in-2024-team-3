@@ -18,7 +18,7 @@
         <div>
           <label for="kategorija">Kategorija:</label>
           <select id="kategorija" v-model="kategorijaNaziv" required>
-            <option v-for="kategorija in kategorije" :key="kategorija.id" :value="kategorija">{{ kategorija.naziv }}</option>
+            <option v-for="kategorija in kategorije" :key="kategorija.id" :value="kategorija.naziv">{{ kategorija.naziv }}</option>
           </select>
           <input type="text" v-model="novaKategorijaNaziv" placeholder="Dodaj novu kategoriju" />
         </div>
@@ -29,10 +29,10 @@
             <option value="FIKSNACENA">Fiksna Cena</option>
           </select>
         </div>
-        <div>
+        <!--<div>
           <label for="slika">Slika:</label>
           <input type="file" id="slika" @change="handleFileUpload" required />
-        </div>
+        </div>-->
         <button type="submit">Postavi Proizvod</button>
         <button @click="nazad">Nazad</button>
       </form>
@@ -51,7 +51,7 @@ export default {
             kategorija: null,
             novaKategorijaNaziv: "",
             tipProdaje: "AUKCIJA",
-            slika: null,
+            //slika: null,
             kategorije: []
         };
     },
@@ -68,29 +68,37 @@ export default {
                     console.error("Sve kategorije Error:", err);
                 });
         },
-        handleFileUpload(event) {
+        /*handleFileUpload(event) {
             const file = event.target.files[0];
             const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = () => {
                 this.slika = reader.result;
             };
-        },
+        },*/
         postaviProizvod() {
             let kategorija = this.kategorija;
             if (this.novaKategorijaNaziv.trim() !== "") {
                 kategorija = { naziv: this.novaKategorijaNaziv.trim() };
+            } else {
+                kategorija = this.kategorije.find(kat => kat.naziv === this.kategorijaNaziv);
+            }
+
+            if (!kategorija) {
+                console.error("Kategorija nije validna!");
+                alert("Morate odabrati validnu kategoriju ili uneti novu kategoriju.");
+                return;
             }
   
             const proizvod = {
                 naziv: this.naziv,
                 opis: this.opis,
                 cena: this.cena,
-                kategorija: this.kategorije.find(kat => kat.naziv === (this.novaKategorija || this.kategorijaNaziv)),
+                kategorija: kategorija,
                 tipProdaje: this.tipProdaje,
-                slika: this.slika
+               // slika: this.slika
             };
-
+            console.log("Kategorija objekat pre slanja:", JSON.stringify(kategorija, null, 2))
             console.log("Slanje podataka o proizvodu:", JSON.stringify(proizvod, null, 2));
   
             axios.post("http://localhost:8081/api/postavi-proizvod", proizvod, { withCredentials: true })
